@@ -1,10 +1,14 @@
 import './App.css';
 import Footer from "./components/Footer";
+import UserList from "./components/ApiCaller";
 
 function App() {
-  return (
-      <div><Footer></Footer></div>
-  );
+    return (
+        <div>
+            {/*<UserList/>*/}
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;
