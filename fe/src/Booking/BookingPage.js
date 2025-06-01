@@ -30,6 +30,17 @@ const BookingPage = () => {
     const [bookingData, setBookingData] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState(null);
 
+    const calculateTotalPrice = () => {
+        if (!selectedRoom?.price || !selectedDates.checkInDate || !selectedDates.checkOutDate) return 0;
+
+        const pricePerNight = parseInt(selectedRoom.price.replace(/[^0-9]/g, ""));
+        const checkIn = new Date(selectedDates.checkInDate);
+        const checkOut = new Date(selectedDates.checkOutDate);
+        const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+
+        return pricePerNight * nights;
+    };
+
     const handleRoomSelect = (roomData) => {
         const fullRoomData = {
             ...roomData,
@@ -75,16 +86,20 @@ const BookingPage = () => {
                             bookingData={bookingData}
                             roomData={selectedRoom}
                             onPaymentConfirm={handlePaymentConfirm}
+                            totalPrice={calculateTotalPrice()}
+
                         />
                     }
-                    rightComponent={<RoomDetails roomData={selectedRoom} />}
+                    rightComponent={<RoomDetails roomData={selectedRoom}
+                    />}
                 />
             )}
 
             {currentStep === 'booking' && (
                 <LayoutContainer
                     leftComponent={<BookingForm onBookingSubmit={handleBookingSubmit} />}
-                    rightComponent={<RoomDetails roomData={selectedRoom} />}
+                    rightComponent={<RoomDetails roomData={selectedRoom}
+                    />}
                 />
             )}
 

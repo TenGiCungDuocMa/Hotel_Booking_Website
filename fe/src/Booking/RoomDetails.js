@@ -1,7 +1,7 @@
 import React from 'react';
 import './global.scss';
 
-const RoomDetails = ({ roomData = {} }) => {
+const RoomDetails = ({ roomData = {}}) => {
     const {
         roomType,
         price,
@@ -27,8 +27,8 @@ const RoomDetails = ({ roomData = {} }) => {
     // Parse price per night and calculate total price
     const pricePerNight = price ? parseInt(price.replace(/[^0-9]/g, '')) : 0;
     const originalTotalPrice = pricePerNight * totalNights;
-    const discount = originalTotalPrice * 0.15; // 15% discount (corrected from 55% based on your comment)
-    const discountedTotalPrice = originalTotalPrice - discount;
+    // const discount = originalTotalPrice * 0.15; // 15% discount (corrected from 55% based on your comment)
+    // const discountedTotalPrice = originalTotalPrice - discount;
 
     // Format date for display
     const formatDate = (dateString) => {
@@ -96,14 +96,14 @@ const RoomDetails = ({ roomData = {} }) => {
                     </div>
                     <div className="price-row discount">
                         <p>Limited-time Deal</p>
-                        <p>-VND {discount.toLocaleString()}</p>
+                        {/*<p>-VND {discount.toLocaleString()}</p>*/}
                     </div>
                     <p className="discount-note">
                         You’re getting a discount because—for a limited time only—this property is offering reduced rates on rooms that match your search.
                     </p>
                     <div className="total-price">
-                        <p className="original">VND {originalTotalPrice.toLocaleString()}</p>
-                        <p className="discounted">VND {discountedTotalPrice.toLocaleString()}</p>
+                        {/*<p className="original">VND {originalTotalPrice.toLocaleString()}</p>*/}
+                        <p className="discounted">VND {originalTotalPrice.toLocaleString()}</p>
                     </div>
                     <p className="tax-note">Includes taxes and fees</p>
                 </div>

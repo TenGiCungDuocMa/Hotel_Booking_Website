@@ -399,6 +399,7 @@ body {
     }
 
     .hotel-detail__desc {
+      min-height: 100px;
       font-size: 0.875rem;
       color: #6b7280;
       margin-bottom: 1.5rem;
@@ -664,6 +665,7 @@ body {
 // global.scss or your component-specific SCSS file
 .room-details {
   width: 100%;
+  min-height: 160px;
   max-width: 402px; // 35% of 1150px
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1260,8 +1262,9 @@ body {
       margin-bottom: 12px;
       display: flex;
       align-items: center;
-
       input {
+        width: 20px;
+        height: 20px;
         margin-right: 10px;
       }
 
