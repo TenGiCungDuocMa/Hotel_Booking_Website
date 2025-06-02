@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect,useState } from "react";
 import { useLocation } from 'react-router-dom';
 import './global.scss';
-
+import axios from "axios";
 const Section = ({ title, icon, children }) => (
     <div className="section">
         <div className="section__header">
@@ -26,6 +26,27 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const transactionId = query.get('transactionId');
+    const [showEmailPopup, setShowEmailPopup] = useState(false);
+
+    useEffect(() => {
+        if (bookingData?.email) {
+            const sendEmail = async () => {
+                try {
+                    await axios.post("http://localhost:3030/api/send-confirmation-email", {
+                        bookingData,
+                        roomData,
+                        paymentMethod,
+                        transactionId,
+                    });
+                    setShowEmailPopup(true); // Show popup
+                    setTimeout(() => setShowEmailPopup(false), 10000); // Hide after 10s
+                } catch (err) {
+                    console.error("Lỗi gửi mail:", err);
+                }
+            };
+            sendEmail();
+        }
+    }, []);
 
     // Format price
     const formatPrice = (price) => {
@@ -47,6 +68,11 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
 
     return (
         <div className="confirmation-page">
+            {showEmailPopup && (
+                <div className="email-popup">
+                    📧 Email xác nhận đã được gửi tới <strong>{bookingData?.email}</strong>
+                </div>
+            )}
             <div className="confirmation-page__header">
                 <div className="confirmation-badge">
                 </div>

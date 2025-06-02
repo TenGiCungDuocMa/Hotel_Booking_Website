@@ -1528,3 +1528,35 @@ body {
     margin-top: 20px;
   }
 }
+//popup confirm
+.email-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #003580;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 9999;
+  font-size: 15px;
+  animation: slideDown 0.5s ease, fadeOut 1s ease 9s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
