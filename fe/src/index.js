@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -5,6 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import BookingPage from "./Booking/BookingPage";
 import CheckoutMessage from "./Booking/CheckoutMessage"; // Component mới để xử lý callback
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import App from './App';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
