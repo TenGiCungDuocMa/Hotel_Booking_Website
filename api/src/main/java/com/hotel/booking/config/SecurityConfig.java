@@ -17,36 +17,20 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+    }
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable) // Tắt CSRF khi dùng JWT
-//                .oauth2Login(oauth2 -> oauth2
-//                        .defaultSuccessUrl("/user/profile", true)
-//                )
-                // Cấu hình phân quyền
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                                // Cho phép truy cập Swagger mà không cần xác thực
-                                .requestMatchers(
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/swagger-resources/**",
-                                        "/swagger-ui.html",
-                                        "/api/**"
-//                                "/api/auth/signup",
-//                                "/api/auth/login",
-//                                "/departments/symptoms",
-//                                "/api/symptoms",
-//                                "/api/doctors/searchByName",
-//                                "/api/doctors/department/{departmentId}",
-//                                "/api/doctors",
-//                                "/api/bookings",
-//                                "/api/bookings/users/{userId}"
-
-
-                                ).permitAll()
-                                .anyRequest().authenticated() // Các API khác yêu cầu xác thực
+                        .anyRequest().permitAll()  // ✅ Cho phép tất cả các request
                 );
 
         return http.build();
@@ -55,22 +39,13 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // ✅ Cho phép gọi từ frontend
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true); // Nếu dùng cookie/token qua CORS
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-//    @Bean
-//    public JwtAuthFilter jwtAuthFilter() {
-//        return new JwtAuthFilter();
-//    }
-//}
 }
