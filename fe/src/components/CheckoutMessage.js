@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import "./global.scss"; // Sử dụng cùng style với BookingPage
+import "../assets/style/global.scss"; // Sử dụng cùng style với BookingPage
 
 const CheckoutMessage = () => {
     const [message, setMessage] = useState("");

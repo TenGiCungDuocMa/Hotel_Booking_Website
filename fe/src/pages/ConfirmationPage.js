@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { useLocation } from 'react-router-dom';
-import './global.scss';
+import '../assets/style/global.scss';
 import axios from "axios";
 const Section = ({ title, icon, children }) => (
     <div className="section">

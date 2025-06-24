@@ -1,5 +1,5 @@
 import React from 'react';
-import './global.scss';
+import '../assets/style/global.scss';
 
 const RoomDetails = ({ roomData = {}}) => {
     const {

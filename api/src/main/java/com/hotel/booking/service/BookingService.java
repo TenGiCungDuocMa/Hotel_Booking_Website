@@ -51,25 +51,15 @@ public class BookingService {
 
         return dto;
     }
-//    public void cancelBooking(Integer bookingId, Authentication authentication){
-//        User user = (User) authentication.getPrincipal();
-//        Booking booking = bookingRepository.findById(bookingId)
-//                .orElseThrow(() -> new RuntimeException("Booking not found"));
-//
-//        // Kiểm tra booking có thuộc về user này không
-//        if (!booking.getUserId().equals(user.getUserId())) {
-//            throw new RuntimeException("You are not authorized to cancel this booking");
-//        }
-//
-//        // Nếu booking đã huỷ rồi thì không cần huỷ nữa
-//        if ("Canceled".equalsIgnoreCase(booking.getStatus())) {
-//            throw new RuntimeException("Booking is already canceled");
-//        }
-//
-//        // Cập nhật trạng thái về 'Canceled'
-//        booking.setStatus("Canceled");
-//        bookingRepository.save(booking);
-//    }
+    public void cancelBooking(Integer bookingId, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // Cập nhật trạng thái về 'Canceled'
+        booking.setStatus("Canceled");
+        bookingRepository.save(booking);
+    }
     public BookingResponse updateBooking(Integer bookingId, BookingUpdateRequest request, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Booking booking = bookingRepository.findById(bookingId)
@@ -88,9 +78,9 @@ public class BookingService {
         // Cập nhật thông tin
         booking.setCheckInDate(request.getCheckInDate());
         booking.setCheckOutDate(request.getCheckOutDate());
-        if (request.getStatus() != null) {
-            booking.setStatus(request.getStatus());
-        }
+//        if (request.getStatus() != null) {
+//            booking.setStatus(request.getStatus());
+//        }
 
         bookingRepository.save(booking);
 
