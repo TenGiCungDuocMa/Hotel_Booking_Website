@@ -3,8 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import BookingPage from "./Booking/BookingPage";
-import CheckoutMessage from "./Booking/CheckoutMessage"; // Component mới để xử lý callback
+import BookingPage from "./pages/BookingPage";
+import CheckoutMessage from "./components/Booking/CheckoutMessage"; // Component mới để xử lý callback
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from './App';
 import 'leaflet/dist/leaflet.css';

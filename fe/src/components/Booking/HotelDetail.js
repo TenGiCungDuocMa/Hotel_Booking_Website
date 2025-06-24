@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import RoomSelection from './RoomSelection';
 
 // Import images
-import image1 from './img/img-thumb/1.webp';
-import image2 from './img/img-thumb/2.webp';
-import image3 from './img/img-thumb/3.webp';
-import image4 from './img/img-thumb/4.webp';
-import image5 from './img/img-thumb/5.webp';
-import image6 from './img/img-thumb/6.webp';
+import image1 from '../../assets/img-thumb/1.webp';
+import image2 from '../../assets/img-thumb/2.webp';
+import image3 from '../../assets/img-thumb/3.webp';
+import image4 from '../../assets/img-thumb/4.webp';
+import image5 from '../../assets/img-thumb/5.webp';
+import image6 from '../../assets/img-thumb/6.webp';
 
 const HotelDetail = ({ title, address, description, rating, reviews, onRoomSelect, defaultDates }) => {
     const imagePaths = [image1, image2, image3, image4, image5, image6];
