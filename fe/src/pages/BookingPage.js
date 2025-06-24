@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import HotelDetail from './HotelDetail';
-import BookingForm from './BookingForm';
-import LayoutContainer from './LayoutContainer';
+import BookingForm from '../components/Form/BookingForm';
+import LayoutContainer from '../components/LayoutContainer';
 import RoomDetails from './RoomDetails';
-import PaymentForm from './PaymentForm';
+import PaymentForm from '../components/Form/PaymentForm';
 import ConfirmationPage from './ConfirmationPage';
-import BookingBreadcrumb from './BookingBreadcrumb'; // new!
-import './global.scss';
+import BookingBreadcrumb from '../components/BookingBreadcrumb'; // new!
+import '../assets/style/global.scss';
 
 const sampleHotelData = {
     title: "The Sóng Apartment Vũng Tàu - Green House",

@@ -8,5 +8,5 @@ import java.time.LocalDate;
 public class BookingUpdateRequest {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private String status; // optional: Booked, Canceled, etc.
+//    private String status; // optional: Booked, Canceled, etc.
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './global.scss';
+import '../assets/style/global.scss';
 
 // Sub-component for room card
 // Sub-component for room card

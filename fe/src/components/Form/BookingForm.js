@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './global.scss';
+import '../../assets/style/global.scss';
 
 const BookingForm = ({ onBookingSubmit }) => {
     const [formData, setFormData] = useState({

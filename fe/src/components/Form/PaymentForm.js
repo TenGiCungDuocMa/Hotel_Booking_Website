@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import logoZalo from "./img/PNG/Logo FA-13.png";
-import logoMomo from "./img/momo-primary-logo/MoMo Primary Logo/png/momo_icon_square_pinkbg_RGB.png";
-import qrZalo from "./img/Screenshot_20240118_092516.jpg";
-import qrMomo from "./img/239039221.jpg";
-import "./global.scss";
+import logoZalo from "../../assets/img/PNG/Logo FA-13.png";
+import logoMomo from "../../assets/img/momo-primary-logo/MoMo Primary Logo/png/momo_icon_square_pinkbg_RGB.png";
+import qrZalo from "../../assets/img/Screenshot_20240118_092516.jpg";
+import qrMomo from "../../assets/img/239039221.jpg";
+import "../../assets/style/global.scss";
 
 const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => {
     const [selectedMethod, setSelectedMethod] = useState("hotel");
