@@ -46,7 +46,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
             };
             sendEmail();
         }
-    }, []);
+    }, [bookingData, roomData, paymentMethod, transactionId]);
 
     // Format price
     const formatPrice = (price) => {

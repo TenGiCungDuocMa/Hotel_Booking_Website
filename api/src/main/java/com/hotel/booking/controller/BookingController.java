@@ -103,7 +103,8 @@ public class BookingController {
         booking.setStatus(specialRequests != null ? specialRequests : "Booked"); // Store specialRequests in status as workaround
         booking.setCreatedAt(LocalDate.now());
         // Set hotelId if needed (fetch from room)
-        roomRepository.findById(roomId).ifPresent(room -> booking.setHotelId(room.getHotelId()));
+        com.hotel.booking.entity.Booking finalBooking = booking;
+        roomRepository.findById(roomId).ifPresent(room -> finalBooking.setHotelId(room.getHotelId()));
         // Save booking using service
         booking = bookingService.saveBooking(booking);
         // Build response

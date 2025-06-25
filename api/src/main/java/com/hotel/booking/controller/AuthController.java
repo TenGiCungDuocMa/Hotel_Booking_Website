@@ -5,7 +5,6 @@ import com.hotel.booking.dto.LoginRequest;
 import com.hotel.booking.dto.RegisterRequest;
 import com.hotel.booking.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
