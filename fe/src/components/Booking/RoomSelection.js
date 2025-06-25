@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './global.scss';
 
-// Sub-component for room card
 // Sub-component for room card
 const RoomCard = ({ room, onBook, isDisabled, image }) => (
     <div className="room-card">
@@ -18,18 +18,18 @@ const RoomCard = ({ room, onBook, isDisabled, image }) => (
                     <span>{room.capacity}</span>
                 </p>
                 <ul className="room-amenities">
-                    {room.amenities.map((amenity, index) => (
-                        <li key={index} className="amenity-tag">{amenity}</li>
+                    {room.amenities && room.amenities.split(',').map((amenity, index) => (
+                        <li key={index} className="amenity-tag">{amenity.trim()}</li>
                     ))}
                 </ul>
             </div>
             <div className="room-price-section">
-                <p className="room-price">{room.price}</p>
+                <p className="room-price">{room.pricePerNight} đ/night</p>
                 <button
                     onClick={() => onBook(room)}
                     className="book-now-btn"
                     disabled={isDisabled}
-                    aria-label={`Book ${room.type} for ${room.price}`}
+                    aria-label={`Book ${room.type} for ${room.pricePerNight}`}
                 >
                     Book Now
                 </button>
@@ -38,39 +38,17 @@ const RoomCard = ({ room, onBook, isDisabled, image }) => (
     </div>
 );
 
-const RoomSelection = ({ onRoomSelect, defaultDates = {}, imagePaths = [] }) => {
+const RoomSelection = ({ hotelId, onRoomSelect, defaultDates = {}, imagePaths = [] }) => {
     const [checkInDate, setCheckInDate] = useState(defaultDates.checkInDate || '');
     const [checkOutDate, setCheckOutDate] = useState(defaultDates.checkOutDate || '');
-
-    const rooms = [
-        {
-            id: 1,
-            type: "Deluxe Ocean View",
-            capacity: "2 adults, 1 child",
-            price: "1.200.000 đ/night",
-            amenities: ["Ocean view", "King bed", "Free Wi-Fi", "Breakfast included"],
-        },
-        {
-            id: 2,
-            type: "Superior Room",
-            capacity: "2 adults",
-            price: "900.000 đ/night",
-            amenities: ["City view", "Queen bed", "Free Wi-Fi"],
-        },
-        {
-            id: 3,
-            type: "Family Suite",
-            capacity: "4 adults, 2 children",
-            price: "2.500.000 đ/night",
-            amenities: ["Two bedrooms", "Ocean view", "Free Wi-Fi", "Breakfast included"],
-        },
-    ];
-
-    // Assign a random image to each room
-    const roomsWithImages = rooms.map((room) => ({
-        ...room,
-        image: imagePaths[Math.floor(Math.random() * imagePaths.length)] || 'https://via.placeholder.com/300x200', // Fallback image
-    }));
+    const [rooms, setRooms] = useState([]);
+    useEffect(() => {
+        if (hotelId) {
+            axios.get(`/api/bookings/hotels/${hotelId}/rooms`)
+                .then(res => setRooms(res.data))
+                .catch(() => setRooms([]));
+        }
+    }, [hotelId]);
 
     const handleBookRoom = (room) => {
         if (!checkInDate || !checkOutDate) {
@@ -84,12 +62,9 @@ const RoomSelection = ({ onRoomSelect, defaultDates = {}, imagePaths = [] }) => 
             return;
         }
         onRoomSelect({
-            roomType: room.type,
-            price: room.price,
+            ...room,
             checkInDate,
             checkOutDate,
-            capacity: room.capacity,
-            amenities: room.amenities,
         });
     };
 
@@ -133,13 +108,13 @@ const RoomSelection = ({ onRoomSelect, defaultDates = {}, imagePaths = [] }) => 
             <div className="room-list">
                 <h2 className="section-title">Available Rooms</h2>
                 <div className="room-list-container">
-                    {roomsWithImages.map((room) => (
+                    {rooms.map((room, idx) => (
                         <RoomCard
-                            key={room.id}
+                            key={room.roomId || idx}
                             room={room}
                             onBook={handleBookRoom}
                             isDisabled={isBookingDisabled}
-                            image={room.image}
+                            image={imagePaths[idx % imagePaths.length]}
                         />
                     ))}
                 </div>

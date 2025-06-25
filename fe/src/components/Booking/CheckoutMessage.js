@@ -8,16 +8,22 @@ const CheckoutMessage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (searchParams.get("success")) {
-            setMessage("Thanh toán thành công. Cảm ơn bạn đã sử dụng PayOS!");
-        } else if (searchParams.get("canceled")) {
-            setMessage(
-                "Thanh toán thất bại. Nếu có bất kỳ câu hỏi nào, hãy gửi email tới support@payos.vn."
-            );
+        const success = searchParams.get("success");
+        const canceled = searchParams.get("canceled");
+        if (success) {
+            setMessage("Thanh toán thành công. Đang chuyển đến trang xác nhận...");
+            setTimeout(() => {
+                // Optionally: fetch booking info here or use localStorage/sessionStorage
+                navigate("/booking/confirm");
+            }, 2000);
+        } else if (canceled) {
+            setMessage("Thanh toán thất bại. Đang chuyển về trang chọn phòng...");
+            setTimeout(() => {
+                navigate("/booking"); // or the route for hotel detail/room selection
+            }, 2000);
         } else {
-            setMessage("Không tìm thấy trạng thái thanh toán.");
-            // Redirect về trang chính sau 3 giây nếu không có trạng thái
-            setTimeout(() => navigate("/"), 3000);
+            setMessage("Không tìm thấy trạng thái thanh toán. Đang chuyển về trang chính...");
+            setTimeout(() => navigate("/"), 2000);
         }
     }, [searchParams, navigate]);
 
