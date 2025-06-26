@@ -52,3 +52,7 @@ CREATE TABLE bookings (
 );
 ALTER TABLE bookings
 ADD COLUMN hotelId INT;
+
+ALTER TABLE hotels ADD COLUMN img TEXT;
+ALTER TABLE rooms ADD COLUMN img TEXT;
+

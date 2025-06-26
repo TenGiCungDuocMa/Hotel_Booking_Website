@@ -3,24 +3,29 @@ import axios from 'axios';
 import './global.scss';
 
 // Sub-component for room card
-const RoomCard = ({ room, onBook, isDisabled, image }) => (
+const RoomCard = ({ room, onBook, isDisabled, images }) => (
     <div className="room-card">
         <div className="room-image">
-            <img src={image} alt={`${room.type} view`} className="room-image-img" />
+            <img src={images[0]} alt={`${room.type || room.description} view`} className="room-image-img" />
         </div>
         <div className="room-content">
             <div className="room-details">
-                <h3 className="room-title">{room.type}</h3>
+                <h3 className="room-title">{room.type || room.description}</h3>
                 <p className="room-capacity">
-                    <svg className="capacity-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    <svg className="capacity-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
-                    <span>{room.capacity}</span>
+                    <span> Phòng {room.roomNumber}:</span><span>{room.capacity} người</span>
                 </p>
                 <ul className="room-amenities">
-                    {room.amenities && room.amenities.split(',').map((amenity, index) => (
-                        <li key={index} className="amenity-tag">{amenity.trim()}</li>
+                    {room.features && room.features.split(',').map((feature, index) => (
+                        <li key={index} className="amenity-tag">{feature.trim()}</li>
                     ))}
+                </ul>
+                <ul className="room-amenities">
+
                 </ul>
             </div>
             <div className="room-price-section">
@@ -29,7 +34,7 @@ const RoomCard = ({ room, onBook, isDisabled, image }) => (
                     onClick={() => onBook(room)}
                     className="book-now-btn"
                     disabled={isDisabled}
-                    aria-label={`Book ${room.type} for ${room.pricePerNight}`}
+                    aria-label={`Book ${room.type || room.description} for ${room.pricePerNight}`}
                 >
                     Book Now
                 </button>
@@ -108,15 +113,24 @@ const RoomSelection = ({ hotelId, onRoomSelect, defaultDates = {}, imagePaths = 
             <div className="room-list">
                 <h2 className="section-title">Available Rooms</h2>
                 <div className="room-list-container">
-                    {rooms.map((room, idx) => (
-                        <RoomCard
-                            key={room.roomId || idx}
-                            room={room}
-                            onBook={handleBookRoom}
-                            isDisabled={isBookingDisabled}
-                            image={imagePaths[idx % imagePaths.length]}
-                        />
-                    ))}
+                    {rooms.map((room, idx) => {
+                        let images = [];
+                        if (room.imgs) {
+                            images = room.imgs.split(',').map(url => url.trim()).filter(Boolean);
+                        } else if (room.img) {
+                            images = [room.img];
+                        }
+                        if (!images || images.length === 0) images = imagePaths;
+                        return (
+                            <RoomCard
+                                key={room.roomId || idx}
+                                room={room}
+                                onBook={handleBookRoom}
+                                isDisabled={isBookingDisabled}
+                                images={images}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         </section>

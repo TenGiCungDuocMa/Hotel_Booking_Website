@@ -2,27 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RoomSelection from './RoomSelection';
 
-// Import images
-import image1 from '../../assets/img-thumb/1.webp';
-import image2 from '../../assets/img-thumb/2.webp';
-import image3 from '../../assets/img-thumb/3.webp';
-import image4 from '../../assets/img-thumb/4.webp';
-import image5 from '../../assets/img-thumb/5.webp';
-import image6 from '../../assets/img-thumb/6.webp';
-
 const HotelDetail = ({ hotelId, onRoomSelect, defaultDates }) => {
     const [hotel, setHotel] = useState(null);
-    const imagePaths = [image1, image2, image3, image4, image5, image6];
-    const [mainImage, setMainImage] = useState(imagePaths[0]);
+    const [mainImage, setMainImage] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        if (hotelId) {
-            axios.get(`/api/bookings/hotels`)
+            axios.get(`/api/bookings/hotels/${hotelId}`)
                 .then(res => {
-                    const found = res.data.find(h => h.hotelId === hotelId);
+                    const found = res.data;
                     setHotel(found);
+                    if (found && found.img) {
+                        const imgArr = found.img.split(',').map(url => url.trim()).filter(Boolean);
+                        setImages(imgArr);
+                        setMainImage(imgArr[0] || null);
+                    } else if (found && found.img) {
+                        setImages([found.img]);
+                        setMainImage(found.img);
+                    } else {
+                        setImages([]);
+                        setMainImage(null);
+                    }
                 });
-        }
     }, [hotelId]);
 
     const handleThumbnailClick = (image) => setMainImage(image);
@@ -40,15 +41,19 @@ const HotelDetail = ({ hotelId, onRoomSelect, defaultDates }) => {
         <div className="container hotel-detail">
             <div className="hotel-detail__images">
                 <div className="hotel-detail__main-image">
-                    <img
-                        loading="lazy"
-                        src={mainImage}
-                        alt="Main Hotel"
-                        className="hotel-detail__img"
-                    />
+                    {mainImage ? (
+                        <img
+                            loading="lazy"
+                            src={mainImage}
+                            alt="Main Hotel"
+                            className="hotel-detail__img"
+                        />
+                    ) : (
+                        <div className="hotel-detail__img no-image">No image available</div>
+                    )}
                 </div>
                 <div className="hotel-detail__thumbnails">
-                    {imagePaths.map((img, i) => (
+                    {images.map((img, i) => (
                         <div
                             key={i}
                             className="hotel-detail__thumb"
@@ -92,7 +97,7 @@ const HotelDetail = ({ hotelId, onRoomSelect, defaultDates }) => {
                 </div>
             </div>
 
-            <RoomSelection onRoomSelect={onRoomSelect} defaultDates={defaultDates} imagePaths={imagePaths} hotelId={hotelId} />
+            <RoomSelection onRoomSelect={onRoomSelect} defaultDates={defaultDates} imagePaths={images} hotelId={hotelId} />
         </div>
     );
 };

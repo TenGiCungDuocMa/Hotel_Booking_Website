@@ -1,53 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import HotelDetail from '../components/Booking/HotelDetail';
 import BookingForm from '../components/Booking/BookingForm';
 import LayoutContainer from '../components/Booking/LayoutContainer';
 import RoomDetails from '../components/Booking/RoomDetails';
 import PaymentForm from '../components/Booking/PaymentForm';
 import ConfirmationPage from '../components/Booking/ConfirmationPage';
-import BookingBreadcrumb from '../components/Booking/BookingBreadcrumb'; // new!
+import BookingBreadcrumb from '../components/Booking/BookingBreadcrumb';
 import '../components/Booking/global.scss';
-
-const sampleHotelData = {
-    title: "The Sóng Apartment Vũng Tàu - Green House",
-    address: "No. 28, Thi Sách Street, The Sóng, Thắng Tam, Vũng Tàu, Việt Nam, 78000 - TRÊN BÃI BIỂN",
-    description: "Cách Bãi Sau chưa đến 1 km, The Song Apartment Vũng Tàu có hồ bơi ngoài trời, khu vườn, điều hòa, ban công và Wi-Fi miễn phí. Chỗ đậu xe riêng có sẵn trong khuôn viên.\n" +
-        "\n" +
-        "Căn hộ có sân hiên, khu vực ghế ngồi, TV màn hình phẳng truyền hình vệ tinh, bếp đầy đủ tiện nghi gồm tủ lạnh và lò vi sóng, cùng phòng tắm riêng được trang bị vòi xịt/chậu rửa vệ sinh và đồ vệ sinh cá nhân miễn phí. Bếp và ấm đun nước đều được cung cấp.\n" +
-        "\n" +
-        "The Song Apartment Vũng Tàu có sân chơi trẻ em, cùng khu vực bãi biển riêng.\n" +
-        "\n" +
-        "Chỗ nghỉ cách Tượng Chúa Ki-tô 3.3 km. Sân bay Quốc tế Tân Sơn Nhất cách 101 km, đồng thời chỗ nghỉ có cung cấp dịch vụ đưa đón sân bay mất phí.",
-    rating: "8.6",
-    reviews: "2.205",
-    price: "399.531 đ"
-};
+import { useParams } from 'react-router-dom';
 
 const BookingPage = () => {
+    const { hotelId } = useParams();
     const [currentStep, setCurrentStep] = useState('hotel');
+    const [selectedHotelId] = useState(hotelId);
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [selectedDates, setSelectedDates] = useState({ checkInDate: '', checkOutDate: '' });
     const [bookingData, setBookingData] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState(null);
 
+    // Calculate total price
     const calculateTotalPrice = () => {
-        if (!selectedRoom?.price || !selectedDates.checkInDate || !selectedDates.checkOutDate) return 0;
-
-        const pricePerNight = parseInt(selectedRoom.price.replace(/[^0-9]/g, ""));
+        if (!selectedRoom?.pricePerNight || !selectedDates.checkInDate || !selectedDates.checkOutDate) return 0;
+        const pricePerNight = parseInt(selectedRoom.pricePerNight);
         const checkIn = new Date(selectedDates.checkInDate);
         const checkOut = new Date(selectedDates.checkOutDate);
         const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-
         return pricePerNight * nights;
     };
 
+    // Step handlers
     const handleRoomSelect = (roomData) => {
-        const fullRoomData = {
-            ...roomData,
-            hotelName: sampleHotelData.title,
-            hotelAddress: sampleHotelData.address,
-        };
-        setSelectedRoom(fullRoomData);
+        setSelectedRoom(roomData);
         setSelectedDates({
             checkInDate: roomData.checkInDate,
             checkOutDate: roomData.checkOutDate
@@ -55,8 +39,8 @@ const BookingPage = () => {
         setCurrentStep('booking');
     };
 
-    const handleBookingSubmit = (formData) => {
-        setBookingData(formData);
+    const handleBookingSuccess = (bookingResponse, bookingPayload) => {
+        setBookingData({ ...bookingPayload, ...bookingResponse });
         setCurrentStep('payment');
     };
 
@@ -67,10 +51,8 @@ const BookingPage = () => {
 
     return (
         <>
-            {/* Breadcrumb bar ở đầu */}
             <BookingBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} />
 
-            {/* Logic render các bước */}
             {currentStep === 'confirm' && (
                 <ConfirmationPage
                     bookingData={bookingData}
@@ -87,25 +69,29 @@ const BookingPage = () => {
                             roomData={selectedRoom}
                             onPaymentConfirm={handlePaymentConfirm}
                             totalPrice={calculateTotalPrice()}
-
                         />
                     }
-                    rightComponent={<RoomDetails roomData={selectedRoom}
-                    />}
+                    rightComponent={<RoomDetails roomData={selectedRoom} />}
                 />
             )}
 
             {currentStep === 'booking' && (
                 <LayoutContainer
-                    leftComponent={<BookingForm onBookingSubmit={handleBookingSubmit} />}
-                    rightComponent={<RoomDetails roomData={selectedRoom}
-                    />}
+                    leftComponent={
+                        <BookingForm
+                            roomId={selectedRoom?.roomId}
+                            checkInDate={selectedDates.checkInDate}
+                            checkOutDate={selectedDates.checkOutDate}
+                            onBookingSuccess={handleBookingSuccess}
+                        />
+                    }
+                    rightComponent={<RoomDetails roomData={selectedRoom} />}
                 />
             )}
 
-            {currentStep === 'hotel' && (
+            {currentStep === 'hotel' && selectedHotelId && (
                 <HotelDetail
-                    {...sampleHotelData}
+                    hotelId={selectedHotelId}
                     onRoomSelect={handleRoomSelect}
                     defaultDates={selectedDates}
                 />

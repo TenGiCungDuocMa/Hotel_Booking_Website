@@ -15,11 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <BrowserRouter>
         <Routes>
-            <Route path="/booking" element={<BookingPage />} />
+            <Route path="/booking/:hotelId" element={<BookingPage />} />
             <Route path="/booking/confirm" element={<ConfirmationPage />} />
             <Route path="/booking/checkout-message" element={<CheckoutMessage />} />
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
-            <Route path="*" element={<Navigate to="/booking" replace />} />
+            {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
         </Routes>
         <Footer />
     </BrowserRouter>

@@ -51,10 +51,12 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.updateBooking(bookingId, request, authentication));
     }
 
-    // 1. List all hotels
-    @GetMapping("/hotels")
-    public ResponseEntity<List<Hotel>> getAllHotels() {
-        return ResponseEntity.ok(hotelRepository.findAll());
+    // 1. Get a specific hotel by id
+    @GetMapping("/hotels/{hotelId}")
+    public ResponseEntity<Hotel> getHotelById(@PathVariable Integer hotelId) {
+        return hotelRepository.findById(hotelId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // 2. List rooms for a hotel (optionally filter by date)
@@ -117,6 +119,20 @@ public class BookingController {
         hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
             response.setHotelName(hotel.getName());
             response.setHotelAddress(hotel.getAddress());
+            // Thêm ảnh khách sạn
+            if (hotel.getImgs() != null && !hotel.getImgs().isEmpty()) {
+                response.setHotelImgs(hotel.getImgs());
+            } else if (hotel.getImg() != null) {
+                response.setHotelImgs(hotel.getImg());
+            }
+        });
+        // Thêm ảnh phòng
+        roomRepository.findById(booking.getRoomId()).ifPresent(room -> {
+            if (room.getImgs() != null && !room.getImgs().isEmpty()) {
+                response.setRoomImgs(room.getImgs());
+            } else if (room.getImg() != null) {
+                response.setRoomImgs(room.getImg());
+            }
         });
         // Optionally add user info to response if needed
         return ResponseEntity.ok(response);
@@ -158,6 +174,20 @@ public class BookingController {
                     hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
                         response.setHotelName(hotel.getName());
                         response.setHotelAddress(hotel.getAddress());
+                        // Thêm ảnh khách sạn
+                        if (hotel.getImgs() != null && !hotel.getImgs().isEmpty()) {
+                            response.setHotelImgs(hotel.getImgs());
+                        } else if (hotel.getImg() != null) {
+                            response.setHotelImgs(hotel.getImg());
+                        }
+                    });
+                    // Thêm ảnh phòng
+                    roomRepository.findById(booking.getRoomId()).ifPresent(room -> {
+                        if (room.getImgs() != null && !room.getImgs().isEmpty()) {
+                            response.setRoomImgs(room.getImgs());
+                        } else if (room.getImg() != null) {
+                            response.setRoomImgs(room.getImg());
+                        }
                     });
                     return ResponseEntity.ok(response);
                 })
