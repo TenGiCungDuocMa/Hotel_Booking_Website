@@ -7,6 +7,7 @@ import PaymentForm from '../components/Form/PaymentForm';
 import ConfirmationPage from './ConfirmationPage';
 import BookingBreadcrumb from '../components/BookingBreadcrumb'; // new!
 import '../assets/style/global.scss';
+import Header from "../components/Header";
 
 const sampleHotelData = {
     title: "The Sóng Apartment Vũng Tàu - Green House",

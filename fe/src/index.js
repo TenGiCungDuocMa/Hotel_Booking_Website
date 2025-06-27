@@ -4,9 +4,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
-import reportWebVitals from "./reportWebVitals";
-import BookingPage from "./pages/BookingPage";
-import CheckoutMessage from "./components/CheckoutMessage"; // Component mới để xử lý callback
+// import reportWebVitals from "./reportWebVitals";
+// import BookingPage from "./pages/BookingPage";
+// import CheckoutMessage from "./components/CheckoutMessage"; // Component mới để xử lý callback
 import App from './App';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
