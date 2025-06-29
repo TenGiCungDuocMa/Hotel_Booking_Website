@@ -256,7 +256,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => 
                 currency: "VND", // Thêm trường currency để khớp với backend
             };
 
-            const response = await axios.post("http://localhost:3030/api/create-payment-link", paymentData, {
+            const response = await axios.post("http://localhost:8080/api/create-payment-link", paymentData, {
                 headers: { "Content-Type": "application/json" },
             });
 
