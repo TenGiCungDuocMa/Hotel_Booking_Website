@@ -6,7 +6,7 @@ import qrZalo from "../../assets/Screenshot_20240118_092516.jpg";
 import qrMomo from "../../assets/239039221.jpg";
 import "./global.scss";
 
-const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => {
+const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
     const [selectedMethod, setSelectedMethod] = useState("hotel");
     const [selectedSubOption, setSelectedSubOption] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -227,23 +227,53 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => 
 
     const formatPrice = (price) => {
         if (!price) return "0 VNĐ";
-        const number = parseInt(price.replace(/[^0-9]/g, "")) || 0;
+        
+        // Handle both string and number inputs
+        let number;
+        if (typeof price === 'string') {
+            number = parseInt(price.replace(/[^0-9]/g, "")) || 0;
+        } else {
+            number = parseInt(price) || 0;
+        }
+        
         return new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
         }).format(number);
     };
 
+    // Calculate total price (no discount)
+    const calculateTotalPrice = () => {
+        if (!roomData?.price || !roomData?.checkInDate || !roomData?.checkOutDate) return 0;
+        // Parse price properly
+        const parsePrice = (priceString) => {
+            if (!priceString) return 0;
+            const cleanPrice = priceString.toString().replace(/[^0-9.]/g, '');
+            return parseFloat(cleanPrice) || 0;
+        };
+        const pricePerNight = parsePrice(roomData.price);
+        const checkIn = new Date(roomData.checkInDate);
+        const checkOut = new Date(roomData.checkOutDate);
+        const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+        return pricePerNight * nights;
+    };
+
+    const totalPrice = calculateTotalPrice();
+
+    // Generate payment description for all payment methods
+    const random4 = Math.floor(1000 + Math.random() * 9000);
+    const hotelId = roomData?.hotelId || 1;
+    const roomNumber = roomData?.roomNumber || "XXX";
+    const description = `H${hotelId}_P${roomNumber}_N${random4}`;
+
     const handlePayOSPayment = async () => {
         if (isLoading) return;
         setIsLoading(true);
-        const generatedOrderCode = `DH${Date.now()}${Math.floor(Math.random() * 1000)}`;
-
         try {
             const paymentData = {
                 amount: totalPrice,
-                description: `Number: ${roomData?.roomId || generatedOrderCode || bookingData?.id || "unknown"}`,
-                orderCode: Date.now(),
+                description: description,
+                orderCode: description,
                 returnUrl: `${window.location.origin}/payment-success`,
                 cancelUrl: `${window.location.origin}/payment-cancel`,
                 items: [
@@ -253,13 +283,13 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => 
                         price: totalPrice,
                     },
                 ],
-                currency: "VND", // Thêm trường currency để khớp với backend
+                currency: "VND",
             };
-
+            // Save description for PayOS
+            localStorage.setItem('paymentDescription', description);
             const response = await axios.post("http://localhost:8080/api/create-payment-link", paymentData, {
                 headers: { "Content-Type": "application/json" },
             });
-
             if (response.data?.checkoutUrl) {
                 window.location.href = response.data.checkoutUrl;
             } else {
@@ -349,14 +379,14 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => 
             <div className="payment-summary">
                 <div className="summary-row">
                     <span>Tổng thanh toán:</span>
-                    <span className="total-price">{formatPrice(roomData?.price)}</span>
+                    <span className="total-price">{formatPrice(totalPrice)}</span>
                 </div>
 
                 {selectedMethod === "payos" ? (
                     <button
                         onClick={handlePayOSPayment}
                         className="payment-button payos"
-                        disabled={isLoading || !roomData?.price}
+                        disabled={isLoading || !totalPrice}
                     >
                         {isLoading ? "Đang xử lý..." : "Thanh toán qua PayOS"}
                     </button>
@@ -367,6 +397,8 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm,totalPrice }) => 
                                 alert("Vui lòng chọn ví điện tử");
                                 return;
                             }
+                            // Save description for all payment methods
+                            localStorage.setItem('paymentDescription', description);
                             onPaymentConfirm(
                                 selectedMethod + (selectedSubOption ? `-${selectedSubOption}` : "")
                             );

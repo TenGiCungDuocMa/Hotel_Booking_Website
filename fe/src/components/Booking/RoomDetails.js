@@ -1,7 +1,7 @@
 import React from 'react';
 import './global.scss';
 
-const RoomDetails = ({ roomData = {}}) => {
+const RoomDetails = ({ roomData = {}, hotelInfo = null }) => {
     const {
         roomType,
         price,
@@ -10,7 +10,9 @@ const RoomDetails = ({ roomData = {}}) => {
         capacity,
         amenities = [],
         hotelName,
-        hotelAddress
+        hotelAddress,
+        roomNumber,
+        features
     } = roomData;
 
     // Calculate total nights between check-in and check-out
@@ -25,16 +27,39 @@ const RoomDetails = ({ roomData = {}}) => {
     const totalNights = calculateTotalNights();
 
     // Parse price per night and calculate total price
-    const pricePerNight = price ? parseInt(price.replace(/[^0-9]/g, '')) : 0;
+    const parsePrice = (priceString) => {
+        if (!priceString) return 0;
+        // Remove all non-numeric characters except decimal point
+        const cleanPrice = priceString.toString().replace(/[^\d.]/g, '');
+        return parseFloat(cleanPrice) || 0;
+    };
+
+    const pricePerNight = parsePrice(price);
     const originalTotalPrice = pricePerNight * totalNights;
-    // const discount = originalTotalPrice * 0.15; // 15% discount (corrected from 55% based on your comment)
-    // const discountedTotalPrice = originalTotalPrice - discount;
+
+    // Format price for display
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN', { 
+            style: 'currency', 
+            currency: 'VND' 
+        }).format(price);
+    };
 
     // Format date for display
     const formatDate = (dateString) => {
         if (!dateString) return 'Not selected';
-        return new Date(dateString).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        return new Date(dateString).toLocaleDateString('en-US', { 
+            weekday: 'short', 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
     };
+
+    // Combine room features and amenities
+    const allAmenities = [
+        ...(features ? features.split(',').map(f => f.trim()) : []),
+    ].filter(Boolean);
 
     return (
         <div className="room-details">
@@ -49,15 +74,15 @@ const RoomDetails = ({ roomData = {}}) => {
                         </svg>
                     </button>
                 </div>
-                <h2>{hotelName}</h2>
-                <p className="address">{hotelAddress}</p>
+                <h2>{hotelName || hotelInfo?.name || roomData.hotel?.name || roomData.hotelName || 'Hotel Name Not Available'}</h2>
+                <p className="address">{hotelAddress || hotelInfo?.address || roomData.hotel?.address || roomData.hotelAddress || 'Address Not Available'}</p>
                 <div className="rating">
                     <span className="rating-badge">9.9</span>
                     <span className="reviews">Exceptional • 20 reviews</span>
                 </div>
                 <div className="amenities">
                     <span>🅿 Parking</span>
-                    {amenities.map((amenity, index) => (
+                    {allAmenities.map((amenity, index) => (
                         <span key={index}>{amenity}</span>
                     ))}
                 </div>
@@ -82,7 +107,11 @@ const RoomDetails = ({ roomData = {}}) => {
                 <p className="nights">{totalNights} night{totalNights !== 1 ? 's' : ''}</p>
                 <div className="selection">
                     <p>You selected</p>
-                    <p className="selected">1 room ({roomType || 'Not selected'}) for {capacity || 'Not specified'}</p>
+                    <p className="selected">
+                        1 room ({roomType || 'Room Type Not Available'}) 
+                        {roomNumber && ` - Room ${roomNumber} `}
+                        for {capacity || 'Not specified'} people
+                    </p>
                 </div>
             </div>
 
@@ -91,19 +120,19 @@ const RoomDetails = ({ roomData = {}}) => {
                 <h3>Your price summary</h3>
                 <div className="price-details">
                     <div className="price-row">
-                        <p>Original price</p>
-                        <p>VND {originalTotalPrice.toLocaleString()}</p>
+                        <p>Price per night</p>
+                        <p>{formatPrice(pricePerNight)}</p>
                     </div>
-                    <div className="price-row discount">
-                        <p>Limited-time Deal</p>
-                        {/*<p>-VND {discount.toLocaleString()}</p>*/}
+                    <div className="price-row">
+                        <p>Number of nights</p>
+                        <p>{totalNights} night{totalNights !== 1 ? 's' : ''}</p>
                     </div>
-                    <p className="discount-note">
-                        You’re getting a discount because—for a limited time only—this property is offering reduced rates on rooms that match your search.
-                    </p>
+                    <div className="price-row">
+                        <p>Subtotal</p>
+                        <p>{formatPrice(originalTotalPrice)}</p>
+                    </div>
                     <div className="total-price">
-                        {/*<p className="original">VND {originalTotalPrice.toLocaleString()}</p>*/}
-                        <p className="discounted">VND {originalTotalPrice.toLocaleString()}</p>
+                        <p className="discounted">{formatPrice(originalTotalPrice)}</p>
                     </div>
                     <p className="tax-note">Includes taxes and fees</p>
                 </div>

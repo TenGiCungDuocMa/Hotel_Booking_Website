@@ -97,7 +97,13 @@ const HotelDetail = ({ hotelId, onRoomSelect, defaultDates }) => {
                 </div>
             </div>
 
-            <RoomSelection onRoomSelect={onRoomSelect} defaultDates={defaultDates} imagePaths={images} hotelId={hotelId} />
+            <RoomSelection
+                onRoomSelect={onRoomSelect}
+                defaultDates={defaultDates}
+                imagePaths={images}
+                hotelId={hotelId}
+                hotel={hotel}
+            />
         </div>
     );
 };

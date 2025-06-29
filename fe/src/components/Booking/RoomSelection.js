@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './global.scss';
 
+const formatVND = (value) => {
+  if (!value) return "0 ₫";
+  let number = typeof value === "string" ? parseInt(value.replace(/[^0-9]/g, "")) : value;
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(number);
+};
+
 // Sub-component for room card
 const RoomCard = ({ room, onBook, isDisabled, images }) => (
     <div className="room-card">
@@ -29,7 +35,7 @@ const RoomCard = ({ room, onBook, isDisabled, images }) => (
                 </ul>
             </div>
             <div className="room-price-section">
-                <p className="room-price">{room.pricePerNight} đ/night</p>
+                <p className="room-price">{formatVND(room.pricePerNight || room.price)} /night</p>
                 <button
                     onClick={() => onBook(room)}
                     className="book-now-btn"
@@ -43,7 +49,7 @@ const RoomCard = ({ room, onBook, isDisabled, images }) => (
     </div>
 );
 
-const RoomSelection = ({ hotelId, onRoomSelect, defaultDates = {}, imagePaths = [] }) => {
+const RoomSelection = ({ hotelId, onRoomSelect, defaultDates = {}, imagePaths = [], hotel }) => {
     const [checkInDate, setCheckInDate] = useState(defaultDates.checkInDate || '');
     const [checkOutDate, setCheckOutDate] = useState(defaultDates.checkOutDate || '');
     const [rooms, setRooms] = useState([]);
@@ -66,11 +72,34 @@ const RoomSelection = ({ hotelId, onRoomSelect, defaultDates = {}, imagePaths = 
             alert('Check-out date must be after check-in date.');
             return;
         }
-        onRoomSelect({
+        
+        // Merge hotel info and room info for RoomDetails
+        const roomData = {
             ...room,
             checkInDate,
             checkOutDate,
-        });
+            // Hotel information
+            hotelName: hotel?.name || room.hotelName,
+            hotelAddress: hotel?.address || room.hotelAddress,
+            // Room information - map backend fields to frontend expected fields
+            roomType: room.type || room.roomType || room.description,
+            price: room.pricePerNight || room.price,
+            capacity: room.capacity,
+            // Amenities - combine room features and hotel amenities
+            amenities: [
+                ...(room.features ? room.features.split(',').map(f => f.trim()) : []),
+                ...(hotel?.amenities ? hotel.amenities.split(',').map(a => a.trim()) : [])
+            ].filter(Boolean),
+            // Keep original room data
+            roomId: room.roomId,
+            roomNumber: room.roomNumber,
+            features: room.features,
+            imgs: room.imgs || room.img,
+            // Hotel images for fallback
+            hotelImages: hotel?.imgs || hotel?.img
+        };
+        
+        onRoomSelect(roomData);
     };
 
     const today = new Date().toISOString().split('T')[0]; // Current date: 2025-06-01

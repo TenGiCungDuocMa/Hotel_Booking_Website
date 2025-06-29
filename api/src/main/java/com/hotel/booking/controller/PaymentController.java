@@ -105,17 +105,17 @@ public class PaymentController {
     }
 
     private String generateEmailContent(Map<String, Object> bookingData, Map<String, Object> roomData, String paymentMethod, String transactionId) {
-        String fullName = (bookingData.get("firstName") != null ? bookingData.get("firstName") : "") + " " + (bookingData.get("lastName") != null ? bookingData.get("lastName") : "");
-        String hotelName = roomData.get("hotelName") != null ? (String) roomData.get("hotelName") : "khách sạn";
-        String checkInDate = roomData.get("checkInDate") != null ? (String) roomData.get("checkInDate") : "N/A";
-        String checkOutDate = roomData.get("checkOutDate") != null ? (String) roomData.get("checkOutDate") : "N/A";
+        String fullName = (bookingData.get("firstName") != null ? bookingData.get("firstName").toString() : "") + " " + (bookingData.get("lastName") != null ? bookingData.get("lastName").toString() : "");
+        String hotelName = roomData.get("hotelName") != null ? roomData.get("hotelName").toString() : "khách sạn";
+        String checkInDate = roomData.get("checkInDate") != null ? roomData.get("checkInDate").toString() : "N/A";
+        String checkOutDate = roomData.get("checkOutDate") != null ? roomData.get("checkOutDate").toString() : "N/A";
 
         long nights = 0;
         if (checkInDate != null && checkOutDate != null) {
             nights = ChronoUnit.DAYS.between(LocalDate.parse(checkInDate), LocalDate.parse(checkOutDate));
         }
 
-        String pricePerNightStr = roomData.get("price") != null ? (String) roomData.get("price") : "0";
+        String pricePerNightStr = roomData.get("price") != null ? roomData.get("price").toString() : "0";
         int pricePerNight = pricePerNightStr.replaceAll("[^0-9]", "").isEmpty() ? 0 : Integer.parseInt(pricePerNightStr.replaceAll("[^0-9]", ""));
         int total = (int) (pricePerNight * nights);
 
@@ -141,8 +141,8 @@ public class PaymentController {
             """,
                 fullName,
                 hotelName,
-                bookingData.get("email") != null ? bookingData.get("email") : "N/A",
-                bookingData.get("phone") != null ? bookingData.get("phone") : "N/A",
+                bookingData.get("email") != null ? bookingData.get("email").toString() : "N/A",
+                bookingData.get("phone") != null ? bookingData.get("phone").toString() : "N/A",
                 checkInDate,
                 checkOutDate,
                 nights,

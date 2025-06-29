@@ -8,25 +8,49 @@ import PaymentForm from '../components/Booking/PaymentForm';
 import ConfirmationPage from '../components/Booking/ConfirmationPage';
 import BookingBreadcrumb from '../components/Booking/BookingBreadcrumb';
 import '../components/Booking/global.scss';
-import { useParams } from 'react-router-dom';
 
 const BookingPage = () => {
-    const { hotelId } = useParams();
+    const hotelId = 1; // Hardcode hotel ID to 1
     const [currentStep, setCurrentStep] = useState('hotel');
     const [selectedHotelId] = useState(hotelId);
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [selectedDates, setSelectedDates] = useState({ checkInDate: '', checkOutDate: '' });
     const [bookingData, setBookingData] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState(null);
+    const [hotelInfo, setHotelInfo] = useState(null);
+
+    // Load hotel information
+    useEffect(() => {
+        if (hotelId) {
+            axios.get(`/api/bookings/hotels/${hotelId}`)
+                .then(res => {
+                    setHotelInfo(res.data);
+                })
+                .catch(err => {
+                    console.error('Error loading hotel:', err);
+                });
+        }
+    }, [hotelId]);
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        if (!selectedRoom?.pricePerNight || !selectedDates.checkInDate || !selectedDates.checkOutDate) return 0;
-        const pricePerNight = parseInt(selectedRoom.pricePerNight);
+        if (!selectedRoom?.price || !selectedDates.checkInDate || !selectedDates.checkOutDate) return 0;
+        
+        // Parse price properly
+        const parsePrice = (priceString) => {
+            if (!priceString) return 0;
+            const cleanPrice = priceString.toString().replace(/[^\d.]/g, '');
+            return parseFloat(cleanPrice) || 0;
+        };
+        
+        const pricePerNight = parsePrice(selectedRoom.price);
         const checkIn = new Date(selectedDates.checkInDate);
         const checkOut = new Date(selectedDates.checkOutDate);
         const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-        return pricePerNight * nights;
+        
+        // Apply 10% discount like in RoomDetails
+        const subtotal = pricePerNight * nights;
+        return subtotal * 0.9; // 10% discount
     };
 
     // Step handlers
@@ -40,7 +64,21 @@ const BookingPage = () => {
     };
 
     const handleBookingSuccess = (bookingResponse, bookingPayload) => {
-        setBookingData({ ...bookingPayload, ...bookingResponse });
+        const finalBookingData = { ...bookingPayload, ...bookingResponse };
+        setBookingData(finalBookingData);
+
+        // Merge ngày nhận/trả phòng và các trường cần thiết vào roomData
+        const fullRoomData = {
+            ...selectedRoom,
+            checkInDate: selectedDates.checkInDate,
+            checkOutDate: selectedDates.checkOutDate,
+            hotelName: hotelInfo?.name || selectedRoom.hotelName,
+            hotelId: hotelInfo?.id || selectedRoom.hotelId,
+            // Thêm các trường khác nếu cần
+        };
+
+        localStorage.setItem('bookingData', JSON.stringify(finalBookingData));
+        localStorage.setItem('roomData', JSON.stringify(fullRoomData));
         setCurrentStep('payment');
     };
 
@@ -71,7 +109,7 @@ const BookingPage = () => {
                             totalPrice={calculateTotalPrice()}
                         />
                     }
-                    rightComponent={<RoomDetails roomData={selectedRoom} />}
+                    rightComponent={<RoomDetails roomData={selectedRoom} hotelInfo={hotelInfo} />}
                 />
             )}
 
@@ -85,7 +123,7 @@ const BookingPage = () => {
                             onBookingSuccess={handleBookingSuccess}
                         />
                     }
-                    rightComponent={<RoomDetails roomData={selectedRoom} />}
+                    rightComponent={<RoomDetails roomData={selectedRoom} hotelInfo={hotelInfo} />}
                 />
             )}
 
