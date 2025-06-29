@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
+import ReviewPage from "./pages/ReviewPage";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
             <Route path="/payment-success" element={<CheckoutMessage />} />
             <Route path="/payment-cancel" element={<CheckoutMessage />} />
