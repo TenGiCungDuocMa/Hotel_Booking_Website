@@ -13,6 +13,7 @@ const BookingPage = () => {
     const hotelId = 1; // Hardcode hotel ID to 1
     const [currentStep, setCurrentStep] = useState('hotel');
     const [selectedHotelId] = useState(hotelId);
+
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [selectedDates, setSelectedDates] = useState({ checkInDate: '', checkOutDate: '' });
     const [bookingData, setBookingData] = useState(null);
@@ -56,6 +57,7 @@ const BookingPage = () => {
     // Step handlers
     const handleRoomSelect = (roomData) => {
         setSelectedRoom(roomData);
+
         setSelectedDates({
             checkInDate: roomData.checkInDate,
             checkOutDate: roomData.checkOutDate
@@ -79,6 +81,7 @@ const BookingPage = () => {
 
         localStorage.setItem('bookingData', JSON.stringify(finalBookingData));
         localStorage.setItem('roomData', JSON.stringify(fullRoomData));
+
         setCurrentStep('payment');
     };
 
@@ -90,7 +93,6 @@ const BookingPage = () => {
     return (
         <>
             <BookingBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} />
-
             {currentStep === 'confirm' && (
                 <ConfirmationPage
                     bookingData={bookingData}
@@ -110,6 +112,7 @@ const BookingPage = () => {
                         />
                     }
                     rightComponent={<RoomDetails roomData={selectedRoom} hotelInfo={hotelInfo} />}
+
                 />
             )}
 
@@ -130,6 +133,7 @@ const BookingPage = () => {
             {currentStep === 'hotel' && selectedHotelId && (
                 <HotelDetail
                     hotelId={selectedHotelId}
+
                     onRoomSelect={handleRoomSelect}
                     defaultDates={selectedDates}
                 />
