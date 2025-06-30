@@ -270,6 +270,9 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         if (isLoading) return;
         setIsLoading(true);
         try {
+            // Đảm bảo luôn lưu lại dữ liệu booking trước khi redirect
+            localStorage.setItem('bookingData', JSON.stringify(bookingData));
+            localStorage.setItem('roomData', JSON.stringify(roomData));
             const paymentData = {
                 amount: totalPrice,
                 description: description,
@@ -287,7 +290,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
             };
             // Save description for PayOS
             localStorage.setItem('paymentDescription', description);
-            const response = await axios.post("http://localhost:8080/api/create-payment-link", paymentData, {
+            const response = await axios.post("http://localhost:8888/api/create-payment-link", paymentData, {
                 headers: { "Content-Type": "application/json" },
             });
             if (response.data?.checkoutUrl) {

@@ -1,7 +1,6 @@
 // App.jsx
 import {Routes, Route, Navigate} from "react-router-dom";
 import BookingPage from "./pages/BookingPage";
-import CheckoutMessage from "./components/Booking/CheckoutMessage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -30,12 +29,8 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
-            <Route path="/payment-success" element={<CheckoutMessage />} />
-            <Route path="/payment-cancel" element={<CheckoutMessage />} />
-            <Route path="/booking/:hotelId" element={<BookingPage />} />
             <Route path="/booking/1" element={<BookingPage />} />
             <Route path="/booking/confirm" element={<ConfirmationPage />} />
-            <Route path="/booking/checkout-message" element={<CheckoutMessage />} />
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancel" element={<PaymentCancelPage />} />

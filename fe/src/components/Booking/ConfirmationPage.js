@@ -41,7 +41,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
         if (bookingData?.email) {
             const sendEmail = async () => {
                 try {
-                    const res = await axios.post("http://localhost:8080/api/send-confirmation-email", {
+                    const res = await axios.post("http://localhost:8888/api/send-confirmation-email", {
                         bookingData,
                         roomData,
                         paymentMethod,
