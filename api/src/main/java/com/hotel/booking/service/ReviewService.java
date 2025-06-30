@@ -27,42 +27,35 @@ public class ReviewService {
     private final RoomRepository roomRepository;
 
     /**
-     * Gửi đánh giá (review) cho một booking của người dùng hiện tại
+     * Gửi đánh giá cho 1 booking
      */
     public ReviewResponse submitReview(Authentication authentication, ReviewRequest request) {
         User user = (User) authentication.getPrincipal();
 
-        // 1. Kiểm tra quyền sở hữu booking
         Booking booking = bookingRepository.findByBookingIdAndUserId(request.getBookingId(), user.getUserId())
                 .orElseThrow(() -> new RuntimeException("Bạn không có quyền đánh giá booking này"));
 
-        // 2. Kiểm tra đã review chưa
         if (reviewRepository.findByBookingId(request.getBookingId()).isPresent()) {
             throw new RuntimeException("Booking này đã được đánh giá");
         }
 
-        // 3. Kiểm tra nội dung hợp lệ
         if (request.getRating() == null || request.getComment() == null || request.getComment().isBlank()) {
             throw new RuntimeException("Thiếu thông tin đánh giá");
         }
 
-        // 4. Tạo và lưu review
         Review review = new Review();
         review.setUserId(user.getUserId());
         review.setBookingId(request.getBookingId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
-
-        // TODO: Phân tích cảm xúc / phát hiện spam có thể thêm sau
+        // TODO: Spam/sentiment xử lý tự động
 
         Review saved = reviewRepository.save(review);
-
-        // 5. Trả về response DTO
         return mapToDto(saved);
     }
 
     /**
-     * Lấy toàn bộ đánh giá có isSpam = false để hiển thị cho người dùng
+     * Lấy tất cả review không bị spam
      */
     public List<ReviewResponse> getAllValidReviews() {
         List<Review> reviews = reviewRepository.findAll()
@@ -76,7 +69,39 @@ public class ReviewService {
     }
 
     /**
-     * Map từ entity Review sang DTO ReviewResponse
+     * Lấy tất cả review (admin)
+     */
+    public List<Review> getAllReviews() {
+        return reviewRepository.findAll();
+    }
+
+    /**
+     * Lấy review bị đánh dấu spam (admin)
+     */
+    public List<Review> getSpamReviews() {
+        return reviewRepository.findByIsSpamTrue();
+    }
+
+
+    /**
+     * Dành cho trường hợp đơn giản: chỉ bỏ spam (không dùng DTO)
+     */
+    public void unmarkSpam(Integer id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy review"));
+
+        review.setIsSpam(false);
+        reviewRepository.save(review);
+    }
+    public void deleteReview(Integer id) {
+        if (!reviewRepository.existsById(id)) {
+            throw new RuntimeException("Review không tồn tại");
+        }
+        reviewRepository.deleteById(id);
+    }
+
+    /**
+     * Convert entity → DTO
      */
     private ReviewResponse mapToDto(Review review) {
         ReviewResponse response = new ReviewResponse();
