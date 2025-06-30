@@ -15,6 +15,8 @@ import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import HotelDetail from "./components/Booking/HotelDetail";
 import PaymentCancelPage from "./pages/PaymentCancelPage";
 import ConfirmationPage from "./components/Booking/ConfirmationPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import ReviewSpamPage from "./pages/ReviewSpamPage";
 
 
 function App() {
@@ -37,7 +39,12 @@ function App() {
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancel" element={<PaymentCancelPage />} />
-            {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
+
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/reviews/spam" element={<ReviewSpamPage />} />
+
+
+                {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
             {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
         </Routes>
     );
