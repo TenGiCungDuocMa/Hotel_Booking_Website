@@ -25,6 +25,15 @@ function App() {
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
             <Route path="/payment-success" element={<CheckoutMessage />} />
             <Route path="/payment-cancel" element={<CheckoutMessage />} />
+            <Route path="/booking/:hotelId" element={<BookingPage />} />
+            <Route path="/booking/1" element={<BookingPage />} />
+            <Route path="/booking/confirm" element={<ConfirmationPage />} />
+            <Route path="/booking/checkout-message" element={<CheckoutMessage />} />
+            <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
+            <Route path="/payment-success" element={<PaymentSuccessPage />} />
+            <Route path="/payment-cancel" element={<PaymentCancelPage />} />
+            <Route path="/" element={<Navigate to="/booking/1" replace />} />
+            {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
         </Routes>
     );
 }
