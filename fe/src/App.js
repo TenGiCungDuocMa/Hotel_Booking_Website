@@ -1,7 +1,7 @@
 // App.jsx
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import BookingPage from "./pages/BookingPage";
-import CheckoutMessage from "./components/CheckoutMessage";
+import CheckoutMessage from "./components/Booking/CheckoutMessage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -11,6 +11,11 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
 import ReviewPage from "./pages/ReviewPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import HotelDetail from "./components/Booking/HotelDetail";
+import PaymentCancelPage from "./pages/PaymentCancelPage";
+import ConfirmationPage from "./components/Booking/ConfirmationPage";
+
 
 function App() {
     return (
@@ -32,7 +37,7 @@ function App() {
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancel" element={<PaymentCancelPage />} />
-            <Route path="/" element={<Navigate to="/booking/1" replace />} />
+            {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
             {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
         </Routes>
     );
