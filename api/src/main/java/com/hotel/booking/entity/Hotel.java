@@ -13,7 +13,12 @@ public class Hotel {
     private Integer hotelId;
     private String name;
     private String address;
+    private String img;
     private String description;
     private Double latitude;
     private Double longitude;
+    private String imgs;
+
+    public String getImgs() { return imgs; }
+    public void setImgs(String imgs) { this.imgs = imgs; }
 }

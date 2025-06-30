@@ -53,6 +53,9 @@ CREATE TABLE bookings (
 ALTER TABLE bookings
 ADD COLUMN hotelId INT;
 
+ALTER TABLE hotels ADD COLUMN img TEXT;
+ALTER TABLE rooms ADD COLUMN img TEXT;
+
 -- 1. Xoá bảng cũ nếu tồn tại
 DROP TABLE IF EXISTS reviews;
 
