@@ -52,3 +52,21 @@ CREATE TABLE bookings (
 );
 ALTER TABLE bookings
 ADD COLUMN hotelId INT;
+
+-- 1. Xoá bảng cũ nếu tồn tại
+DROP TABLE IF EXISTS reviews;
+
+-- Tạo bảng review với tên cột camelCase
+CREATE TABLE review (
+    id SERIAL PRIMARY KEY,
+    userId BIGINT NOT NULL,
+    bookingId BIGINT NOT NULL,
+    rating INT,
+    comment TEXT NOT NULL,
+    isSpam BOOLEAN DEFAULT FALSE,
+    sentiment VARCHAR(20),
+    confidenceScore FLOAT,
+    language VARCHAR(10),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

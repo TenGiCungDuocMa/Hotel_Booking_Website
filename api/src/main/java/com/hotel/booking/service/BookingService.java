@@ -29,7 +29,6 @@ public class BookingService {
     public List<BookingResponse> getUserBookings(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Integer userId = user.getUserId();
-
         List<Booking> bookings = bookingRepository.findByUserId(userId);
         return bookings.stream().map(this::toDto).collect(Collectors.toList());
     }
