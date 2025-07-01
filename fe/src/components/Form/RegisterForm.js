@@ -1,106 +1,142 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Card, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import React, {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {User, Mail, Lock, Phone} from 'react-feather';
 
-const RegisterForm = ({ onSubmit }) => {
-    const [formData, setFormData] = useState({
-        fullName: "",
-        email: "",
-        password: "",
-        phone: "",
-    });
+
+function RegisterForm({onSubmit}) {
+    const [fullName, setFullName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
-
-    const [message, setMessage] = useState("");
-
-    const handleChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (password !== confirmPassword) {
+            setMessage('Passwords do not match!');
+            return;
+        }
+
+        setIsLoading(true);
         try {
-            await onSubmit(formData);
-            setMessage("Đăng ký thành công!");
+            await onSubmit({fullName, phone, email, password});
+            setMessage('Registration successful!');
+            setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
-            setMessage("Đăng ký thất bại!");
+            setMessage('Registration failed!');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <Container className="d-flex justify-content-center mt-5">
-            <Card style={{ width: "100%", maxWidth: "500px" }} className="p-4 shadow-sm">
-                <h3 className="text-center mb-4">Đăng ký tài khoản</h3>
+        <div className="signup-wrapper">
+            <div className="signup-container">
+                <div className="signup-header text-center">
+                    <h2>SIGN UP</h2>
+                    <p>
+                        Or{' '}
+                        <Link to="/login" className="link">
+                            login to your account
+                        </Link>
+                    </p>
+                </div>
 
-                {message && <Alert variant="info">{message}</Alert>}
+                {message && <div className="form-message">{message}</div>}
 
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="formFullName">
-                        <Form.Label>Họ và tên</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Nhập họ và tên"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                <form className="signup-form" onSubmit={handleSubmit}>
+                    {/* Full Name */}
+                    <div className="form-group">
+                        <label htmlFor="fullName">Full Name</label>
+                        <div className="input-wrapper">
+                            <User className="icon"/>
+                            <input
+                                id="fullName"
+                                type="text"
+                                required
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <Form.Group className="mb-3" controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Nhập email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                    {/* Phone Number */}
+                    <div className="form-group">
+                        <label htmlFor="phone">Phone Number</label>
+                        <div className="input-wrapper">
+                            <Phone className="icon"/>
+                            <input
+                                id="phone"
+                                type="tel"
+                                required
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <Form.Group className="mb-3" controlId="formPassword">
-                        <Form.Label>Mật khẩu</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Nhập mật khẩu"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                    {/* Email */}
+                    <div className="form-group">
+                        <label htmlFor="email">Email address</label>
+                        <div className="input-wrapper">
+                            <Mail className="icon"/>
+                            <input
+                                id="email"
+                                type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <Form.Group className="mb-3" controlId="formPhone">
-                        <Form.Label>Số điện thoại</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Nhập số điện thoại"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                    {/* Password */}
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <div className="input-wrapper">
+                            <Lock className="icon"/>
+                            <input
+                                id="password"
+                                type="password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <Button variant="primary" type="submit" className="w-100">
-                        Đăng ký
-                    </Button>
-                    {/* Nút chuyển sang đăng nhập */}
-                    <Button
-                        variant="outline-secondary"
-                        className="w-100"
-                        onClick={() => navigate("/login")}
+                    {/* Confirm Password */}
+                    <div className="form-group">
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <div className="input-wrapper">
+                            <Lock className="icon"/>
+                            <input
+                                id="confirmPassword"
+                                type="password"
+                                required
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className={`submit-button ${isLoading ? 'loading' : ''}`}
                     >
-                        Đã có tài khoản? Đăng nhập
-                    </Button>
-                </Form>
-            </Card>
-        </Container>
+                        {isLoading ? 'Signing up...' : 'Sign Up'}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
-};
+}
 
 export default RegisterForm;
