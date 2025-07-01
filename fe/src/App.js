@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
+import SearchBar from "./components/Form/SearchBar";
 import ReviewPage from "./pages/ReviewPage";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import HotelDetail from "./components/Booking/HotelDetail";
@@ -16,6 +17,7 @@ import PaymentCancelPage from "./pages/PaymentCancelPage";
 import ConfirmationPage from "./components/Booking/ConfirmationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ReviewSpamPage from "./pages/ReviewSpamPage";
+
 
 
 function App() {
@@ -29,6 +31,9 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
+            <Route path="/payment-success" element={<CheckoutMessage />} />
+            <Route path="/payment-cancel" element={<CheckoutMessage />} />
+            <Route path="/search" element={<SearchBar />} />
             <Route path="/booking/1" element={<BookingPage />} />
             <Route path="/booking/confirm" element={<ConfirmationPage />} />
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
