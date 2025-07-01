@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import '../../assets/style/global.scss';
+import axios from 'axios';
+import './global.scss';
 
-const BookingForm = ({ onBookingSubmit }) => {
+const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) => {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -12,8 +13,8 @@ const BookingForm = ({ onBookingSubmit }) => {
         agreedToPolicy: false,
         subscribeNewsletter: false,
     });
-
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const validateForm = () => {
         let tempErrors = {};
@@ -32,7 +33,6 @@ const BookingForm = ({ onBookingSubmit }) => {
         if (!formData.agreedToPolicy) {
             tempErrors.agreedToPolicy = 'You must agree to the cancellation policy';
         }
-
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
@@ -45,11 +45,25 @@ const BookingForm = ({ onBookingSubmit }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            onBookingSubmit(formData);
+        if (!validateForm()) return;
+        setLoading(true);
+        try {
+            const bookingPayload = {
+                ...formData,
+                roomId,
+                checkInDate,
+                checkOutDate,
+                status: "Booked"
+            };
+            const res = await axios.post('/api/bookings', bookingPayload);
+            if (onBookingSuccess) onBookingSuccess(res.data, bookingPayload);
             alert('Booking details submitted successfully!');
+        } catch (err) {
+            alert('Failed to submit booking. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -181,8 +195,8 @@ const BookingForm = ({ onBookingSubmit }) => {
                     </div>
                 </div>
 
-                <button type="submit" className="submit-btn">
-                    Submit
+                <button type="submit" className="submit-btn" disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit'}
                 </button>
             </form>
         </div>
