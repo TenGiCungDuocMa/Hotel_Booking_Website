@@ -68,6 +68,7 @@ const BookingPage = () => {
 
     return (
         <>
+            <Header/>
             {/* Breadcrumb bar ở đầu */}
             <BookingBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} />
 

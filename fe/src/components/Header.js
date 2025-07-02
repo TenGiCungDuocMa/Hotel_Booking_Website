@@ -33,6 +33,7 @@ function Header() {
                 className={`${change ? 'container-fluid show header-transition' : 'container'} z-3 fixed-top `}
                 style={{
                     backgroundColor: change ? 'white' : 'transparent',
+                    boxShadow: change && "rgb(0 0 0 / 12%) 0px 0px 10px 5px",
                 }}
             >
                 <div className="row">

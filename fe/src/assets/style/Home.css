@@ -65,3 +65,12 @@
 .scroll-button.right {
     right: -16px;
 }
+
+.btn-reserve:hover {
+    background-color: #ffffff !important;
+    color: rgb(95, 208, 86) !important;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+    filter: brightness(1.1);
+    border-color: rgb(95, 208, 86) !important;
+}
