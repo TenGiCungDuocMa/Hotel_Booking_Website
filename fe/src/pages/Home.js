@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../assets/style/Home.css';
+import Lightbox from "yet-another-react-lightbox";
+import 'yet-another-react-lightbox/styles.css';
 
 function Home() {
     const banners = [
@@ -34,9 +36,19 @@ function Home() {
             behavior: 'smooth',
         });
     }
+    const [open, setOpen] = useState(false);
 
+    const slides = [
+        {src: '/insta-1.jpg'},
+        {src: '/insta-2.jpg'},
+        {src: '/insta-3.jpg'},
+        {src: '/insta-4.jpg'},
+        {src: '/insta-5.jpg'},
+    ];
     return (
-        <div>
+        <div style={{
+            backgroundColor: "#ffffff",
+        }}>
             <Header/>
             <div className="banner">
                 <img style={{
@@ -336,7 +348,7 @@ function Home() {
                         />
                     </div>
                     <div className="col">
-                        <div className="row" >
+                        <div className="row">
                             <h4
                                 style={{
                                     fontSize: "15px",
@@ -351,13 +363,13 @@ function Home() {
                         </div>
                         <div className="row">
                             <h2
-                            style={{
-                                fontSize: "38px",
-                                fontWeight: 700,
-                                letterSpacing: "2px",
-                                lineHeight: "50px",
-                                marginBottom: "1rem",
-                            }}
+                                style={{
+                                    fontSize: "38px",
+                                    fontWeight: 700,
+                                    letterSpacing: "2px",
+                                    lineHeight: "50px",
+                                    marginBottom: "1rem",
+                                }}
                             >Happy Customer</h2>
                         </div>
                         <div className="row">
@@ -366,22 +378,23 @@ function Home() {
                                     color: "#00000057",
                                     marginBottom: "1.5rem",
                                 }}>Far far away, behind the word mountains, far from the countries Vokalia
-                                    and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right
+                                    and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
+                                    right
                                     at
                                     the coast of the Semantics, a large language ocean.</p>
                             </div>
                             <div className="row">
                                 <div className="col-2">
                                     <img src="/person_4.jpg" alt=""
-                                    style={{
-                                        width: "80px",
-                                        height: "80px",
-                                        borderRadius: "50%",
-                                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                                        backgroundSize: "cover",
-                                        backgroundPosition: "center",
+                                         style={{
+                                             width: "80px",
+                                             height: "80px",
+                                             borderRadius: "50%",
+                                             boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                             backgroundSize: "cover",
+                                             backgroundPosition: "center",
 
-                                    }}
+                                         }}
                                     />
                                 </div>
                                 <div className="col">
@@ -406,6 +419,1183 @@ function Home() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="container-fluid">
+                <div className="row">
+                    <p style={{
+                        marginTop: "3rem",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#4fa4e7",
+
+                    }}>BOOKINGOT HOTEL ROOMS</p>
+                </div>
+                <div className="row">
+                    <h1 style={{
+                        textAlign: "center",
+                        fontSize: "3.5rem",
+                        fontWeight: 700,
+                        color: "#f1905b",
+                        marginBottom: "4rem"
+                    }}>Hotel Master's Rooms</h1>
+                </div>
+                <div className="row">
+                    <div className="col position-relative row_room">
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-6.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "48.7%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>King Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="col position-relative row_room">
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-1.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "48.7%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>Suite Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div className="row">
+                    <div className="col position-relative row_room">
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "47%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>Family Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-2.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                    </div>
+                    <div className="col position-relative row_room">
+
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "47%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>Deluxe Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-3.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                    </div>
+
+                </div>
+                <div className="row">
+                    <div className="col position-relative row_room">
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-4.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "48.7%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>Luxury Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="col position-relative row_room">
+                        <div className="col" style={{
+                            paddingRight: 0,
+                        }}>
+                            <img src="/room-5.jpg" alt="" style={{
+                                width: "100%",
+                                height: "360px",
+                                display: "block",
+                            }}/>
+                        </div>
+                        <div style={{
+                            display: "block",
+                            position: "absolute",
+                            left: "48.7%",
+                            top: "50%",
+                            width: "40px",
+                            height: "40px",
+                            backgroundColor: "#ffffff",
+                            transform: "rotate(45deg)",
+                            transition: "all 0.3s ease-in-out",
+                        }} className="square"></div>
+                        <div className="col details" style={{
+                            textAlign: "center",
+                            paddingTop: "2.5rem",
+                            paddingLeft: 0,
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <p style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                color: "#4fa4e7",
+                            }} className="star_room">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                                <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="m12 17.27l4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72l3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41l-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18l-1.1 4.72c-.2.86.73 1.54 1.49 1.08z"></path>
+                                </svg>
+                            </span>
+                            </p>
+                            <p style={{
+                                display: "flex",
+                                color: "#4fa4e7",
+                                fontSize: "1.5rem",
+                                justifyContent: "center",
+                            }} className="price_room">
+                                $120.00 &nbsp;
+                                <p style={{
+                                    color: "#00000057",
+                                    fontSize: "1rem",
+                                    marginTop: "0.5rem",
+                                }} className="per_night">per night</p>
+                            </p>
+                            <h3>Superior Room</h3>
+                            <button style={{
+                                padding: "16px",
+                                borderRadius: "5px",
+                                border: "2px solid rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "white",
+                                marginTop: "1rem",
+                            }}>View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" width={16} height={9} viewBox="0 0 16 9">
+                                    <path fill="currentColor"
+                                          d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5"></path>
+                                    <path fill="currentColor"
+                                          d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div className="container-fluid">
+                <div className="row">
+                    <p style={{
+                        marginTop: "3rem",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#4fa4e7",
+                        textTransform: "uppercase",
+                    }}>Restaurant</p>
+                </div>
+                <div className="row">
+                    <h1 style={{
+                        textAlign: "center",
+                        fontSize: "3.5rem",
+                        fontWeight: 700,
+                        color: "#f1905b",
+                        marginBottom: "4rem"
+                    }}>Restaurant</h1>
+                </div>
+                <div className='row'>
+                    <div className="row">
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-1.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-2.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-3.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div className='row'>
+                    <div className="row">
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-4.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-5.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col d-flex pie_home" style={{
+                            transform: "translate3d(0px, 0px, 0px)",
+                            opacity: 1,
+                            visibility: "visible",
+                            boxShadow: "0px 15px 24px 5px rgba(0, 0, 0, 0.18)",
+                            borderRadius: "10px",
+                            transition: "all 0.3s ease-in-out",
+                            paddingLeft: 0,
+                            margin: "15px",
+                        }}>
+                            <div className="col">
+                                <img src="/menu-6.jpg" alt="" style={{
+                                    width: "180px",
+                                    height: "100%",
+                                    borderBottomLeftRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                }}/>
+                            </div>
+                            <div className="col">
+                                <div className="row" style={{
+                                    paddingTop: "2rem",
+                                    paddingBottom: "2rem",
+                                }}>
+                                    <div className="col-7">
+                                        <span style={{
+                                            fontWeight: "500",
+                                            fontSize: "20px",
+
+                                        }}>Grilled Crab with Onion</span>
+                                    </div>
+                                    <div className="col">
+                                        <span style={{
+                                            width: "80px",
+                                            color: "#2f89fc",
+                                            textAlign: "right",
+                                            fontSize: "20px",
+                                            fontWeight: 600,
+                                        }} className="pie_price">$20.00</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p style={{
+                                        fontSize: "16px",
+                                        lineHeight: "1.8",
+                                        fontWeight: 400,
+                                        color: "#999999",
+                                    }} className="pie_des">A small river named Duden flows by their place and
+                                        supplies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="row" style={{
+                    justifyContent: "center",
+                }}>
+                    <button style={
+                        {
+                            color: "rgb(255, 255, 255)",
+                            padding: "0.375rem 0.75rem",
+                            width: "fit-content",
+                            background: "rgb(241, 144, 91)",
+                            borderWidth: "1px",
+                            borderStyle: "solid",
+                            borderColor: "rgb(241, 144, 91)",
+                            borderRadius: "0.25rem",
+                            fontWeight: 400,
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                            fontSize: "1rem",
+                            lineHeight: "1.5rem",
+                            transition: "" +
+                                "color 0.15s ease-in-out, " +
+                                "background-color 0.15s ease-in-out, " +
+                                "border-color 0.15s ease-in-out, " +
+                                "box-shadow 0.15s ease-in-out, " +
+                                "-webkit-box-shadow 0.15s ease-in-out",
+                        }
+                    } className="btn-reserve">View All Menu
+                    </button>
+                </div>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <p style={{
+                        marginTop: "10rem",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#4fa4e7",
+                        textTransform: "uppercase",
+                    }}>Read Blog</p>
+                </div>
+                <div className="row">
+                    <h1 style={{
+                        textAlign: "center",
+                        fontSize: "3.5rem",
+                        fontWeight: 700,
+                        color: "#f1905b",
+                        marginBottom: "4rem"
+                    }}>Recent Blog</h1>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <div className="row">
+                            <img src="/image_1.jpg" alt="" style={{
+                                height: "250px",
+                                borderRadius: "6%",
+                            }}/>
+                        </div>
+                        <div className="row " style={{
+                            textAlign: "center",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            color: "#4fa4e7",
+                            justifyContent: "center",
+                            marginTop: "1.5rem",
+                            marginBottom: "1.5rem",
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Oct. 30,
+                                2019</a></div>
+                            <div className="col-2" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Admin</a>
+                            </div>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="M3 20.077V4.616q0-.691.463-1.153T4.615 3h14.77q.69 0 1.152.463T21 4.616v10.769q0 .69-.463 1.153T19.385 17H6.077zM6.5 13.5h7v-1h-7zm0-3h11v-1h-11zm0-3h11v-1h-11z"></path>
+                                </svg>
+                                3
+                            </a></div>
+                        </div>
+                        <div className="row">
+                            <div style={{
+                                fontSize: "20px",
+                                fontWeight: 600,
+                                lineHeight: "1.5",
+                                textAlign: "center",
+                                transition: "all 0.3s ease-in-out",
+                            }}><a href="/" style={{
+                                color: "#000000",
+                                transition: "all 0.3s ease-in-out",
+                            }} className="blog_des">Even the all-powerful Pointing has no control about the blind
+                                texts</a></div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="row">
+                            <img src="/image_2.jpg" alt="" style={{
+                                height: "250px",
+                                borderRadius: "6%",
+                            }}/>
+                        </div>
+                        <div className="row " style={{
+                            textAlign: "center",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            color: "#4fa4e7",
+                            justifyContent: "center",
+                            marginTop: "1.5rem",
+                            marginBottom: "1.5rem",
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Oct. 30,
+                                2019</a></div>
+                            <div className="col-2" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Admin</a>
+                            </div>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="M3 20.077V4.616q0-.691.463-1.153T4.615 3h14.77q.69 0 1.152.463T21 4.616v10.769q0 .69-.463 1.153T19.385 17H6.077zM6.5 13.5h7v-1h-7zm0-3h11v-1h-11zm0-3h11v-1h-11z"></path>
+                                </svg>
+                                3
+                            </a></div>
+                        </div>
+                        <div className="row">
+                            <div style={{
+                                fontSize: "20px",
+                                fontWeight: 600,
+                                lineHeight: "1.5",
+                                textAlign: "center",
+                                transition: "all 0.3s ease-in-out",
+                            }}><a href="/" style={{
+                                color: "#000000",
+                                transition: "all 0.3s ease-in-out",
+                            }} className="blog_des">Even the all-powerful Pointing has no control about the blind
+                                texts</a></div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="row">
+                            <img src="/image_3.jpg" alt="" style={{
+                                height: "250px",
+                                borderRadius: "6%",
+                            }}/>
+                        </div>
+                        <div className="row " style={{
+                            textAlign: "center",
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            color: "#4fa4e7",
+                            justifyContent: "center",
+                            marginTop: "1.5rem",
+                            marginBottom: "1.5rem",
+                            transition: "all 0.3s ease-in-out",
+                        }}>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Oct. 30,
+                                2019</a></div>
+                            <div className="col-2" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>Admin</a>
+                            </div>
+                            <div className="col-3" style={{
+                                padding: 0,
+                            }}><a href="/" className="blog_text" style={{transition: "all 0.3s ease-in-out",}}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                          d="M3 20.077V4.616q0-.691.463-1.153T4.615 3h14.77q.69 0 1.152.463T21 4.616v10.769q0 .69-.463 1.153T19.385 17H6.077zM6.5 13.5h7v-1h-7zm0-3h11v-1h-11zm0-3h11v-1h-11z"></path>
+                                </svg>
+                                3
+                            </a></div>
+                        </div>
+                        <div className="row">
+                            <div style={{
+                                fontSize: "20px",
+                                fontWeight: 600,
+                                lineHeight: "1.5",
+                                textAlign: "center",
+                                transition: "all 0.3s ease-in-out",
+                            }}><a href="/" style={{
+                                color: "#000000",
+                                transition: "all 0.3s ease-in-out",
+                            }} className="blog_des">Even the all-powerful Pointing has no control about the blind
+                                texts</a></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div className="container-fluid">
+                <div className="row">
+                    <p style={{
+                        marginTop: "3rem",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#4fa4e7",
+                        textTransform: "uppercase",
+                    }}>Photos</p>
+                </div>
+                <div className="row">
+                    <h1 style={{
+                        textAlign: "center",
+                        fontSize: "3.5rem",
+                        fontWeight: 700,
+                        color: "#f1905b",
+                        marginBottom: "4rem"
+                    }}>Instagram</h1>
+                </div>
+                <div className="row">
+                    <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
+                        <img src="/insta-1.jpg" alt="" style={{
+                        height: "280px",
+                        width: "100%",
+                    }} className="w-96"/>
+                    </div>
+
+                    <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
+                        <img src="/insta-2.jpg" alt="" style={{
+                            height: "280px",
+                            width: "100%",
+                        }} className="w-96"/></div>
+                    <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
+                        <img src="/insta-3.jpg" alt="" style={{
+                            height: "280px",
+                            width: "100%",
+                        }} className="w-96"/></div>
+                    <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
+                        <img src="/insta-4.jpg" alt="" style={{
+                            height: "280px",
+                            width: "100%",
+                        }} className="w-96"/></div>
+                    <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
+                        <img src="/insta-5.jpg" alt="" style={{
+                            height: "280px",
+                            width: "100%",
+                        }} className="w-96"/></div>
+                    <Lightbox
+                        open={open}
+                        close={() => setOpen(false)}
+                        slides={slides}
+                    />
                 </div>
             </div>
             <Footer/>
