@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Optional<Review> findByBookingId(Integer bookingId);
     List<Review> findByIsSpamTrue();
+    boolean existsByBookingId(Integer bookingId);
 
 }
 

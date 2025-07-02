@@ -2,6 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../assets/style/Home.css';
+import ReviewPage from "./ReviewPage";
+
 function Home() {
     const banners = [
         "/bg_1.jpg", "/bg_2.jpg", "/bg_4.jpg"
@@ -69,7 +71,7 @@ function Home() {
                         textAlign: "center",
                         fontSize: "1rem",
                         color: "#4fa4e7",
-                    }}>WELCOME TO BOOKINGOT</p>
+                    }}>WELCOME TO BOOKINGOT HOTEL</p>
                 </div>
                 <div className="row">
                     <h1 style={{
@@ -234,49 +236,181 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="container my-4">
-                <h3><strong>Tìm theo loại chỗ nghỉ</strong></h3>
-                <div className="position-relative">
-                    <button
-                        className="scroll-button left"
-                        onClick={() => scroll(-300)}
-                    >
-                        &#8249;
-                    </button>
-
-                    <div className="scroll-container d-flex gap-3" ref={scrollRef}>
-
-                        <div className="card-item">
-                            <img src="/public/hotel.jpeg" alt="Hotel"/>
-                            <p><strong>Hotel</strong></p>
+            <div className="container"
+                 style={{
+                     marginTop: "3rem",
+                 }}
+            >
+                <div className="row">
+                    <div className="col">
+                        <div className="row">
+                            <h5 style={{
+                                fontSize: "15px",
+                                color: "#4fa4e7",
+                                marginBottom: "1rem",
+                                letterSpacing: "2px",
+                                fontWeight: 700,
+                            }}>ABOUT BOOKINGOT HOTEL</h5>
                         </div>
-                        <div className="card-item">
-                            <img src="/public/resort.jpeg" alt="Resort"/>
-                            <p><strong>Resort</strong></p>
+                        <div className="row">
+                            <h1 style={{
+                                fontSize: "38px",
+                                fontWeight: 700,
+                                letterSpacing: "2px",
+                                lineHeight: "50px",
+                                marginBottom: "1rem",
+                            }}>BookingOT Hotel is the Most Recommended Hotel All Over the World</h1>
                         </div>
-                        <div className="card-item">
-                            <img src="/public/canho.jpeg" alt="Apartment"/>
-                            <p><strong>Apartment</strong></p>
+                        <div className="row">
+                            <p
+                                style={
+                                    {
+                                        color: "#00000057",
+                                        marginBottom: "1.5rem",
+                                    }
+                                }
+                            >Far far away, behind the word mountains, far from the countries Vokalia
+                                and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right
+                                at
+                                the coast of the Semantics, a large language ocean.</p>
                         </div>
-                        <div className="card-item">
-                            <img src="/public/bietthu.jpeg" alt="Villa"/>
-                            <p><strong>Villa</strong></p>
-                        </div>
-                        <div className="card-item">
-                            <img src="/public/nhakhach.jpeg" alt="Guest House"/>
-                            <p><strong>Guest House</strong></p>
+                        <div className="row">
+                            <button className="btn-reserve"
+                                    style={
+                                        {
+                                            color: "rgb(255, 255, 255)",
+                                            padding: "0.375rem 0.75rem",
+                                            width: "fit-content",
+                                            background: "rgb(241, 144, 91)",
+                                            borderWidth: "1px",
+                                            borderStyle: "solid",
+                                            borderColor: "rgb(241, 144, 91)",
+                                            borderRadius: "0.25rem",
+                                            fontWeight: 400,
+                                            textAlign: "center",
+                                            verticalAlign: "middle",
+                                            fontSize: "1rem",
+                                            lineHeight: "1.5rem",
+                                            transition: "" +
+                                                "color 0.15s ease-in-out, " +
+                                                "background-color 0.15s ease-in-out, " +
+                                                "border-color 0.15s ease-in-out, " +
+                                                "box-shadow 0.15s ease-in-out, " +
+                                                "-webkit-box-shadow 0.15s ease-in-out",
+                                        }
+                                    }
+                            >Reserve Your Room Now
+                            </button>
                         </div>
                     </div>
-
-                    <button
-                        className="scroll-button right"
-                        onClick={() => scroll(300)}
-                    >
-                        &#8250;
-                    </button>
+                    <div className="col-4">
+                        <img src="/about-1.jpg" alt=""
+                             style={{
+                                 width: "-webkit-fill-available",
+                                 height: "-webkit-fill-available",
+                                 borderRadius: "8px",
+                             }}
+                        />
+                    </div>
+                    <div className="col-4">
+                        <img src="/about-2.jpg" alt=""
+                             style={{
+                                 width: "-webkit-fill-available",
+                                 height: "-webkit-fill-available",
+                                 borderRadius: "8px",
+                             }}
+                        />
+                    </div>
                 </div>
             </div>
-            <Footer/>
+            <div className="container" style={{
+                marginTop: "3rem",
+            }}>
+                <div className="row">
+                    <div className="col-5">
+                        <img src="/testimony-img.jpg" alt=""
+                             style={{
+                                 width: "-webkit-fill-available",
+                                 height: "-webkit-fill-available",
+                                 borderRadius: "8px",
+                             }}
+                        />
+                    </div>
+                    <div className="col">
+                        <div className="row" >
+                            <h4
+                                style={{
+                                    fontSize: "15px",
+                                    color: "#4fa4e7",
+                                    marginBottom: "1rem",
+                                    letterSpacing: "2px",
+                                    fontWeight: 700,
+                                    textTransform: "uppercase",
+                                    marginTop: "6rem",
+                                }}
+                            >Testimony</h4>
+                        </div>
+                        <div className="row">
+                            <h2
+                            style={{
+                                fontSize: "38px",
+                                fontWeight: 700,
+                                letterSpacing: "2px",
+                                lineHeight: "50px",
+                                marginBottom: "1rem",
+                            }}
+                            >Happy Customer</h2>
+                        </div>
+                        <div className="row">
+                            <div className="row">
+                                <p style={{
+                                    color: "#00000057",
+                                    marginBottom: "1.5rem",
+                                }}>Far far away, behind the word mountains, far from the countries Vokalia
+                                    and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right
+                                    at
+                                    the coast of the Semantics, a large language ocean.</p>
+                            </div>
+                            <div className="row">
+                                <div className="col-2">
+                                    <img src="/person_4.jpg" alt=""
+                                    style={{
+                                        width: "80px",
+                                        height: "80px",
+                                        borderRadius: "50%",
+                                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+
+                                    }}
+                                    />
+                                </div>
+                                <div className="col">
+                                    <div className="row">
+                                        <h5 style={{
+                                            fontSize: "20px",
+                                            color: "rgb(241, 144, 91)",
+                                            fontWeight: 700,
+                                        }}>John Doe</h5>
+                                    </div>
+                                    <div className="row">
+                                        <p style={{
+                                            fontSize: "14px",
+                                            color: "rgba(0, 0, 0, 0.3)",
+                                            marginBottom: "0.5rem",
+                                            textTransform: "uppercase",
+                                            letterSpacing: "1px",
+                                            fontWeight: 700,
+                                        }}>Businessman</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ReviewPage />
+            <Footer />
         </div>
     );
 }

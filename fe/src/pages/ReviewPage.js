@@ -1,77 +1,82 @@
 import React, { useEffect, useState } from "react";
-import ReviewForm from "../components/Form/ReviewForm";
-import { getAllReviews } from "../services/reviewService";
+import ReviewSection from "../components/ReviewSection";
+import Header from "../components/Header";
 
 const ReviewPage = () => {
-    const [reviews, setReviews] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const banners = [
+        "/bg_1.jpg", "/bg_2.jpg", "/bg_4.jpg"
+    ];
+    const titles1 = [
+        "More than a hotel... an experience",
+        "Where luxury meets comfort",
+        "Unwind in style and elegance"
+    ];
+    const titles2 = [
+        "Discover the perfect blend of luxury and comfort",
+        "Experience the ultimate in hospitality",
+        "Your dream vacation starts here"
+    ];
 
-    const fetchReviews = async () => {
-        try {
-            const res = await getAllReviews();
-            const filtered = res.data.filter((r) => !r.isSpam);
-            setReviews(filtered);
-        } catch (err) {
-            console.error("Lỗi khi lấy danh sách đánh giá:", err);
-        }
-    };
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        fetchReviews();
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+        }, 3000);
+        return () => clearInterval(interval);
     }, []);
 
-    const handleOpenModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
-
     return (
-        <div className="container mt-5">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>Đánh giá khách sạn</h2>
-                <button className="btn btn-primary" onClick={handleOpenModal}>
-                    Viết đánh giá
-                </button>
+        <>
+            <Header />
+            <div className="banner" style={{ position: "relative", textAlign: "center" }}>
+                <img
+                    style={{
+                        maxWidth: "100%",
+                        filter: "brightness(55%)",
+                        height: "auto"
+                    }}
+                    src={banners[currentIndex]}
+                    alt="BookingOT"
+                />
+                <div
+                    className="banner-text"
+                    style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "35%",
+                        transform: "translateX(-50%)",
+                        textAlign: "center"
+                    }}
+                >
+                    <h1
+                        style={{
+                            color: "#f1905b",
+                            fontSize: "16px",
+                            textTransform: "uppercase",
+                            letterSpacing: "2px",
+                            fontWeight: 700
+                        }}
+                    >
+                        {titles1[currentIndex]}
+                    </h1>
+                    <h2
+                        style={{
+                            color: "white",
+                            fontSize: "6vw",
+                            fontWeight: 700,
+                            lineHeight: 1
+                        }}
+                    >
+                        {titles2[currentIndex]}
+                    </h2>
+                </div>
             </div>
 
-            {reviews.length === 0 ? (
-                <p>Chưa có đánh giá nào.</p>
-            ) : (
-                <div className="list-group">
-                    {reviews.map((r, index) => (
-                        <div key={index} className="list-group-item">
-                            <h5 className="mb-1">⭐ {r.rating} - <i>{r.sentiment || "Chưa phân tích"}</i></h5>
-                            <p className="mb-1">{r.comment}</p>
-                            <small className="text-muted">
-                                Người đánh giá: {r.userName} | Phòng: {r.roomNumber} | Sức chứa: {r.capacity}<br />
-                                Thời gian: {new Date(r.createdAt).toLocaleString()}
-                            </small>
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {/* Modal Bootstrap */}
-            {showModal && (
-                <div className="modal show fade d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Viết đánh giá</h5>
-                                <button type="button" className="btn-close" onClick={handleCloseModal}></button>
-                            </div>
-                            <div className="modal-body">
-                                <ReviewForm
-                                    bookingId={null} // nếu có booking cụ thể thì truyền vào
-                                    onSubmitted={() => {
-                                        fetchReviews();
-                                        handleCloseModal();
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+            <div className="container py-5">
+                <ReviewSection />
+            </div>
+        </>
     );
 };
 

@@ -2,6 +2,7 @@ package com.hotel.booking.controller;
 
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.dto.BookingUpdateRequest;
+import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -192,5 +193,10 @@ public class BookingController {
                     return ResponseEntity.ok(response);
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/validate/{bookingId}")
+    public ResponseEntity<BookingValidationResponse> validateBooking(@PathVariable Integer bookingId) {
+        BookingValidationResponse response = bookingService.validateBooking(bookingId);
+        return ResponseEntity.ok(response);
     }
 }

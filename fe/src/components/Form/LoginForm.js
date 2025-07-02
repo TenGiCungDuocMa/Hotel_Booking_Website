@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock } from 'react-feather';
+import '../../assets/style/global.scss';
 
 function LoginForm({ onSubmit }) {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -35,7 +36,15 @@ function LoginForm({ onSubmit }) {
                             create a new account
                         </Link>
                     </p>
-                    {message && <div className="form-message">{message}</div>}
+                    {message && (
+                        <div
+                            className={`form-message ${
+                                message === 'Logged in!' ? 'success' : 'error'
+                            }`}
+                        >
+                            {message}
+                        </div>
+                    )}
                 </div>
 
                 <form className="login-form" onSubmit={handleSubmit}>
@@ -85,4 +94,3 @@ function LoginForm({ onSubmit }) {
 }
 
 export default LoginForm;
-

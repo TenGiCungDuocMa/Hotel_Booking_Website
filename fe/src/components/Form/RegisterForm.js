@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {User, Mail, Lock, Phone} from 'react-feather';
-
+import {toast} from 'react-toastify';
 
 function RegisterForm({onSubmit}) {
     const [fullName, setFullName] = useState('');
@@ -25,7 +25,8 @@ function RegisterForm({onSubmit}) {
         setIsLoading(true);
         try {
             await onSubmit({fullName, phone, email, password});
-            setMessage('Registration successful!');
+            toast("Registration successful!")
+            // setMessage('');
             setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
             setMessage('Registration failed!');
