@@ -19,4 +19,6 @@ public class Booking {
     private String status;
     private LocalDate createdAt;
     private Integer hotelId;
+    private String request;
+    private String madonhang;
 }

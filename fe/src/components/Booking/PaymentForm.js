@@ -273,6 +273,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
             // Đảm bảo luôn lưu lại dữ liệu booking trước khi redirect
             localStorage.setItem('bookingData', JSON.stringify(bookingData));
             localStorage.setItem('roomData', JSON.stringify(roomData));
+            localStorage.setItem('madonhang', description);
             const paymentData = {
                 amount: totalPrice,
                 description: description,
@@ -402,6 +403,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                             }
                             // Save description for all payment methods
                             localStorage.setItem('paymentDescription', description);
+                            localStorage.setItem('madonhang', description);
                             onPaymentConfirm(
                                 selectedMethod + (selectedSubOption ? `-${selectedSubOption}` : "")
                             );

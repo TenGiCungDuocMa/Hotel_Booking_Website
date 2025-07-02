@@ -37,11 +37,11 @@ public class BookingController {
     public ResponseEntity<List<BookingResponse>> getBookings(Authentication authentication) {
         return ResponseEntity.ok(bookingService.getUserBookings(authentication));
     }
-    @DeleteMapping("/{bookingId}")
-    public ResponseEntity<?> cancelBooking(@PathVariable Integer bookingId, Authentication authentication) {
-        bookingService.cancelBooking(bookingId, authentication);
-        return ResponseEntity.ok("Booking cancelled successfully");
-    }
+//    @DeleteMapping("/{bookingId}")
+//    public ResponseEntity<?> cancelBooking(@PathVariable Integer bookingId, Authentication authentication) {
+//        bookingService.cancelBooking(bookingId, authentication);
+//        return ResponseEntity.ok("Booking cancelled successfully");
+//    }
 
     @PutMapping("/{bookingId}")
     public ResponseEntity<BookingResponse> updateBooking(
@@ -86,6 +86,7 @@ public class BookingController {
         String phone = (String) bookingData.get("phone");
         Integer roomId = bookingData.get("roomId") != null ? Integer.parseInt(bookingData.get("roomId").toString()) : null;
         String specialRequests = (String) bookingData.get("specialRequests");
+        String madonhang = (String) bookingData.get("madonhang");
         LocalDate checkInDate = bookingData.get("checkInDate") != null ? LocalDate.parse(bookingData.get("checkInDate").toString()) : null;
         LocalDate checkOutDate = bookingData.get("checkOutDate") != null ? LocalDate.parse(bookingData.get("checkOutDate").toString()) : null;
         // Find or create user
@@ -103,7 +104,9 @@ public class BookingController {
         booking.setRoomId(roomId);
         booking.setCheckInDate(checkInDate);
         booking.setCheckOutDate(checkOutDate);
-        booking.setStatus(specialRequests != null ? specialRequests : "Booked"); // Store specialRequests in status as workaround
+        booking.setStatus("Pending"); // Set default status to Pending
+        booking.setRequest(specialRequests); // Store specialRequests in request field
+        booking.setMadonhang(madonhang); // Store madonhang from payment
         booking.setCreatedAt(LocalDate.now());
         // Set hotelId if needed (fetch from room)
         com.hotel.booking.entity.Booking finalBooking = booking;
@@ -117,6 +120,8 @@ public class BookingController {
         response.setCheckInDate(booking.getCheckInDate());
         response.setCheckOutDate(booking.getCheckOutDate());
         response.setStatus(booking.getStatus());
+        response.setRequest(booking.getRequest());
+        response.setMadonhang(booking.getMadonhang());
         hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
             response.setHotelName(hotel.getName());
             response.setHotelAddress(hotel.getAddress());
@@ -172,6 +177,8 @@ public class BookingController {
                     response.setCheckInDate(booking.getCheckInDate());
                     response.setCheckOutDate(booking.getCheckOutDate());
                     response.setStatus(booking.getStatus());
+                    response.setRequest(booking.getRequest());
+                    response.setMadonhang(booking.getMadonhang());
                     hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
                         response.setHotelName(hotel.getName());
                         response.setHotelAddress(hotel.getAddress());

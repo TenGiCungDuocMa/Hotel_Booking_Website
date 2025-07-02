@@ -39,6 +39,8 @@ public class BookingService {
         dto.setCheckInDate(booking.getCheckInDate());
         dto.setCheckOutDate(booking.getCheckOutDate());
         dto.setStatus(booking.getStatus());
+        dto.setRequest(booking.getRequest());
+        dto.setMadonhang(booking.getMadonhang());
         hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
             dto.setHotelName(hotel.getName());
             dto.setHotelAddress(hotel.getAddress());

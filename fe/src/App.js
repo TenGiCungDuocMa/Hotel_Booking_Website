@@ -20,6 +20,7 @@ import ReviewSpamPage from "./pages/ReviewSpamPage";
 
 
 
+
 function App() {
     return (
         <Routes>
@@ -31,7 +32,8 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
-
+            {/*<Route path="/payment-success" element={<CheckoutMessage />} />*/}
+            {/*<Route path="/payment-cancel" element={<CheckoutMessage />} />*/}
             <Route path="/search" element={<SearchBar />} />
             <Route path="/booking/1" element={<BookingPage />} />
             <Route path="/booking/confirm" element={<ConfirmationPage />} />
@@ -45,6 +47,7 @@ function App() {
 
                 {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
             {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
+
         </Routes>
     );
 }
