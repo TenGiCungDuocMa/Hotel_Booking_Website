@@ -13,6 +13,8 @@ import com.hotel.booking.entity.Room;
 import com.hotel.booking.repository.HotelRepository;
 import com.hotel.booking.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
@@ -35,22 +37,22 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<List<BookingResponse>> getBookings(Authentication authentication) {
-        return ResponseEntity.ok(bookingService.getUserBookings(authentication));
+        return ResponseEntity.ok(bookingService.getBookingHistoryByUserId(authentication));
     }
-//    @DeleteMapping("/{bookingId}")
-//    public ResponseEntity<?> cancelBooking(@PathVariable Integer bookingId, Authentication authentication) {
-//        bookingService.cancelBooking(bookingId, authentication);
-//        return ResponseEntity.ok("Booking cancelled successfully");
-//    }
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<?> cancelBooking(@PathVariable Integer bookingId, Authentication authentication) {
+        bookingService.cancelBooking(bookingId, authentication);
+        return ResponseEntity.ok("Booking cancelled successfully");
+    }
 
-    @PutMapping("/{bookingId}")
-    public ResponseEntity<BookingResponse> updateBooking(
-            @PathVariable Integer bookingId,
-            @RequestBody BookingUpdateRequest request,
-            Authentication authentication
-    ) {
-        return ResponseEntity.ok(bookingService.updateBooking(bookingId, request, authentication));
-    }
+//    @PutMapping("/{bookingId}")
+//    public ResponseEntity<BookingResponse> updateBooking(
+//            @PathVariable Integer bookingId,
+//            @RequestBody BookingUpdateRequest request,
+//            Authentication authentication
+//    ) {
+//        return ResponseEntity.ok(bookingService.updateBooking(bookingId, request, authentication));
+//    }
 
     // 1. Get a specific hotel by id
     @GetMapping("/hotels/{hotelId}")
@@ -87,8 +89,8 @@ public class BookingController {
         Integer roomId = bookingData.get("roomId") != null ? Integer.parseInt(bookingData.get("roomId").toString()) : null;
         String specialRequests = (String) bookingData.get("specialRequests");
         String madonhang = (String) bookingData.get("madonhang");
-        LocalDate checkInDate = bookingData.get("checkInDate") != null ? LocalDate.parse(bookingData.get("checkInDate").toString()) : null;
-        LocalDate checkOutDate = bookingData.get("checkOutDate") != null ? LocalDate.parse(bookingData.get("checkOutDate").toString()) : null;
+        LocalDateTime checkInDate = bookingData.get("checkInDate") != null ? LocalDateTime.parse(bookingData.get("checkInDate").toString()) : null;
+        LocalDateTime checkOutDate = bookingData.get("checkOutDate") != null ? LocalDateTime.parse(bookingData.get("checkOutDate").toString()) : null;
         // Find or create user
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             User newUser = new User();

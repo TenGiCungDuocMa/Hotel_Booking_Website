@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bookings")
@@ -14,8 +15,8 @@ public class Booking {
     private Integer bookingId;
     private Integer userId;
     private Integer roomId;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
     private String status;
     private LocalDate createdAt;
     private Integer hotelId;

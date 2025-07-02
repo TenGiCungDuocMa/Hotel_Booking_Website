@@ -32,27 +32,43 @@ public class ReviewService {
     public ReviewResponse submitReview(Authentication authentication, ReviewRequest request) {
         User user = (User) authentication.getPrincipal();
 
-//        Booking booking = bookingRepository.findByBookingIdAndUserId(request.getBookingId(), user.getUserId())
-//                .orElseThrow(() -> new RuntimeException("Bạn không có quyền đánh giá booking này"));
+        Booking booking = bookingRepository.findById(request.getBookingId())
+                .orElseThrow(() -> new RuntimeException("Booking không tồn tại"));
 
+        // Kiểm tra quyền sở hữu booking
+        if (!booking.getUserId().equals(user.getUserId())) {
+            throw new RuntimeException("Bạn không có quyền đánh giá booking này");
+        }
+
+        // Chỉ cho phép review nếu status là CheckedIn, CheckedOut hoặc Completed
+        String status = booking.getStatus();
+        if (!("CheckedIn".equalsIgnoreCase(status)
+                || "CheckedOut".equalsIgnoreCase(status)
+                || "Completed".equalsIgnoreCase(status))) {
+            throw new RuntimeException("Chỉ có thể đánh giá sau khi nhận/trả phòng");
+        }
+
+        // Kiểm tra đã đánh giá chưa
         if (reviewRepository.findByBookingId(request.getBookingId()).isPresent()) {
             throw new RuntimeException("Booking này đã được đánh giá");
         }
 
+        // Kiểm tra nội dung đánh giá
         if (request.getRating() == null || request.getComment() == null || request.getComment().isBlank()) {
             throw new RuntimeException("Thiếu thông tin đánh giá");
         }
 
+        // Lưu đánh giá
         Review review = new Review();
         review.setUserId(user.getUserId());
         review.setBookingId(request.getBookingId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
-        // TODO: Spam/sentiment xử lý tự động
 
         Review saved = reviewRepository.save(review);
         return mapToDto(saved);
     }
+
 
     /**
      * Lấy tất cả review không bị spam
