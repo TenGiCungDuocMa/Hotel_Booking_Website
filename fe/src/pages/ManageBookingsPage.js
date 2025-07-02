@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getBookings, updateBooking, cancelBooking } from "../services/bookingService";
+import { getBookings, cancelBooking } from "../services/bookingService";
 import BookingItem from "../components/BookingItem";
-
+import {toast} from "react-toastify";
 const ManageBookingsPage = () => {
     const [bookings, setBookings] = useState([]);
     const [message, setMessage] = useState("");
@@ -11,7 +11,7 @@ const ManageBookingsPage = () => {
             const data = await getBookings();
             setBookings(data);
         } catch (error) {
-            console.error("Lỗi khi lấy danh sách booking:", error);
+            console.error("Error fetching bookings:", error);
         }
     };
 
@@ -19,21 +19,8 @@ const ManageBookingsPage = () => {
         fetchBookings();
     }, []);
 
-    const handleUpdate = async (bookingId, updateData) => {
-        try {
-            const updated = await updateBooking(bookingId, updateData);
-            setBookings((prev) =>
-                prev.map((b) => (b.bookingId === bookingId ? updated : b))
-            );
-            setMessage("✅ Cập nhật thành công");
-        } catch (error) {
-            setMessage("❌ Cập nhật thất bại");
-        }
-        setTimeout(() => setMessage(""), 3000);
-    };
-
     const handleCancel = async (bookingId) => {
-        if (!window.confirm("Bạn có chắc muốn huỷ đặt phòng này không?")) return;
+        if (!window.confirm("Are you sure you want to cancel this booking?")) return;
         try {
             await cancelBooking(bookingId);
             setBookings((prev) =>
@@ -41,16 +28,16 @@ const ManageBookingsPage = () => {
                     b.bookingId === bookingId ? { ...b, status: "Canceled" } : b
                 )
             );
-            setMessage("✅ Đã huỷ thành công");
+            toast("✅ Successfully canceled");
         } catch (error) {
-            setMessage("❌ Huỷ thất bại");
+            toast("❌ Cancel failed");
         }
         setTimeout(() => setMessage(""), 3000);
     };
 
     return (
         <div className="container py-5">
-            <h3 className="mb-4 text-center">Quản lý đặt phòng</h3>
+            <h3 className="mb-4 text-center">Booking Management</h3>
 
             {message && (
                 <div
@@ -66,13 +53,15 @@ const ManageBookingsPage = () => {
                 <table className="table table-bordered text-center align-middle">
                     <thead className="table-light">
                     <tr>
-                        <th>Khách sạn</th>
-                        <th>Địa chỉ</th>
-                        <th>Phòng</th>
-                        <th>Nhận phòng</th>
-                        <th>Trả phòng</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
+                        <th>Order ID</th>
+                        <th>Hotel</th>
+                        <th>Address</th>
+                        <th>Room</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Status</th>
+                        <th>Request</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -81,14 +70,13 @@ const ManageBookingsPage = () => {
                             <BookingItem
                                 key={booking.bookingId}
                                 booking={booking}
-                                onUpdate={handleUpdate}
                                 onCancel={handleCancel}
                             />
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" className="text-muted">
-                                Không có đặt phòng nào.
+                            <td colSpan="9" className="text-muted">
+                                No bookings available.
                             </td>
                         </tr>
                     )}

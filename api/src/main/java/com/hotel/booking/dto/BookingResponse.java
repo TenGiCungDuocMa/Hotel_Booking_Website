@@ -1,14 +1,20 @@
 package com.hotel.booking.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.time.LocalDate;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookingResponse {
     private Integer bookingId;
     private Integer roomId;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private String roomNumber;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
     private String status;
     private String hotelName;
     private String hotelAddress;
@@ -16,5 +22,4 @@ public class BookingResponse {
     private String roomImgs;
     private String request;
     private String madonhang;
-//    private String roomNumber;
 }
