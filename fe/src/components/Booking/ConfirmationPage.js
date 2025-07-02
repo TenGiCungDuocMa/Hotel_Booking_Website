@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './global.scss';
 import axios from "axios";
 const Section = ({ title, icon, children }) => (
@@ -24,6 +24,7 @@ const InfoItem = ({ label, value, icon }) => (
 
 const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId, paymentDescription }) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
     const [description, setDescription] = useState(paymentDescription || '');
     const [showEmailPopup, setShowEmailPopup] = useState(false);
@@ -45,7 +46,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                         bookingData,
                         roomData,
                         paymentMethod,
-                        transactionId: paymentDescription || transactionId || '',
+                        madonhang: paymentDescription || transactionId || '',
                     });
                     console.log('SEND MAIL RESPONSE:', res.data);
                     setShowEmailPopup(true);
@@ -114,7 +115,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
             {description && (
                 <div className="confirmation-page__notice">
                     <div className="notice-content">
-                        <span className="notice-label">Transaction ID:</span>
+                        <span className="notice-label">Mã đơn hàng:</span>
                         <span className="notice-value">{description}</span>
                     </div>
                 </div>
@@ -184,7 +185,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                     value={paymentMethod}
                 />
                 <InfoItem
-                    label="Mã giao dịch"
+                    label="Mã đơn hàng"
                     value={description}
                 />
                 <div className="price-summary">
@@ -221,6 +222,14 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
             <div className="confirmation-page__footer">
                 <div className="support-info">
                     <p>Need help? Contact our 24/7 customer support at <a href="tel:+1800123456">1800 123 456</a></p>
+                </div>
+                <div className="return-home-section">
+                    <button 
+                        className="return-home-btn"
+                        onClick={() => navigate('/')}
+                    >
+                        Return Home
+                    </button>
                 </div>
                 <p className="confirmation-page__copyright">© {new Date().getFullYear()} TravelApp. All rights reserved.</p>
             </div>

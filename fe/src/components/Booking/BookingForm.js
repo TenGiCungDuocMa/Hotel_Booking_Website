@@ -55,7 +55,7 @@ const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) =>
                 roomId,
                 checkInDate,
                 checkOutDate,
-                status: "Booked"
+                madonhang: localStorage.getItem('madonhang') || null
             };
             const res = await axios.post('/api/bookings', bookingPayload);
             if (onBookingSuccess) onBookingSuccess(res.data, bookingPayload);

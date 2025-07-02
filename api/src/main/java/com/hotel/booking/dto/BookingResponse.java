@@ -14,5 +14,7 @@ public class BookingResponse {
     private String hotelAddress;
     private String hotelImgs;
     private String roomImgs;
+    private String request;
+    private String madonhang;
 //    private String roomNumber;
 }

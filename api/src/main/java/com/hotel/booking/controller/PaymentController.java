@@ -87,13 +87,13 @@ public class PaymentController {
             @SuppressWarnings("unchecked")
             Map<String, Object> roomData = (Map<String, Object>) requestBody.get("roomData");
             String paymentMethod = (String) requestBody.get("paymentMethod");
-            String transactionId = (String) requestBody.get("transactionId");
+            String madonhang = (String) requestBody.get("madonhang");
 
             if (bookingData.get("email") == null) {
                 return ResponseEntity.badRequest().body(Map.of("error", "Email người nhận không được cung cấp"));
             }
 
-            String htmlContent = generateEmailContent(bookingData, roomData, paymentMethod, transactionId);
+            String htmlContent = generateEmailContent(bookingData, roomData, paymentMethod, madonhang);
             sendEmail((String) bookingData.get("email"), "Xác nhận đặt phòng - TravelApp", htmlContent);
 
             return ResponseEntity.ok(Map.of("message", "Email sent successfully"));
@@ -104,7 +104,7 @@ public class PaymentController {
         }
     }
 
-    private String generateEmailContent(Map<String, Object> bookingData, Map<String, Object> roomData, String paymentMethod, String transactionId) {
+    private String generateEmailContent(Map<String, Object> bookingData, Map<String, Object> roomData, String paymentMethod, String madonhang) {
         String fullName = (bookingData.get("firstName") != null ? bookingData.get("firstName").toString() : "") + " " + (bookingData.get("lastName") != null ? bookingData.get("lastName").toString() : "");
         String hotelName = roomData.get("hotelName") != null ? roomData.get("hotelName").toString() : "khách sạn";
         String checkInDate = roomData.get("checkInDate") != null ? roomData.get("checkInDate").toString() : "N/A";
@@ -149,7 +149,7 @@ public class PaymentController {
                 vietnameseFormat.format(pricePerNight),
                 vietnameseFormat.format(total),
                 paymentMethod != null ? paymentMethod : "N/A",
-                transactionId != null ? "<li><strong>Mã giao dịch:</strong> " + transactionId + "</li>" : ""
+                madonhang != null ? "<li><strong>Mã đơn hàng:</strong> " + madonhang + "</li>" : ""
         );
     }
 

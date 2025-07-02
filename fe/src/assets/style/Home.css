@@ -74,3 +74,70 @@
     filter: brightness(1.1);
     border-color: rgb(95, 208, 86) !important;
 }
+
+/* Room card styles for home page */
+.room-card-home {
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 280px;
+    min-height: 320px;
+}
+
+.room-card-home:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.room-card-home img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+.room-info {
+    padding: 16px;
+    text-align: left;
+}
+
+.room-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.room-capacity {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+.room-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4fa4e7;
+    margin-bottom: 12px;
+    margin-top: 0;
+}
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.feature-tag {
+    background: #f0f8ff;
+    color: #4fa4e7;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #e1f0ff;
+}
