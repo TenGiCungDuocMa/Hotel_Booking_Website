@@ -74,3 +74,53 @@
     filter: brightness(1.1);
     border-color: rgb(95, 208, 86) !important;
 }
+
+.row_room:hover{
+    cursor: pointer;
+    .square {
+        background-color: #4fa4e7 !important;
+    }
+    .square:hover {
+        background-color: #4fa4e7 !important;
+
+    }
+    .details{
+        background-color: #4fa4e7 !important;
+        color: white !important;
+    }
+    .price_room, .per_night, .star_room{
+        color: white !important;
+    }
+}
+
+.row_room{
+    display: flex;
+    padding:0;
+}
+
+.pie_home:hover {
+    cursor: pointer;
+    background-color: #4fa4e7 !important;
+    color: white !important;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+    filter: brightness(1.1);
+    .pie_price, .pie_des{
+        color: white !important;
+    }
+}
+
+a{
+    text-decoration: none;
+}
+
+.blog_text:hover{
+    color: rgb(241, 144, 91) !important;
+}
+.blog_des:hover{
+    color: rgb(241, 144, 91) !important;
+}
+.ins:hover{
+    cursor: zoom-in;
+}
+

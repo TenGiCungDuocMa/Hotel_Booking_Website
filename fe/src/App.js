@@ -31,8 +31,8 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
-            <Route path="/payment-success" element={<CheckoutMessage />} />
-            <Route path="/payment-cancel" element={<CheckoutMessage />} />
+            {/*<Route path="/payment-success" element={<CheckoutMessage />} />*/}
+            {/*<Route path="/payment-cancel" element={<CheckoutMessage />} />*/}
             <Route path="/search" element={<SearchBar />} />
             <Route path="/booking/1" element={<BookingPage />} />
             <Route path="/booking/confirm" element={<ConfirmationPage />} />
