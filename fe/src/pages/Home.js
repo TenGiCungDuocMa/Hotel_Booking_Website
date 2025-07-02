@@ -1680,8 +1680,7 @@ function Home() {
                     />
                 </div>
             </div>
-            {/*<ReviewPage />*/}
-            {/*<Footer/>*/}
+            <Footer/>
         </div>
     );
 }
