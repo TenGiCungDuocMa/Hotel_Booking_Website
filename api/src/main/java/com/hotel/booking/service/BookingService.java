@@ -25,68 +25,71 @@ public class BookingService {
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
-    public List<BookingResponse> getUserBookings(Authentication authentication) {
+//    public List<BookingResponse> getUserBookings(Authentication authentication) {
+//        User user = (User) authentication.getPrincipal();
+//        Integer userId = user.getUserId();
+//        List<Booking> bookings = bookingRepository.findByUserId(userId);
+//        return bookings.stream().map(this::toDto).collect(Collectors.toList());
+//    }
+    public List<BookingResponse> getBookingHistoryByUserId(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Integer userId = user.getUserId();
-        List<Booking> bookings = bookingRepository.findByUserId(userId);
-        return bookings.stream().map(this::toDto).collect(Collectors.toList());
+        return bookingRepository.findBookingHistoryByUserId(user.getUserId());
     }
-
-    private BookingResponse toDto(Booking booking) {
-        BookingResponse dto = new BookingResponse();
-        dto.setBookingId(booking.getBookingId());
-        dto.setRoomId(booking.getRoomId());
-        dto.setCheckInDate(booking.getCheckInDate());
-        dto.setCheckOutDate(booking.getCheckOutDate());
-        dto.setStatus(booking.getStatus());
-        dto.setRequest(booking.getRequest());
-        dto.setMadonhang(booking.getMadonhang());
-        hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
-            dto.setHotelName(hotel.getName());
-            dto.setHotelAddress(hotel.getAddress());
-        });
-//        roomRepository.findById(booking.getRoomId()).ifPresent(room -> {
-//            dto.setRoomNumber(room.getRoomNumber());
+//    private BookingResponse toDto(Booking booking) {
+//        BookingResponse dto = new BookingResponse();
+//        dto.setBookingId(booking.getBookingId());
+//        dto.setRoomId(booking.getRoomId());
+//        dto.setCheckInDate(booking.getCheckInDate());
+//        dto.setCheckOutDate(booking.getCheckOutDate());
+//        dto.setStatus(booking.getStatus());
+//        dto.setRequest(booking.getRequest());
+//        dto.setMadonhang(booking.getMadonhang());
+//        hotelRepository.findById(booking.getHotelId()).ifPresent(hotel -> {
+//            dto.setHotelName(hotel.getName());
+//            dto.setHotelAddress(hotel.getAddress());
 //        });
-
-        return dto;
-    }
+////        roomRepository.findById(booking.getRoomId()).ifPresent(room -> {
+////            dto.setRoomNumber(room.getRoomNumber());
+////        });
+//
+//        return dto;
+//    }
     public void cancelBooking(Integer bookingId, Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        Booking booking = bookingRepository.findById(bookingId)
+        Booking booking = bookingRepository.findByBookingId(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
 
         // Cập nhật trạng thái về 'Canceled'
         booking.setStatus("Canceled");
         bookingRepository.save(booking);
     }
-    public BookingResponse updateBooking(Integer bookingId, BookingUpdateRequest request, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-
-        // Kiểm tra quyền
-        if (!booking.getUserId().equals(user.getUserId())) {
-            throw new RuntimeException("You are not authorized to update this booking");
-        }
-
-        // Kiểm tra logic ngày
-        if (request.getCheckOutDate().isBefore(request.getCheckInDate())) {
-            throw new RuntimeException("Check-out date must be after check-in date");
-        }
-
-        // Cập nhật thông tin
-        booking.setCheckInDate(request.getCheckInDate());
-        booking.setCheckOutDate(request.getCheckOutDate());
-//        if (request.getStatus() != null) {
-//            booking.setStatus(request.getStatus());
+//    public BookingResponse updateBooking(Integer bookingId, BookingUpdateRequest request, Authentication authentication) {
+//        User user = (User) authentication.getPrincipal();
+//        Booking booking = bookingRepository.findById(bookingId)
+//                .orElseThrow(() -> new RuntimeException("Booking not found"));
+//
+//        // Kiểm tra quyền
+//        if (!booking.getUserId().equals(user.getUserId())) {
+//            throw new RuntimeException("You are not authorized to update this booking");
 //        }
-
-        bookingRepository.save(booking);
-
-        // Convert to DTO để trả về
-        return toDto(booking);
-    }
+//
+//        // Kiểm tra logic ngày
+//        if (request.getCheckOutDate().isBefore(request.getCheckInDate())) {
+//            throw new RuntimeException("Check-out date must be after check-in date");
+//        }
+//
+//        // Cập nhật thông tin
+//        booking.setCheckInDate(request.getCheckInDate());
+//        booking.setCheckOutDate(request.getCheckOutDate());
+////        if (request.getStatus() != null) {
+////            booking.setStatus(request.getStatus());
+////        }
+//
+//        bookingRepository.save(booking);
+//
+//        // Convert to DTO để trả về
+//        return toDto(booking);
+//    }
     public BookingValidationResponse validateBooking(Integer bookingId) {
         BookingValidationResponse response = new BookingValidationResponse();
 
