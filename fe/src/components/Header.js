@@ -90,14 +90,19 @@ function Header() {
                                         About Us
                                     </NavLink>
                                 </div>
-                                <div className="col navi">
-                                    <NavLink to="/blog" style={navLinkStyle}>
-                                        Blog
-                                    </NavLink>
-                                </div>
+                                {/*<div className="col navi">*/}
+                                {/*    <NavLink to="/blog" style={navLinkStyle}>*/}
+                                {/*        Blog*/}
+                                {/*    </NavLink>*/}
+                                {/*</div>*/}
                                 <div className="col navi">
                                     <NavLink to="/contact" style={navLinkStyle}>
                                         Contact
+                                    </NavLink>
+                                </div>
+                                <div className="col navi">
+                                    <NavLink to="/review" style={navLinkStyle}>
+                                        Review
                                     </NavLink>
                                 </div>
 

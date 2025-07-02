@@ -32,8 +32,8 @@ public class ReviewService {
     public ReviewResponse submitReview(Authentication authentication, ReviewRequest request) {
         User user = (User) authentication.getPrincipal();
 
-        Booking booking = bookingRepository.findByBookingIdAndUserId(request.getBookingId(), user.getUserId())
-                .orElseThrow(() -> new RuntimeException("Bạn không có quyền đánh giá booking này"));
+//        Booking booking = bookingRepository.findByBookingIdAndUserId(request.getBookingId(), user.getUserId())
+//                .orElseThrow(() -> new RuntimeException("Bạn không có quyền đánh giá booking này"));
 
         if (reviewRepository.findByBookingId(request.getBookingId()).isPresent()) {
             throw new RuntimeException("Booking này đã được đánh giá");

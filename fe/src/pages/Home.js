@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../assets/style/Home.css';
+import ReviewPage from "./ReviewPage";
 import axios from 'axios';
 import Lightbox from "yet-another-react-lightbox";
 import 'yet-another-react-lightbox/styles.css';
@@ -263,56 +264,6 @@ function Home() {
                             Cozy Rooms
                         </p>
                     </div>
-                </div>
-            </div>
-            <div className="container my-4">
-                <h3><strong>Phòng nổi bật tại khách sạn</strong></h3>
-                <div className="position-relative">
-                    <button
-                        className="scroll-button left"
-                        onClick={() => scroll(-300)}
-                    >
-                        &#8249;
-                    </button>
-
-                    <div className="scroll-container d-flex gap-3" ref={scrollRef}>
-                        {rooms.map((room, idx) => {
-                            let images = [];
-                            if (room.imgs) {
-                                images = room.imgs.split(',').map(url => url.trim()).filter(Boolean);
-                            } else if (room.img) {
-                                images = [room.img];
-                            }
-                            if (!images || images.length === 0) {
-                                images = ['/public/hotel.jpeg']; // Fallback image
-                            }
-                            
-                            return (
-                                <div key={room.roomId || idx} className="card-item room-card-home">
-                                    <img src={images[0]} alt={room.type || room.description || 'Room'} />
-                                    <div className="room-info">
-                                        <p className="room-title"><strong>{room.type || room.description || 'Phòng'}</strong></p>
-                                        <p className="room-capacity">Phòng {room.roomNumber}: {room.capacity} người</p>
-                                        <p className="room-price">{formatVND(room.pricePerNight || room.price)} /đêm</p>
-                                        {room.features && (
-                                            <div className="room-features">
-                                                {room.features.split(',').slice(0, 2).map((feature, index) => (
-                                                    <span key={index} className="feature-tag">{feature.trim()}</span>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    <button
-                        className="scroll-button right"
-                        onClick={() => scroll(300)}
-                    >
-                        &#8250;
-                    </button>
                 </div>
             </div>
             <div className="container"
@@ -1666,6 +1617,7 @@ function Home() {
                     />
                 </div>
             </div>
+<ReviewPage />
             <Footer/>
         </div>
     );

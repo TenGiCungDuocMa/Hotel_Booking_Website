@@ -2,8 +2,8 @@ import React from "react";
 import LoginForm from "../components/Form/LoginForm";
 import { login } from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode'
-
+import { jwtDecode } from 'jwt-decode';
+import {toast} from 'react-toastify';
 const LoginPage = () => {
     const navigate = useNavigate();
 
@@ -17,12 +17,14 @@ const LoginPage = () => {
 
             // 👉 Điều hướng theo vai trò
             if (role === "admin") {
-                navigate("/admin"); // ✅ Giao diện admin
+                // toast("Logging in...")
+                setTimeout(() => navigate('/admin'), 1000);
             } else {
-                navigate("/"); // ✅ Giao diện người dùng thường
+                // toast("Logging in...")
+                setTimeout(() => navigate('/'), 1000);
             }
         } catch (error) {
-            console.error("Đăng nhập thất bại", error);
+            // toast("Invalid email or password!");
             throw error;
         }
     };

@@ -1,4 +1,7 @@
 import axiosClient from "./axiosClient";
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:8888";
 
 // Gửi review mới
 export const submitReview = async (data) => {
@@ -9,6 +12,8 @@ export const submitReview = async (data) => {
 export const getAllReviews = async () => {
     return axiosClient.get("/api/reviews");
 };
+export const checkBookingValid = (bookingId) =>
+    axios.get(`${API_BASE_URL}/api/bookings/validate/${bookingId}`);
 
 // ✅ Lấy danh sách review bị đánh dấu spam
 export const getSpamReviews = async () => {

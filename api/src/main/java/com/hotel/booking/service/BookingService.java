@@ -2,14 +2,12 @@ package com.hotel.booking.service;
 
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.dto.BookingUpdateRequest;
+import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.entity.Booking;
 import com.hotel.booking.entity.Room;
 import com.hotel.booking.entity.Hotel;
 import com.hotel.booking.entity.User;
-import com.hotel.booking.repository.BookingRepository;
-import com.hotel.booking.repository.RoomRepository;
-import com.hotel.booking.repository.HotelRepository;
-import com.hotel.booking.repository.UserRepository;
+import com.hotel.booking.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class BookingService {
     private final RoomRepository roomRepository;
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
-
+    private final ReviewRepository reviewRepository;
     public List<BookingResponse> getUserBookings(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Integer userId = user.getUserId();
@@ -88,6 +86,24 @@ public class BookingService {
 
         // Convert to DTO để trả về
         return toDto(booking);
+    }
+    public BookingValidationResponse validateBooking(Integer bookingId) {
+        BookingValidationResponse response = new BookingValidationResponse();
+
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+
+        if (optionalBooking.isEmpty()) {
+            response.setExists(false);
+            return response;
+        }
+
+        Booking booking = optionalBooking.get();
+
+        response.setExists(true);
+        response.setStatus(booking.getStatus());
+        response.setReviewed(reviewRepository.existsByBookingId(bookingId));
+
+        return response;
     }
 
     public Booking saveBooking(Booking booking) {
