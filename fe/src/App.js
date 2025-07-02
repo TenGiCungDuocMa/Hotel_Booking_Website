@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
 import SearchBar from "./components/Form/SearchBar";
+import Profile from "./components/Form/Profile";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/payment-success" element={<CheckoutMessage />} />
             <Route path="/payment-cancel" element={<CheckoutMessage />} />
             <Route path="/search" element={<SearchBar />} />
+            <Route path="/pro" element={<Profile />} />
         </Routes>
     );
 }
