@@ -53,7 +53,7 @@ class BERTMultilingualPipeline:
             with torch.no_grad():
                 senti_outputs = self.models[lang]['sentiment'](**inputs)
             senti_probs = torch.nn.functional.softmax(senti_outputs.logits, dim=1).squeeze()
-            sentiment = "POSITIVE" if torch.argmax(senti_probs).item() == 1 else "NEGATIVE"
+            sentiment = "positive" if torch.argmax(senti_probs).item() == 1 else "negative"
             senti_conf = float(torch.max(senti_probs))
             result.update({
                 "sentiment": sentiment,

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { submitReview, checkBookingValid } from "../../services/reviewService";
+import React, {useState} from "react";
+import {submitReview, checkBookingValid} from "../../services/reviewService";
 
-const ReviewForm = ({ onSubmitted }) => {
+const ReviewForm = ({onSubmitted}) => {
     const [bookingId, setBookingId] = useState("");
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState("");
@@ -18,8 +18,7 @@ const ReviewForm = ({ onSubmitted }) => {
 
         try {
             const res = await checkBookingValid(parseInt(bookingId)); // API kiểm tra booking
-            const { exists, status, reviewed } = res.data;
-
+            const {exists, status, reviewed} = res.data;
             if (!exists) {
                 setMessage("❌ Booking ID does not exist.");
             } else if (status !== "booked") {
@@ -39,7 +38,7 @@ const ReviewForm = ({ onSubmitted }) => {
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         try {
-            await submitReview({ bookingId: parseInt(bookingId), rating, comment });
+            await submitReview({bookingId: parseInt(bookingId), rating, comment});
             setMessage("✅ Review submitted successfully!");
             setBookingId("");
             setRating(5);
