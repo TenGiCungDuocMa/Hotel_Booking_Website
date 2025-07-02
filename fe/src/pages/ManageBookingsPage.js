@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getBookings, cancelBooking } from "../services/bookingService";
 import BookingItem from "../components/BookingItem";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+
 const ManageBookingsPage = () => {
     const [bookings, setBookings] = useState([]);
-    const [message, setMessage] = useState("");
 
     const fetchBookings = async () => {
         try {
@@ -12,6 +12,7 @@ const ManageBookingsPage = () => {
             setBookings(data);
         } catch (error) {
             console.error("Error fetching bookings:", error);
+            toast.error("❌ Failed to load bookings");
         }
     };
 
@@ -28,30 +29,46 @@ const ManageBookingsPage = () => {
                     b.bookingId === bookingId ? { ...b, status: "Canceled" } : b
                 )
             );
-            toast("✅ Successfully canceled");
+            toast.success("✅ Successfully canceled");
         } catch (error) {
-            toast("❌ Cancel failed");
+            toast.error("❌ Cancel failed");
         }
-        setTimeout(() => setMessage(""), 3000);
     };
 
     return (
         <div className="container py-5">
-            <h3 className="mb-4 text-center">Booking Management</h3>
+            <h2
+                style={{
+                    textAlign: "center",
+                    fontSize: "2.2rem",
+                    fontWeight: "700",
+                    color: "#1f3c88",
+                    marginBottom: "1.5rem",
+                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                    letterSpacing: "0.5px",
+                    position: "relative",
+                    paddingBottom: "0.5rem"
+                }}
+            >
+                <i className="bi bi-calendar-check-fill me-2"></i>
+                Manage Your Hotel Bookings
+                <span
+                    style={{
+                        content: "''",
+                        width: "80px",
+                        height: "4px",
+                        backgroundColor: "#fca311",
+                        display: "block",
+                        margin: "0.5rem auto 0",
+                        borderRadius: "10px"
+                    }}
+                ></span>
+            </h2>
 
-            {message && (
-                <div
-                    className={`alert ${
-                        message.includes("✅") ? "alert-success" : "alert-danger"
-                    }`}
-                >
-                    {message}
-                </div>
-            )}
 
-            <div className="table-responsive">
-                <table className="table table-bordered text-center align-middle">
-                    <thead className="table-light">
+            <div className="table-responsive shadow rounded-3 border">
+                <table className="table table-hover table-bordered text-center align-middle mb-0">
+                    <thead className="table-primary">
                     <tr>
                         <th>Order ID</th>
                         <th>Hotel</th>
@@ -75,7 +92,7 @@ const ManageBookingsPage = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="9" className="text-muted">
+                            <td colSpan="9" className="text-muted py-4">
                                 No bookings available.
                             </td>
                         </tr>
