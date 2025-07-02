@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Card, Alert } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, Lock } from 'react-feather';
 
-const LoginForm = ({ onSubmit }) => {
-    const [formData, setFormData] = useState({ email: "", password: "" });
-    const [message, setMessage] = useState("");
+function LoginForm({ onSubmit }) {
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -11,53 +13,76 @@ const LoginForm = ({ onSubmit }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             await onSubmit(formData);
-            setMessage("Đăng nhập thành công!");
+            setMessage('Logged in!');
         } catch (err) {
-            setMessage("Sai tài khoản hoặc mật khẩu!");
+            setMessage('Invalid email or password!');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <Container className="d-flex justify-content-center mt-5">
-            <Card style={{ width: "100%", maxWidth: "400px" }} className="p-4 shadow-sm">
-                <h3 className="text-center mb-4">Đăng nhập</h3>
+        <div className="login-wrapper">
+            <div className="login-container">
+                <div className="login-header">
+                    <h2>LOGIN</h2>
+                    <p>
+                        Or{' '}
+                        <Link to="/register" className="link">
+                            create a new account
+                        </Link>
+                    </p>
+                    {message && <div className="form-message">{message}</div>}
+                </div>
 
-                {message && <Alert variant="info">{message}</Alert>}
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email address</label>
+                        <div className="input-wrapper">
+                            <Mail className="icon" />
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                placeholder="Enter your email"
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
 
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            name="email"
-                            placeholder="Nhập email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <div className="input-wrapper">
+                            <Lock className="icon" />
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                placeholder="Enter your password"
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
 
-                    <Form.Group className="mb-4">
-                        <Form.Label>Mật khẩu</Form.Label>
-                        <Form.Control
-                            type="password"
-                            name="password"
-                            placeholder="Nhập mật khẩu"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-
-                    <Button type="submit" variant="primary" className="w-100">
-                        Đăng nhập
-                    </Button>
-                </Form>
-            </Card>
-        </Container>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className={`submit-button ${isLoading ? 'loading' : ''}`}
+                    >
+                        {isLoading ? 'Logging in...' : 'Log in'}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
-};
+}
 
 export default LoginForm;
+

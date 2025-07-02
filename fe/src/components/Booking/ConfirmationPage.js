@@ -1,6 +1,6 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
-import '../assets/style/global.scss';
+import './global.scss';
 import axios from "axios";
 const Section = ({ title, icon, children }) => (
     <div className="section">
@@ -22,46 +22,75 @@ const InfoItem = ({ label, value, icon }) => (
     </div>
 );
 
-const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
+const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId, paymentDescription }) => {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
-    const transactionId = query.get('transactionId');
+    const [description, setDescription] = useState(paymentDescription || '');
     const [showEmailPopup, setShowEmailPopup] = useState(false);
 
     useEffect(() => {
+        // Debug log
+        console.log('SEND MAIL DEBUG:', {
+            bookingData,
+            roomData,
+            paymentMethod,
+            transactionId,
+            paymentDescription
+        });
+
         if (bookingData?.email) {
             const sendEmail = async () => {
                 try {
-                    await axios.post("http://localhost:3030/api/send-confirmation-email", {
+                    const res = await axios.post("http://localhost:8888/api/send-confirmation-email", {
                         bookingData,
                         roomData,
                         paymentMethod,
-                        transactionId,
+                        transactionId: paymentDescription || transactionId || '',
                     });
-                    setShowEmailPopup(true); // Show popup
-                    setTimeout(() => setShowEmailPopup(false), 10000); // Hide after 10s
+                    console.log('SEND MAIL RESPONSE:', res.data);
+                    setShowEmailPopup(true);
+                    setTimeout(() => setShowEmailPopup(false), 10000);
                 } catch (err) {
                     console.error("Lỗi gửi mail:", err);
                 }
             };
             sendEmail();
         }
-    }, []);
+        setDescription(paymentDescription || localStorage.getItem('paymentDescription') || '');
+    }, [bookingData, roomData, paymentMethod, transactionId, paymentDescription]);
 
     // Format price
     const formatPrice = (price) => {
         if (!price) return 'N/A';
-        const number = parseInt(price.replace(/[^0-9]/g, '')) || 0;
+        let number;
+        if (typeof price === 'string') {
+            number = parseInt(price.replace(/[^0-9]/g, '')) || 0;
+        } else {
+            number = parseInt(price) || 0;
+        }
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+    };
+
+    // Parse price properly
+    const parsePrice = (priceString) => {
+        if (!priceString) return 0;
+        const cleanPrice = priceString.toString().replace(/[^\d.]/g, '');
+        return parseFloat(cleanPrice) || 0;
     };
 
     // Calculate total price
     const calculateTotal = () => {
         if (!roomData?.price || !roomData?.checkInDate || !roomData?.checkOutDate) return 0;
-        const pricePerNight = parseInt(roomData.price.replace(/[^0-9]/g, '')) || 0;
+        const parsePrice = (priceString) => {
+            if (!priceString) return 0;
+            const cleanPrice = priceString.toString().replace(/[^\d.]/g, '');
+            return parseFloat(cleanPrice) || 0;
+        };
+        const pricePerNight = parsePrice(roomData.price);
         const diffTime = Math.abs(new Date(roomData.checkOutDate) - new Date(roomData.checkInDate));
         const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return pricePerNight * nights;
+        const subtotal = pricePerNight * nights;
+        return subtotal * 0.9; // 10% discount
     };
 
     const totalPrice = calculateTotal();
@@ -82,11 +111,11 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
                 </p>
             </div>
 
-            {transactionId && (
+            {description && (
                 <div className="confirmation-page__notice">
                     <div className="notice-content">
                         <span className="notice-label">Transaction ID:</span>
-                        <span className="notice-value">{transactionId}</span>
+                        <span className="notice-value">{description}</span>
                     </div>
                 </div>
             )}
@@ -154,17 +183,34 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod }) => {
                     label="Payment Method"
                     value={paymentMethod}
                 />
+                <InfoItem
+                    label="Mã giao dịch"
+                    value={description}
+                />
                 <div className="price-summary">
                     <div className="price-row">
-                        <span>Room Price ({roomData?.checkInDate} - {roomData?.checkOutDate})</span>
-                        <span>{formatPrice(roomData?.price)} × {Math.ceil(
+                        <span>Price per night</span>
+                        <span>{formatPrice(parsePrice(roomData?.price))}</span>
+                    </div>
+                    <div className="price-row">
+                        <span>Number of nights</span>
+                        <span>{Math.ceil(
                             (new Date(roomData?.checkOutDate) - new Date(roomData?.checkInDate)) /
                             (1000 * 60 * 60 * 24)
                         )} nights</span>
                     </div>
-                    <div className="price-row total">
-                        <span>Total Amount</span>
-                        <span>{formatPrice(totalPrice.toString())}</span>
+                    <div className="price-row">
+                        <span>Subtotal</span>
+                        <span>{formatPrice(parsePrice(roomData?.price) * Math.ceil(
+                            (new Date(roomData?.checkOutDate) - new Date(roomData?.checkInDate)) /
+                            (1000 * 60 * 60 * 24)
+                        ))}</span>
+                    </div>
+                    <div className="total-price">
+                        <span className="discounted">{formatPrice(parsePrice(roomData?.price) * Math.ceil(
+                            (new Date(roomData?.checkOutDate) - new Date(roomData?.checkInDate)) /
+                            (1000 * 60 * 60 * 24)
+                        ))}</span>
                     </div>
                 </div>
                 <p className="payment-note">

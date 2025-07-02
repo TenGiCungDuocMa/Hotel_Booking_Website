@@ -80,7 +80,7 @@ function Header() {
                                     </NavLink>
                                 </div>
                                 <div className="col-3 navi">
-                                    <NavLink to="/booking" style={navLinkStyle}>
+                                    <NavLink to="/booking/1" style={navLinkStyle}>
                                         Our Rooms
                                     </NavLink>
                                 </div>
