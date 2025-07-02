@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,6 @@ public class BookingService {
     public List<BookingResponse> getUserBookings(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Integer userId = user.getUserId();
-
         List<Booking> bookings = bookingRepository.findByUserId(userId);
         return bookings.stream().map(this::toDto).collect(Collectors.toList());
     }
@@ -86,5 +86,13 @@ public class BookingService {
 
         // Convert to DTO để trả về
         return toDto(booking);
+    }
+
+    public Booking saveBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    public Optional<Booking> findBookingById(Integer bookingId) {
+        return bookingRepository.findById(bookingId);
     }
 }

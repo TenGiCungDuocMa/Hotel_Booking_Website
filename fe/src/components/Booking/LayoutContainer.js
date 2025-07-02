@@ -1,5 +1,5 @@
 // global SCSS file
-import '../assets/style/global.scss';
+import './global.scss';
 
 // Refactored LayoutContainer.jsx
 import React from 'react';

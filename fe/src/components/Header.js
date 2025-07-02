@@ -35,6 +35,7 @@ function Header() {
                 className={`${change ? 'container-fluid show header-transition' : 'container'} z-3 fixed-top `}
                 style={{
                     backgroundColor: change ? 'white' : 'transparent',
+                    boxShadow: change && "rgb(0 0 0 / 12%) 0px 0px 10px 5px",
                 }}
             >
                 <div className="row">
@@ -80,7 +81,7 @@ function Header() {
                                     </NavLink>
                                 </div>
                                 <div className="col-3 navi">
-                                    <NavLink to="/booking" style={navLinkStyle}>
+                                    <NavLink to="/booking/1" style={navLinkStyle}>
                                         Our Rooms
                                     </NavLink>
                                 </div>

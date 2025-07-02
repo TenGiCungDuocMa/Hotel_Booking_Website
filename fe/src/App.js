@@ -1,7 +1,6 @@
 // App.jsx
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import BookingPage from "./pages/BookingPage";
-import CheckoutMessage from "./components/CheckoutMessage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -11,7 +10,15 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import React from "react";
 import SearchBar from "./components/Form/SearchBar";
-import Profile from "./components/Form/Profile";
+import ReviewPage from "./pages/ReviewPage";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import HotelDetail from "./components/Booking/HotelDetail";
+import PaymentCancelPage from "./pages/PaymentCancelPage";
+import ConfirmationPage from "./components/Booking/ConfirmationPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import ReviewSpamPage from "./pages/ReviewSpamPage";
+
+
 
 
 function App() {
@@ -23,11 +30,24 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/review" element={<ReviewPage />} />
             <Route path="/manager-booking" element={<ManageBookingsPage />} />
             <Route path="/payment-success" element={<CheckoutMessage />} />
             <Route path="/payment-cancel" element={<CheckoutMessage />} />
             <Route path="/search" element={<SearchBar />} />
-            <Route path="/pro" element={<Profile />} />
+            <Route path="/booking/1" element={<BookingPage />} />
+            <Route path="/booking/confirm" element={<ConfirmationPage />} />
+            <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
+            <Route path="/payment-success" element={<PaymentSuccessPage />} />
+            <Route path="/payment-cancel" element={<PaymentCancelPage />} />
+
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/reviews/spam" element={<ReviewSpamPage />} />
+
+
+                {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
+            {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
+
         </Routes>
     );
 }
