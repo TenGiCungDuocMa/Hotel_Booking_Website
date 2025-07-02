@@ -13,8 +13,10 @@ import com.hotel.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +50,30 @@ public class ReviewService {
         review.setBookingId(request.getBookingId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
-        // TODO: Spam/sentiment xử lý tự động
+        Map<String, String> requestBody = Map.of("text", String.valueOf(request.getComment()));
 
+        // TODO: Spam/sentiment xử lý tự động
+        WebClient webClient = WebClient.create("http://localhost:8000");
+
+        Map<String, Object> sentiment = webClient.post()
+                .uri("/analyze")
+                .bodyValue(requestBody)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .block();
+        System.out.println("Sentiment response: " + sentiment);
+        if (sentiment == null || sentiment.isEmpty()) {
+            throw new RuntimeException("Không thể phân tích cảm xúc từ dịch vụ bên ngoài");
+        }
+        if (String.valueOf(sentiment.get("is_spam")).equalsIgnoreCase("True")) {
+            review.setIsSpam(true);
+            review.setSentiment("");
+            review.setConfidenceScore(Float.parseFloat(String.valueOf(sentiment.get("spam_confidence"))));
+        } else {
+            review.setIsSpam(false);
+            review.setSentiment(String.valueOf(sentiment.get("sentiment")));
+            review.setConfidenceScore(Float.parseFloat(String.valueOf(sentiment.get("sentiment_confidence"))));
+        }
         Review saved = reviewRepository.save(review);
         return mapToDto(saved);
     }

@@ -2,15 +2,16 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../assets/style/Home.css';
-import ReviewPage from "./ReviewPage";
+import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import Lightbox from "yet-another-react-lightbox";
 import 'yet-another-react-lightbox/styles.css';
+import api from "../service/api";
 
 const formatVND = (value) => {
-  if (!value) return "0 ₫";
-  let number = typeof value === "string" ? parseInt(value.replace(/[^0-9]/g, "")) : value;
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(number);
+    if (!value) return "0 ₫";
+    let number = typeof value === "string" ? parseInt(value.replace(/[^0-9]/g, "")) : value;
+    return new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(number);
 };
 
 function Home() {
@@ -64,6 +65,47 @@ function Home() {
         {src: '/insta-4.jpg'},
         {src: '/insta-5.jpg'},
     ];
+
+    const [reviews, setReviews] = useState([]);
+    const [index, setIndex] = useState(0);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/reviews', {});
+                setReviews(response);
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const positiveReviews = reviews.filter(
+        (r) => r.sentiment === 'positive'
+    );
+
+    useEffect(() => {
+        if (positiveReviews.length <= 1) return;
+
+        const interval = setInterval(() => {
+            setIndex((prev) => (prev + 1) % positiveReviews.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [positiveReviews.length]);
+
+    if (reviews.length === 0) {
+        return <div>Loading...</div>;
+    }
+
+    if (positiveReviews.length === 0) {
+        return <div>No positive reviews available.</div>;
+    }
+
+    const currentReview = positiveReviews[index] ?? positiveReviews[0];
+
     return (
         <div style={{
             backgroundColor: "#ffffff",
@@ -392,50 +434,71 @@ function Home() {
                             >Happy Customer</h2>
                         </div>
                         <div className="row">
-                            <div className="row">
-                                <p style={{
-                                    color: "#00000057",
-                                    marginBottom: "1.5rem",
-                                }}>Far far away, behind the word mountains, far from the countries Vokalia
-                                    and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-                                    right
-                                    at
-                                    the coast of the Semantics, a large language ocean.</p>
-                            </div>
-                            <div className="row">
-                                <div className="col-2">
-                                    <img src="/person_4.jpg" alt=""
-                                         style={{
-                                             width: "80px",
-                                             height: "80px",
-                                             borderRadius: "50%",
-                                             boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-                                             backgroundSize: "cover",
-                                             backgroundPosition: "center",
-
-                                         }}
-                                    />
-                                </div>
-                                <div className="col">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={index}
+                                    initial={{ x: 300, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    exit={{ x: -300, opacity: 0 }}
+                                    transition={{ duration: 0.6, ease: 'easeInOut' }}
+                                >
                                     <div className="row">
-                                        <h5 style={{
-                                            fontSize: "20px",
-                                            color: "rgb(241, 144, 91)",
-                                            fontWeight: 700,
-                                        }}>John Doe</h5>
+                                        <p
+                                            style={{
+                                                color: '#00000057',
+                                                marginBottom: '1.5rem',
+                                            }}
+                                            className="reviews"
+                                        >
+                                            {currentReview.comment}
+                                        </p>
                                     </div>
                                     <div className="row">
-                                        <p style={{
-                                            fontSize: "14px",
-                                            color: "rgba(0, 0, 0, 0.3)",
-                                            marginBottom: "0.5rem",
-                                            textTransform: "uppercase",
-                                            letterSpacing: "1px",
-                                            fontWeight: 700,
-                                        }}>Businessman</p>
+                                        <div className="col-2">
+                                            <img
+                                                src="/person_4.jpg"
+                                                alt=""
+                                                style={{
+                                                    width: '80px',
+                                                    height: '80px',
+                                                    borderRadius: '50%',
+                                                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="col">
+                                            <div className="row">
+                                                <h5
+                                                    style={{
+                                                        fontSize: '20px',
+                                                        color: 'rgb(241, 144, 91)',
+                                                        fontWeight: 700,
+                                                    }}
+                                                    className="userName"
+                                                >
+                                                    {currentReview.userName}
+                                                </h5>
+                                            </div>
+                                            <div className="row">
+                                                <p
+                                                    style={{
+                                                        fontSize: '14px',
+                                                        color: 'rgba(0, 0, 0, 0.3)',
+                                                        marginBottom: '0.5rem',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '1px',
+                                                        fontWeight: 700,
+                                                    }}
+                                                >
+                                                    Businessman
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </motion.div>
+                            </AnimatePresence>
                         </div>
                     </div>
                 </div>
@@ -1585,9 +1648,9 @@ function Home() {
                 <div className="row">
                     <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
                         <img src="/insta-1.jpg" alt="" style={{
-                        height: "280px",
-                        width: "100%",
-                    }} className="w-96"/>
+                            height: "280px",
+                            width: "100%",
+                        }} className="w-96"/>
                     </div>
 
                     <div className="col ins" style={{padding: 0, margin: 0}} onClick={() => setOpen(true)}>
@@ -1617,8 +1680,8 @@ function Home() {
                     />
                 </div>
             </div>
-<ReviewPage />
-            <Footer/>
+            {/*<ReviewPage />*/}
+            {/*<Footer/>*/}
         </div>
     );
 }
