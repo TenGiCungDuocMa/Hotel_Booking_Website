@@ -20,6 +20,7 @@ import ReviewSpamPage from "./pages/ReviewSpamPage";
 
 
 
+
 function App() {
     return (
         <Routes>
@@ -46,6 +47,7 @@ function App() {
 
                 {/*<Route path="/" element={<Navigate to="/booking/1" replace />} />*/}
             {/*<Route path="*" element={<Navigate to="/booking" replace />} />*/}
+
         </Routes>
     );
 }
