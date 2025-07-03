@@ -23,6 +23,7 @@ public class ProfileService {
         User user = (User) authentication.getPrincipal(); // ✅
         user.setFullName(request.getFullName());
         user.setPhone(request.getPhone());
+        user.setEmail(request.getEmail());
         return toDto(userRepository.save(user));
     }
 
