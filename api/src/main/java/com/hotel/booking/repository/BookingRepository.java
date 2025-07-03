@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByUserId(Integer userId);
+    Optional<Booking> findByMadonhang(String madonhang);
 
     Optional<Booking> findByBookingIdAndUserId(Integer bookingId, Integer userId);
 
