@@ -17,7 +17,7 @@ import PaymentCancelPage from "./pages/PaymentCancelPage";
 import ConfirmationPage from "./components/Booking/ConfirmationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ReviewSpamPage from "./pages/ReviewSpamPage";
-
+import DashBoard from "./pages/DashBoard";
 
 
 
@@ -40,7 +40,6 @@ function App() {
             <Route path="/booking/hotel/:hotelId" element={<HotelDetail />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
             <Route path="/payment-cancel" element={<PaymentCancelPage />} />
-
                 <Route path="/admin" element={<AdminDashboard />} />
                 <Route path="/admin/reviews/spam" element={<ReviewSpamPage />} />
 

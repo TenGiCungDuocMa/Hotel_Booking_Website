@@ -184,7 +184,7 @@ const ProfilePage = () => {
                     </div>
                     {message && (
                         <div
-                            className={`form-message ${message.includes("thành công") ? "success" : "error"}`}
+                            className={`form-message ${message.includes("success") ? "success" : "error"}`}
                         >
                             {message}
                         </div>
