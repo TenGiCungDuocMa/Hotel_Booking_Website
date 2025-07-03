@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReviewSection from "../components/ReviewSection";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const ReviewPage = () => {
     const banners = [
@@ -76,6 +77,7 @@ const ReviewPage = () => {
             <div className="container py-5">
                 <ReviewSection />
             </div>
+            <Footer/>
         </>
     );
 };

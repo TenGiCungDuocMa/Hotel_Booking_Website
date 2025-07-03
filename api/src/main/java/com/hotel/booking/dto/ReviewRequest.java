@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReviewRequest {
-    private Integer bookingId;
+    private String madonhang;
     private Integer rating;
     private String comment;
 }

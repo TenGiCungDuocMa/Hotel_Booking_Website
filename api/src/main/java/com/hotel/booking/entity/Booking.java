@@ -15,8 +15,8 @@ public class Booking {
     private Integer bookingId;
     private Integer userId;
     private Integer roomId;
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     private String status;
     private LocalDate createdAt;
     private Integer hotelId;

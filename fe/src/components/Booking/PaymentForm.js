@@ -260,11 +260,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
 
     const totalPrice = calculateTotalPrice();
 
-    // Generate payment description for all payment methods
-    const random4 = Math.floor(1000 + Math.random() * 9000);
-    const hotelId = roomData?.hotelId || 1;
-    const roomNumber = roomData?.roomNumber || "XXX";
-    const description = `H${hotelId}_P${roomNumber}_N${random4}`;
+    const madonhang = localStorage.getItem('madonhang');
 
     const handlePayOSPayment = async () => {
         if (isLoading) return;
@@ -273,11 +269,11 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
             // Đảm bảo luôn lưu lại dữ liệu booking trước khi redirect
             localStorage.setItem('bookingData', JSON.stringify(bookingData));
             localStorage.setItem('roomData', JSON.stringify(roomData));
-            localStorage.setItem('madonhang', description);
+            localStorage.setItem('madonhang', madonhang);
             const paymentData = {
                 amount: totalPrice,
-                description: description,
-                orderCode: description,
+                description: madonhang,
+                orderCode: madonhang,
                 returnUrl: `${window.location.origin}/payment-success`,
                 cancelUrl: `${window.location.origin}/payment-cancel`,
                 items: [
@@ -290,7 +286,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                 currency: "VND",
             };
             // Save description for PayOS
-            localStorage.setItem('paymentDescription', description);
+            localStorage.setItem('paymentDescription', madonhang);
             const response = await axios.post("http://localhost:8888/api/create-payment-link", paymentData, {
                 headers: { "Content-Type": "application/json" },
             });
@@ -402,8 +398,8 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                 return;
                             }
                             // Save description for all payment methods
-                            localStorage.setItem('paymentDescription', description);
-                            localStorage.setItem('madonhang', description);
+                            localStorage.setItem('paymentDescription', madonhang);
+                            localStorage.setItem('madonhang', madonhang);
                             onPaymentConfirm(
                                 selectedMethod + (selectedSubOption ? `-${selectedSubOption}` : "")
                             );

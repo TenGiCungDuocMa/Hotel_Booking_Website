@@ -9,17 +9,14 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingResponse {
+public class BookingAdminResponse {
     private Integer bookingId;
-    private Integer roomId;
+    private String madonhang;
+    private String fullName;
+    private String email;
     private String roomNumber;
+    private String hotelName;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String status;
-    private String hotelName;
-    private String hotelAddress;
-    private String hotelImgs;
-    private String roomImgs;
-    private String request;
-    private String madonhang;
 }
