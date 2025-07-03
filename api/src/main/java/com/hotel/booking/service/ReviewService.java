@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,47 +29,47 @@ public class ReviewService {
     private final RoomRepository roomRepository;
 
     /**
-     * Gửi đánh giá cho 1 booking
+     * Submit a review for a booking
      */
     public ReviewResponse submitReview(Authentication authentication, ReviewRequest request) {
         User user = (User) authentication.getPrincipal();
 
-        Booking booking = bookingRepository.findById(request.getBookingId())
-                .orElseThrow(() -> new RuntimeException("Booking không tồn tại"));
+        Booking booking = bookingRepository.findByMadonhang(request.getMadonhang())
+                .orElseThrow(() -> new RuntimeException("Booking does not exist"));
 
-        // Kiểm tra quyền sở hữu booking
-        if (!booking.getUserId().equals(user.getUserId())) {
-            throw new RuntimeException("Bạn không có quyền đánh giá booking này");
-        }
+//        // Check booking ownership
+//        if (!booking.getUserId().equals(user.getUserId())) {
+//            throw new RuntimeException("You are not authorized to review this booking");
+//        }
 
-        // Chỉ cho phép review nếu status là CheckedIn, CheckedOut hoặc Completed
+        // Only allow review if status is CheckedIn, CheckedOut, or Completed
         String status = booking.getStatus();
         if (!("CheckedIn".equalsIgnoreCase(status)
                 || "CheckedOut".equalsIgnoreCase(status)
                 || "Completed".equalsIgnoreCase(status))) {
-            throw new RuntimeException("Chỉ có thể đánh giá sau khi nhận/trả phòng");
+            throw new RuntimeException("You can only review after check-in or check-out");
         }
 
-        // Kiểm tra đã đánh giá chưa
-        if (reviewRepository.findByBookingId(request.getBookingId()).isPresent()) {
-            throw new RuntimeException("Booking này đã được đánh giá");
+        // Check if the booking was already reviewed
+        if (reviewRepository.findByBookingId(booking.getBookingId()).isPresent()) {
+            throw new RuntimeException("This booking has already been reviewed");
         }
 
-        // Kiểm tra nội dung đánh giá
+        // Validate review content
         if (request.getRating() == null || request.getComment() == null || request.getComment().isBlank()) {
-            throw new RuntimeException("Thiếu thông tin đánh giá");
+            throw new RuntimeException("Rating and comment are required");
         }
 
-        // Lưu đánh giá
+        // Save the review
         Review review = new Review();
         review.setUserId(user.getUserId());
-        review.setBookingId(request.getBookingId());
+        review.setBookingId(booking.getBookingId());
         review.setRating(request.getRating());
         review.setComment(request.getComment());
 
         Map<String, String> requestBody = Map.of("text", String.valueOf(request.getComment()));
 
-        // TODO: Spam/sentiment xử lý tự động
+        // Call external service for spam/sentiment analysis
         WebClient webClient = WebClient.create("http://localhost:8000");
 
         Map<String, Object> sentiment = webClient.post()
@@ -78,10 +78,13 @@ public class ReviewService {
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();
+
         System.out.println("Sentiment response: " + sentiment);
+
         if (sentiment == null || sentiment.isEmpty()) {
-            throw new RuntimeException("Không thể phân tích cảm xúc từ dịch vụ bên ngoài");
+            throw new RuntimeException("Could not analyze sentiment from external service");
         }
+
         if (String.valueOf(sentiment.get("is_spam")).equalsIgnoreCase("True")) {
             review.setIsSpam(true);
             review.setSentiment("");
@@ -91,13 +94,13 @@ public class ReviewService {
             review.setSentiment(String.valueOf(sentiment.get("sentiment")));
             review.setConfidenceScore(Float.parseFloat(String.valueOf(sentiment.get("sentiment_confidence"))));
         }
+
         Review saved = reviewRepository.save(review);
         return mapToDto(saved);
     }
 
-
     /**
-     * Lấy tất cả review không bị spam
+     * Get all valid reviews (non-spam)
      */
     public List<ReviewResponse> getAllValidReviews() {
         List<Review> reviews = reviewRepository.findAll()
@@ -111,39 +114,42 @@ public class ReviewService {
     }
 
     /**
-     * Lấy tất cả review (admin)
+     * Get all reviews (admin)
      */
     public List<Review> getAllReviews() {
         return reviewRepository.findAll();
     }
 
     /**
-     * Lấy review bị đánh dấu spam (admin)
+     * Get all spam reviews (admin)
      */
     public List<Review> getSpamReviews() {
         return reviewRepository.findByIsSpamTrue();
     }
 
-
     /**
-     * Dành cho trường hợp đơn giản: chỉ bỏ spam (không dùng DTO)
+     * Unmark spam review (admin)
      */
     public void unmarkSpam(Integer id) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy review"));
+                .orElseThrow(() -> new RuntimeException("Review not found"));
 
         review.setIsSpam(false);
         reviewRepository.save(review);
     }
+
+    /**
+     * Delete a review
+     */
     public void deleteReview(Integer id) {
         if (!reviewRepository.existsById(id)) {
-            throw new RuntimeException("Review không tồn tại");
+            throw new RuntimeException("Review does not exist");
         }
         reviewRepository.deleteById(id);
     }
 
     /**
-     * Convert entity → DTO
+     * Convert entity to DTO
      */
     private ReviewResponse mapToDto(Review review) {
         ReviewResponse response = new ReviewResponse();

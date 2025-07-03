@@ -17,10 +17,10 @@ const ReviewForm = ({onSubmitted}) => {
         setMessage("");
 
         try {
-            const res = await checkBookingValid(parseInt(bookingId)); // API kiểm tra booking
+            const res = await checkBookingValid(bookingId); // API kiểm tra booking
             const {exists, status, reviewed} = res.data;
             if (!exists) {
-                setMessage("❌ Booking ID does not exist.");
+                setMessage("❌ Booking Code does not exist.");
             } else if (status !== "Booked") {
                 setMessage("❌ Booking is not in 'booked' status.");
             } else if (reviewed) {
@@ -38,7 +38,7 @@ const ReviewForm = ({onSubmitted}) => {
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         try {
-            await submitReview({bookingId: parseInt(bookingId), rating, comment});
+            await submitReview({bookingId: bookingId, rating, comment});
             setMessage("✅ Review submitted successfully!");
             setBookingId("");
             setRating(5);
@@ -69,14 +69,14 @@ const ReviewForm = ({onSubmitted}) => {
             {!isVerified ? (
                 <form onSubmit={handleBookingCheck}>
                     <div className="mb-3">
-                        <label className="form-label">Booking ID</label>
+                        <label className="form-label">Booking Code</label>
                         <input
-                            type="number"
+                            type="String"
                             className="form-control"
                             required
                             value={bookingId}
                             onChange={(e) => setBookingId(e.target.value)}
-                            placeholder="Enter your Booking ID..."
+                            placeholder="Enter your Booking Code..."
                         />
                     </div>
                     <button type="submit" className="btn btn-primary" disabled={checking}>

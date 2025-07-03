@@ -9,6 +9,7 @@ import com.hotel.booking.entity.Hotel;
 import com.hotel.booking.entity.User;
 import com.hotel.booking.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -134,6 +135,7 @@ public class BookingService {
         booking.setStatus(newStatus);
         bookingRepository.save(booking);
     }
+
     private boolean isValidTransition(String current, String target) {
         return switch (current) {
             case "Pending" -> target.equals("Booked") || target.equals("Canceled");
