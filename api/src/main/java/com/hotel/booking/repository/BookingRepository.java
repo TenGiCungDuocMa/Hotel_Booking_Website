@@ -60,4 +60,23 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     ORDER BY b.checkInDate DESC
 """)
     List<BookingResponse> findBookingHistoryByUserId(Integer userId);
+    @Query("SELECT COUNT(b) FROM Booking b")
+    long countAllBookings();
+
+    @Query(
+            value = """
+    SELECT SUM((b.checkoutdate - b.checkindate) * r.pricepernight)
+    FROM bookings b
+    JOIN rooms r ON b.roomid = r.roomid
+    WHERE b.status = 'Booked'
+    """,
+            nativeQuery = true
+    )
+    Double calculateTotalRevenue();
+
+
+
+
+
+
 }
