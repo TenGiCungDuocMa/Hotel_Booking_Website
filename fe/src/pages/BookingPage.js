@@ -120,7 +120,7 @@ const BookingPage = () => {
                 <LayoutContainer
                     leftComponent={
                         <BookingForm
-                            roomId={selectedRoom?.roomId}
+                            roomData={selectedRoom}
                             checkInDate={selectedDates.checkInDate}
                             checkOutDate={selectedDates.checkOutDate}
                             onBookingSuccess={handleBookingSuccess}

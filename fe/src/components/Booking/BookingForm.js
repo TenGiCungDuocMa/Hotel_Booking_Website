@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './global.scss';
 
-const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) => {
+const BookingForm = ({roomData, checkInDate, checkOutDate, onBookingSuccess }) => {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -15,6 +15,16 @@ const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) =>
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (roomData) {
+            const hotelId = roomData.hotelId;
+            const roomNumber = roomData.roomNumber;
+            const random5 = Math.floor(10000 + Math.random() * 90000);
+            const madonhang = `H${hotelId}_P${roomNumber}_N${random5}`;
+            localStorage.setItem('madonhang', madonhang);
+        }
+    }, [roomData]);
 
     const validateForm = () => {
         let tempErrors = {};
@@ -52,11 +62,12 @@ const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) =>
         try {
             const bookingPayload = {
                 ...formData,
-                roomId,
+                roomId: roomData.roomId,
                 checkInDate,
                 checkOutDate,
                 madonhang: localStorage.getItem('madonhang') || null
             };
+            console.log(bookingPayload);
             const res = await axios.post('/api/bookings', bookingPayload);
             if (onBookingSuccess) onBookingSuccess(res.data, bookingPayload);
             alert('Booking details submitted successfully!');
@@ -176,7 +187,7 @@ const BookingForm = ({ roomId, checkInDate, checkOutDate, onBookingSuccess }) =>
                             />
                             <label htmlFor="policy-agreement">
                                 I agree to the hotel's cancellation policy and terms of service.
-                                <a href="#" className="policy-link">View policy</a>
+                                <a href="/policy" className="policy-link" target="_blank" rel="noopener noreferrer">View policy</a>
                             </label>
                         </div>
                         <div className="checkbox-group">

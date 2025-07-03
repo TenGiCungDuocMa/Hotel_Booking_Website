@@ -1,5 +1,5 @@
 import React from 'react';
-import "../assets/style/Footer.css";
+// import "../assets/style/Footer.css";
 import HotelMap from "./HotelMap";
 
 const Footer = () => {

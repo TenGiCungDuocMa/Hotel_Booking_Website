@@ -91,10 +91,12 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
         const diffTime = Math.abs(new Date(roomData.checkOutDate) - new Date(roomData.checkInDate));
         const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         const subtotal = pricePerNight * nights;
-        return subtotal * 0.9; // 10% discount
+        return subtotal;
     };
 
     const totalPrice = calculateTotal();
+
+    const madonhang = localStorage.getItem('madonhang');
 
     return (
         <div className="confirmation-page">
@@ -116,7 +118,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                 <div className="confirmation-page__notice">
                     <div className="notice-content">
                         <span className="notice-label">Mã đơn hàng:</span>
-                        <span className="notice-value">{description}</span>
+                        <span className="notice-value">{madonhang}</span>
                     </div>
                 </div>
             )}
@@ -186,7 +188,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                 />
                 <InfoItem
                     label="Mã đơn hàng"
-                    value={description}
+                    value={madonhang}
                 />
                 <div className="price-summary">
                     <div className="price-row">
@@ -202,16 +204,11 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                     </div>
                     <div className="price-row">
                         <span>Subtotal</span>
-                        <span>{formatPrice(parsePrice(roomData?.price) * Math.ceil(
-                            (new Date(roomData?.checkOutDate) - new Date(roomData?.checkInDate)) /
-                            (1000 * 60 * 60 * 24)
-                        ))}</span>
+                        <span>{totalPrice}</span>
                     </div>
-                    <div className="total-price">
-                        <span className="discounted">{formatPrice(parsePrice(roomData?.price) * Math.ceil(
-                            (new Date(roomData?.checkOutDate) - new Date(roomData?.checkInDate)) /
-                            (1000 * 60 * 60 * 24)
-                        ))}</span>
+                    <div className="price-row">
+                        <h3>Total: </h3>
+                        <h3 className="discounted">{totalPrice}</h3>
                     </div>
                 </div>
                 <p className="payment-note">

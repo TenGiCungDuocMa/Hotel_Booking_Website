@@ -14,7 +14,6 @@ import com.hotel.booking.repository.HotelRepository;
 import com.hotel.booking.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
@@ -89,8 +88,8 @@ public class BookingController {
         Integer roomId = bookingData.get("roomId") != null ? Integer.parseInt(bookingData.get("roomId").toString()) : null;
         String specialRequests = (String) bookingData.get("specialRequests");
         String madonhang = (String) bookingData.get("madonhang");
-        LocalDateTime checkInDate = bookingData.get("checkInDate") != null ? LocalDateTime.parse(bookingData.get("checkInDate").toString()) : null;
-        LocalDateTime checkOutDate = bookingData.get("checkOutDate") != null ? LocalDateTime.parse(bookingData.get("checkOutDate").toString()) : null;
+        LocalDate checkInDate = bookingData.get("checkInDate") != null ? LocalDate.parse(bookingData.get("checkInDate").toString()) : null;
+        LocalDate checkOutDate = bookingData.get("checkOutDate") != null ? LocalDate.parse(bookingData.get("checkOutDate").toString()) : null;
         // Find or create user
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             User newUser = new User();
