@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import '../assets/style/Home.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import {motion, AnimatePresence} from 'framer-motion';
 import axios from 'axios';
 import Lightbox from "yet-another-react-lightbox";
 import 'yet-another-react-lightbox/styles.css';
@@ -69,22 +69,38 @@ function Home() {
     const [reviews, setReviews] = useState([]);
     const [index, setIndex] = useState(0);
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await api.get('/reviews', {});
-                setReviews(response);
+                if (response && Array.isArray(response.data)) {
+                    setReviews(response.data);
+                } else {
+                    setReviews([
+                        {
+                            comment: "comment",
+                            userName: "userName"
+                        }
+                    ]);
+                }
             } catch (error) {
                 console.error('Error fetching reviews:', error);
+                setReviews([
+                    {
+                        comment: "comment",
+                        userName: "userName"
+                    }
+                ]);
             }
         };
         fetchData();
     }, []);
 
-    const positiveReviews = reviews.filter(
-        (r) => r.sentiment === 'positive'
-    );
+
+    const positiveReviews = Array.isArray(reviews)
+        ? reviews.filter((r) => r.sentiment === 'positive' || r.sentiment === undefined)
+        : [];
+
 
     useEffect(() => {
         if (positiveReviews.length <= 1) return;
@@ -96,7 +112,8 @@ function Home() {
         return () => clearInterval(interval);
     }, [positiveReviews.length]);
 
-    if (reviews.length === 0) {
+
+    if (!Array.isArray(reviews) || reviews.length === 0) {
         return <div>Loading...</div>;
     }
 
@@ -104,7 +121,12 @@ function Home() {
         return <div>No positive reviews available.</div>;
     }
 
-    const currentReview = positiveReviews[index] ?? positiveReviews[0];
+    const currentReview = positiveReviews[index] ?? positiveReviews[0] ?? {
+        comment: "comment",
+        userName: "userName"
+    };
+
+
 
     return (
         <div style={{
@@ -437,10 +459,10 @@ function Home() {
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={index}
-                                    initial={{ x: 300, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    exit={{ x: -300, opacity: 0 }}
-                                    transition={{ duration: 0.6, ease: 'easeInOut' }}
+                                    initial={{x: 300, opacity: 0}}
+                                    animate={{x: 0, opacity: 1}}
+                                    exit={{x: -300, opacity: 0}}
+                                    transition={{duration: 0.6, ease: 'easeInOut'}}
                                 >
                                     <div className="row">
                                         <p

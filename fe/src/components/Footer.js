@@ -7,7 +7,7 @@ const Footer = () => {
     return (
 
         <footer style={{
-            background: 'linear-gradient(rgba(0, 119, 255, 0.5),rgba(0, 119, 255, 0.5)), url("/bg_4.jpg")',
+            background: 'linear-gradient(rgba(0, 119, 255, 0.2),rgba(0, 119, 255, 0.2)), url("/bg_4.jpg")',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
 
@@ -159,7 +159,7 @@ const Footer = () => {
                                     fontSize: '16px',
                                     color: "rgba(255, 255, 255, 0.7)",
                                     marginBottom: "1.5rem"
-                                }}>203 Fake St. Mountain View, San Francisco, California, USA</h6>
+                                }}>phường 7, Quận 11, Hồ Chí Minh</h6>
 
                             </div>
                         </div>

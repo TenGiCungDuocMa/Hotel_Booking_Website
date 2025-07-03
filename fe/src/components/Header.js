@@ -95,11 +95,11 @@ function Header() {
                                 {/*        Blog*/}
                                 {/*    </NavLink>*/}
                                 {/*</div>*/}
-                                <div className="col navi">
-                                    <NavLink to="/contact" style={navLinkStyle}>
-                                        Contact
-                                    </NavLink>
-                                </div>
+                                {/*<div className="col navi">*/}
+                                {/*    <NavLink to="/contact" style={navLinkStyle}>*/}
+                                {/*        Contact*/}
+                                {/*    </NavLink>*/}
+                                {/*</div>*/}
                                 <div className="col navi">
                                     <NavLink to="/review" style={navLinkStyle}>
                                         Review
