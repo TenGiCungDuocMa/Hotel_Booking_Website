@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {NavLink} from 'react-router-dom';
 import "../assets/style/Header.css";
 
 function Header() {
@@ -21,7 +21,7 @@ function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinkStyle = ({ isActive }) => ({
+    const navLinkStyle = ({isActive}) => ({
         color: isActive ? '#c4784f' : 'inherit',
         textDecoration: 'none',
         backgroundColor: 'unset',
@@ -62,8 +62,8 @@ function Header() {
                                 }}
                             >
                                 Booking
-                                <p style={{ color: '#f5e4c3' }}>O</p>
-                                <p style={{ color: '#c4784f' }}>T</p>
+                                <p style={{color: '#f5e4c3'}}>O</p>
+                                <p style={{color: '#c4784f'}}>T</p>
                             </p>
                         </div>
 
@@ -106,9 +106,14 @@ function Header() {
                                     </NavLink>
                                 </div>
 
-                                <div className="col d-flex align-items-center justify-content-center gap-3">
+                                <div className="col d-flex align-items-center justify-content-center gap-3" style={{paddingTop: '15px'}}>
                                     {isLoggedIn ? (
                                         <>
+                                            <div className="col navi">
+                                                <NavLink to="/manager-booking" style={navLinkStyle} className="profile">
+                                                    Manager Booking
+                                                </NavLink>
+                                            </div>
                                             <div className="col navi">
                                                 <NavLink to="/profile" style={navLinkStyle} className="profile">
                                                     Profile
@@ -116,13 +121,13 @@ function Header() {
                                             </div>
                                             <div className="col navi">
                                                 <NavLink style={navLinkStyle}
-                                                    onClick={() => {
-                                                        localStorage.removeItem("user");
-                                                        localStorage.removeItem("token");
-                                                        setIsLoggedIn(false);
-                                                        window.location.href = "/login";
-                                                    }}
-                                                    className="logout"
+                                                         onClick={() => {
+                                                             localStorage.removeItem("user");
+                                                             localStorage.removeItem("token");
+                                                             setIsLoggedIn(false);
+                                                             window.location.href = "/login";
+                                                         }}
+                                                         className="logout"
                                                 >
                                                     Logout
                                                 </NavLink>
