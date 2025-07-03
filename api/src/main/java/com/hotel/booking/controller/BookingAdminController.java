@@ -1,8 +1,10 @@
 package com.hotel.booking.controller;
 
 import com.hotel.booking.dto.BookingAdminResponse;
+import com.hotel.booking.dto.UpdateBookingStatusRequest;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,14 @@ public class BookingAdminController {
     @GetMapping()
     public ResponseEntity<List<BookingAdminResponse>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+    @PutMapping("/{bookingId}")
+    public ResponseEntity<?> updateBookingStatus(
+            @PathVariable Integer bookingId,
+            @RequestBody UpdateBookingStatusRequest request
+    ) {
+        bookingService.updateBookingStatus(bookingId, request.getStatus());
+        return ResponseEntity.ok("Booking status updated successfully.");
     }
 
 //    @PutMapping("/{id}/approve")
