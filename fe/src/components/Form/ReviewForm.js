@@ -19,15 +19,16 @@ const ReviewForm = ({onSubmitted}) => {
         try {
             const res = await checkBookingValid(parseInt(bookingId)); // API kiểm tra booking
             const {exists, status, reviewed} = res.data;
-            if (!exists) {
-                setMessage("❌ Booking ID does not exist.");
-            } else if (status !== "booked") {
-                setMessage("❌ Booking is not in 'booked' status.");
-            } else if (reviewed) {
-                setMessage("❌ This booking has already been reviewed.");
-            } else {
-                setIsVerified(true); // Hợp lệ → mở form đánh giá
-            }
+            setIsVerified(true);
+            // if (!exists) {
+            //     setMessage("❌ Booking ID does not exist.");
+            // } else if (!status.toLowerCase().equals("booked") ) {
+            //     setMessage("❌ Booking is not in 'booked' status.");
+            // } else if (reviewed) {
+            //     setMessage("❌ This booking has already been reviewed.");
+            // } else {
+            //     setIsVerified(true); // Hợp lệ → mở form đánh giá
+            // }
         } catch (err) {
             setMessage("❌ Error checking booking. Please try again.");
         }

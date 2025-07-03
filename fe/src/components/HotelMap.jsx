@@ -8,7 +8,7 @@ const HotelPage = () => {
 
     useEffect(() => {
         const fetchCoordinates = async () => {
-            const hotelAddress = 'hẻm 39 Lý Thường Kiệt, phường 7, Quận 11, Hồ Chí Minh';
+            const hotelAddress = 'phường 7, Quận 11, Hồ Chí Minh';
             const hotelCoords = await geocodeAddress(hotelAddress);
             setHotelLocation(hotelCoords);
 
