@@ -1,5 +1,6 @@
 package com.hotel.booking.service;
 
+import com.hotel.booking.dto.BookingAdminResponse;
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.dto.BookingUpdateRequest;
 import com.hotel.booking.dto.BookingValidationResponse;
@@ -115,5 +116,9 @@ public class BookingService {
 
     public Optional<Booking> findBookingById(Integer bookingId) {
         return bookingRepository.findById(bookingId);
+    }
+
+    public List<BookingAdminResponse> getAllBookings() {
+            return bookingRepository.findAllBookings();
     }
 }
