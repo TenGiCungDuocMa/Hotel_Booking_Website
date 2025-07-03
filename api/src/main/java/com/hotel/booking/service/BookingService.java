@@ -1,7 +1,7 @@
 package com.hotel.booking.service;
 
+import com.hotel.booking.dto.BookingAdminResponse;
 import com.hotel.booking.dto.BookingResponse;
-import com.hotel.booking.dto.BookingUpdateRequest;
 import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.entity.Booking;
 import com.hotel.booking.entity.Room;
@@ -116,4 +116,33 @@ public class BookingService {
     public Optional<Booking> findBookingById(Integer bookingId) {
         return bookingRepository.findById(bookingId);
     }
+
+    public List<BookingAdminResponse> getAllBookings() {
+            return bookingRepository.findAllBookings();
+    }
+    public void updateBookingStatus(Integer bookingId, String newStatus) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+
+        String currentStatus = booking.getStatus();
+
+        if (!isValidTransition(currentStatus, newStatus)) {
+            throw new IllegalStateException("Invalid status transition from " + currentStatus + " to " + newStatus);
+        }
+
+        booking.setStatus(newStatus);
+        bookingRepository.save(booking);
+    }
+    private boolean isValidTransition(String current, String target) {
+        return switch (current) {
+            case "Pending" -> target.equals("Booked") || target.equals("Canceled");
+            case "Booked" -> target.equals("CheckedIn") || target.equals("Canceled");
+            case "CheckedIn" -> target.equals("CheckedOut");
+            case "CheckedOut" -> target.equals("Completed");
+            case "Canceled", "Completed" -> false;
+            default -> false;
+        };
+    }
+
 }
