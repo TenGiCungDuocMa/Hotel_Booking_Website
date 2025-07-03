@@ -21,7 +21,7 @@ const ReviewForm = ({onSubmitted}) => {
             const {exists, status, reviewed} = res.data;
             if (!exists) {
                 setMessage("❌ Booking ID does not exist.");
-            } else if (status !== "booked") {
+            } else if (status !== "Booked") {
                 setMessage("❌ Booking is not in 'booked' status.");
             } else if (reviewed) {
                 setMessage("❌ This booking has already been reviewed.");

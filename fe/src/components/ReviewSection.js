@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReviewForm from "../components/Form/ReviewForm";
 import { getAllReviews } from "../services/reviewService";
-import { FaSmile, FaFrown, FaMeh, FaStar } from "react-icons/fa"; // Thêm FaStar
+import { FaSmile, FaFrown, FaMeh, FaStar } from "react-icons/fa";
 
 const ReviewSection = () => {
     const [reviews, setReviews] = useState([]);
@@ -13,7 +13,7 @@ const ReviewSection = () => {
             const filtered = res.data.filter((r) => !r.isSpam);
             setReviews(filtered);
         } catch (err) {
-            console.error("Error getting list review:", err);
+            console.error("Error getting review list:", err);
         }
     };
 
@@ -37,7 +37,6 @@ const ReviewSection = () => {
         }
     };
 
-    // Hàm hiển thị số sao
     const renderStars = (count) => {
         return Array.from({ length: count }, (_, i) => (
             <FaStar key={i} className="text-warning me-1" />
@@ -47,9 +46,9 @@ const ReviewSection = () => {
     return (
         <div className="container py-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2 className="text-primary fw-bold">Hotel review</h2>
+                <h2 className="text-primary fw-bold">Hotel Reviews</h2>
                 <button className="btn btn-outline-primary" onClick={handleOpenModal}>
-                    Write a review
+                    Write a Review
                 </button>
             </div>
 
@@ -72,7 +71,7 @@ const ReviewSection = () => {
                                         <div>
                                             <h6 className="mb-0">{r.userName}</h6>
                                             <small className="text-muted">
-                                                Phòng: {r.roomNumber} • {new Date(r.createdAt).toLocaleString()}
+                                                Room: {r.roomNumber} • {new Date(r.createdAt).toLocaleString()}
                                             </small>
                                         </div>
                                     </div>
@@ -85,7 +84,7 @@ const ReviewSection = () => {
                                     <p className="card-text">{r.comment}</p>
 
                                     <div className="text-muted small">
-                                        Sức chứa: {r.capacity}
+                                        Capacity: {r.capacity}
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +99,7 @@ const ReviewSection = () => {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content shadow-lg">
                             <div className="modal-header">
-                                <h5 className="modal-title">Write a review</h5>
+                                <h5 className="modal-title">Write a Review</h5>
                                 <button type="button" className="btn-close" onClick={handleCloseModal}></button>
                             </div>
                             <div className="modal-body">
