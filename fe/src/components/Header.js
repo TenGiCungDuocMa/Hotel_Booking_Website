@@ -106,7 +106,7 @@ function Header() {
                                     </NavLink>
                                 </div>
 
-                                <div className="col d-flex align-items-center justify-content-center gap-3" style={{paddingTop: '15px'}}>
+                                <div className="col d-flex align-items-center justify-content-center gap-3" >
                                     {isLoggedIn ? (
                                         <>
                                             <div className="col navi">

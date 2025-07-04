@@ -1,9 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { getBookings, cancelBooking } from "../services/bookingService";
+import React, {useEffect, useState} from "react";
+import {getBookings, cancelBooking} from "../services/bookingService";
 import BookingItem from "../components/BookingItem";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const ManageBookingsPage = () => {
+    const banners = [
+        "/bg_1.jpg", "/bg_2.jpg", "/bg_4.jpg"
+    ];
+    const titles1 = [
+        "More than a hotel... an experience",
+        "Where luxury meets comfort",
+        "Unwind in style and elegance"
+    ];
+    const titles2 = [
+        "Discover the perfect blend of luxury and comfort",
+        "Experience the ultimate in hospitality",
+        "Your dream vacation starts here"
+    ];
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [bookings, setBookings] = useState([]);
 
     const fetchBookings = async () => {
@@ -26,7 +42,7 @@ const ManageBookingsPage = () => {
             await cancelBooking(bookingId);
             setBookings((prev) =>
                 prev.map((b) =>
-                    b.bookingId === bookingId ? { ...b, status: "Canceled" } : b
+                    b.bookingId === bookingId ? {...b, status: "Canceled"} : b
                 )
             );
             toast.success("✅ Successfully canceled");
@@ -36,70 +52,126 @@ const ManageBookingsPage = () => {
     };
 
     return (
-        <div className="container py-5">
-            <h2
-                style={{
-                    textAlign: "center",
-                    fontSize: "2.2rem",
-                    fontWeight: "700",
-                    color: "#1f3c88",
-                    marginBottom: "1.5rem",
-                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-                    letterSpacing: "0.5px",
-                    position: "relative",
-                    paddingBottom: "0.5rem"
-                }}
-            >
-                <i className="bi bi-calendar-check-fill me-2"></i>
-                Manage Your Hotel Bookings
-                <span
+        <div className="account-wrapper">
+            <Header/>
+            <div className="banner" style={{position: "relative", textAlign: "center"}}>
+                <img
                     style={{
-                        content: "''",
-                        width: "80px",
-                        height: "4px",
-                        backgroundColor: "#fca311",
-                        display: "block",
-                        margin: "0.5rem auto 0",
-                        borderRadius: "10px"
+                        maxWidth: "100%",
+                        filter: "brightness(55%)",
+                        height: "auto"
                     }}
-                ></span>
-            </h2>
-
-
-            <div className="table-responsive shadow rounded-3 border">
-                <table className="table table-hover table-bordered text-center align-middle mb-0">
-                    <thead className="table-primary">
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Hotel</th>
-                        <th>Address</th>
-                        <th>Room</th>
-                        <th>Check-in</th>
-                        <th>Check-out</th>
-                        <th>Status</th>
-                        <th>Request</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {bookings.length > 0 ? (
-                        bookings.map((booking) => (
-                            <BookingItem
-                                key={booking.bookingId}
-                                booking={booking}
-                                onCancel={handleCancel}
-                            />
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="9" className="text-muted py-4">
-                                No bookings available.
-                            </td>
-                        </tr>
-                    )}
-                    </tbody>
-                </table>
+                    src={banners[currentIndex]}
+                    alt="BookingOT"
+                />
+                <div
+                    className="banner-text"
+                    style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "35%",
+                        transform: "translateX(-50%)",
+                        textAlign: "center"
+                    }}
+                >
+                    <h1
+                        style={{
+                            color: "#f1905b",
+                            fontSize: "16px",
+                            textTransform: "uppercase",
+                            letterSpacing: "2px",
+                            fontWeight: 700
+                        }}
+                    >
+                        {titles1[currentIndex]}
+                    </h1>
+                    <h2
+                        style={{
+                            color: "white",
+                            fontSize: "6vw",
+                            fontWeight: 700,
+                            lineHeight: 1
+                        }}
+                    >
+                        {titles2[currentIndex]}
+                    </h2>
+                </div>
             </div>
+            <div className="container py-5">
+                <h2
+                    style={{
+                        textAlign: "center",
+                        fontSize: "2.2rem",
+                        fontWeight: "700",
+                        color: "#1f3c88",
+                        marginBottom: "1.5rem",
+                        textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+                        letterSpacing: "0.5px",
+                        position: "relative",
+                        paddingBottom: "0.5rem"
+                    }}
+                >
+                    <i className="bi bi-calendar-check-fill me-2"></i>
+                    <div className="account-box-header position-relative text-center">
+                        <button
+                            onClick={() => window.history.back()}
+                            className="btn-back position-absolute"
+                            style={{left: '0', top: '50%', transform: 'translateY(-50%)'}}
+                        >
+                            ←
+                        </button>
+                        <div className="header-title">Manage Your Bookings</div>
+                    </div>
+                    <span
+                        style={{
+                            content: "''",
+                            width: "80px",
+                            height: "4px",
+                            backgroundColor: "#fca311",
+                            display: "block",
+                            margin: "0.5rem auto 0",
+                            borderRadius: "10px"
+                        }}
+                    ></span>
+                </h2>
+
+
+                <div className="table-responsive shadow rounded-3 border">
+                    <table className="table table-hover table-bordered text-center align-middle mb-0">
+                        <thead className="table-primary">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Hotel</th>
+                            <th>Address</th>
+                            <th>Room</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>Status</th>
+                            <th>Request</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {bookings.length > 0 ? (
+                            bookings.map((booking) => (
+                                <BookingItem
+                                    key={booking.bookingId}
+                                    booking={booking}
+                                    onCancel={handleCancel}
+                                />
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="9" className="text-muted py-4">
+                                    No bookings available.
+                                </td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <Footer/>
         </div>
     );
 };
