@@ -22,12 +22,13 @@ const InfoItem = ({ label, value, icon }) => (
     </div>
 );
 
-const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId, paymentDescription }) => {
+const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const query = new URLSearchParams(location.search);
-    const [description, setDescription] = useState(paymentDescription || '');
     const [showEmailPopup, setShowEmailPopup] = useState(false);
+
+    const madonhang = localStorage.getItem('madonhang');
 
     useEffect(() => {
         // Debug log
@@ -36,7 +37,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
             roomData,
             paymentMethod,
             transactionId,
-            paymentDescription
+            madonhang
         });
 
         if (bookingData?.email) {
@@ -46,7 +47,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                         bookingData,
                         roomData,
                         paymentMethod,
-                        madonhang: paymentDescription || transactionId || '',
+                        madonhang,
                     });
                     console.log('SEND MAIL RESPONSE:', res.data);
                     setShowEmailPopup(true);
@@ -57,19 +58,18 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
             };
             sendEmail();
         }
-        setDescription(paymentDescription || localStorage.getItem('paymentDescription') || '');
-    }, [bookingData, roomData, paymentMethod, transactionId, paymentDescription]);
+    }, [bookingData, roomData, paymentMethod, transactionId, madonhang]);
 
     // Format price
     const formatPrice = (price) => {
-        if (!price) return 'N/A';
+        if (!price) return '0 ₫';
         let number;
         if (typeof price === 'string') {
             number = parseInt(price.replace(/[^0-9]/g, '')) || 0;
         } else {
             number = parseInt(price) || 0;
         }
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(number);
     };
 
     // Parse price properly
@@ -96,13 +96,11 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
 
     const totalPrice = calculateTotal();
 
-    const madonhang = localStorage.getItem('madonhang');
-
     return (
         <div className="confirmation-page">
             {showEmailPopup && (
                 <div className="email-popup">
-                    📧 Email xác nhận đã được gửi tới <strong>{bookingData?.email}</strong>
+                    📧 Email confirmation has been sent to <strong>{bookingData?.email}</strong>
                 </div>
             )}
             <div className="confirmation-page__header">
@@ -114,10 +112,10 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                 </p>
             </div>
 
-            {description && (
+            {madonhang && (
                 <div className="confirmation-page__notice">
                     <div className="notice-content">
-                        <span className="notice-label">Mã đơn hàng:</span>
+                        <span className="notice-label">Order Code:</span>
                         <span className="notice-value">{madonhang}</span>
                     </div>
                 </div>
@@ -166,7 +164,7 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                     />
                     <InfoItem
                         label="Price per night"
-                        value={formatPrice(roomData?.price)}
+                        value={formatPrice(parsePrice(roomData?.price))}
                     />
                 </Section>
             </div>
@@ -204,11 +202,11 @@ const ConfirmationPage = ({ bookingData, roomData, paymentMethod, transactionId,
                     </div>
                     <div className="price-row">
                         <span>Subtotal</span>
-                        <span>{totalPrice}</span>
+                        <span>{formatPrice(totalPrice)}</span>
                     </div>
                     <div className="price-row">
                         <h3>Total: </h3>
-                        <h3 className="discounted">{totalPrice}</h3>
+                        <h3 className="discounted">{formatPrice(totalPrice)}</h3>
                     </div>
                 </div>
                 <p className="payment-note">

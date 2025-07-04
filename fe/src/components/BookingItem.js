@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const BookingItem = ({ booking, onCancel }) => {
     const gray = "#f5f5f5";
@@ -24,11 +24,34 @@ const BookingItem = ({ booking, onCancel }) => {
         }
     };
 
+    // Show more/less logic cho các trường dài
+    const [showFullAddress, setShowFullAddress] = useState(false);
+    const [showFullRequest, setShowFullRequest] = useState(false);
+    const maxLen = 20;
+    const renderShowMore = (text, showFull, setShowFull) => {
+        if (!text) return <span className="text-muted">—</span>;
+        if (text.length <= maxLen) return <span>{text}</span>;
+        return (
+            <span>
+                {showFull ? text : text.slice(0, maxLen) + "..."}
+                <button
+                    className="btn btn-link btn-sm p-0 ms-1"
+                    style={{ fontSize: "0.85em" }}
+                    onClick={() => setShowFull((prev) => !prev)}
+                >
+                    {showFull ? "Ẩn bớt" : "Xem thêm"}
+                </button>
+            </span>
+        );
+    };
+
     return (
         <tr>
             <td style={{ backgroundColor: gray }}>{booking.madonhang}</td>
             <td style={{ backgroundColor: white }}>{booking.hotelName}</td>
-            <td style={{ backgroundColor: gray }}>{booking.hotelAddress}</td>
+            <td style={{ backgroundColor: gray }}>
+                {renderShowMore(booking.hotelAddress, showFullAddress, setShowFullAddress)}
+            </td>
             <td style={{ backgroundColor: white }}>{booking.roomNumber}</td>
             <td style={{ backgroundColor: gray }}>
                 {new Date(booking.checkInDate).toLocaleDateString()}
@@ -42,13 +65,12 @@ const BookingItem = ({ booking, onCancel }) => {
                 </span>
             </td>
             <td style={{ backgroundColor: white }}>
-                {booking.request ? (
-                    <span className="text-muted" style={{ fontSize: "0.9em" }}>
-                        {booking.request}
-                    </span>
-                ) : (
-                    <span className="text-muted">—</span>
-                )}
+                {renderShowMore(booking.request, showFullRequest, setShowFullRequest)}
+            </td>
+            <td style={{ backgroundColor: gray }}>{booking.userFullName || <span className="text-muted">—</span>}</td>
+            <td style={{ backgroundColor: white }}>{booking.userPhone || <span className="text-muted">—</span>}</td>
+            <td style={{ backgroundColor: gray }}>
+                {booking.createdAt ? new Date(booking.createdAt).toLocaleString() : <span className="text-muted">—</span>}
             </td>
             <td style={{ backgroundColor: gray }}>
                 {(booking.status === "Pending" || booking.status === "Booked") && (

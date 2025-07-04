@@ -18,7 +18,7 @@ public class Booking {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String status;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Integer hotelId;
     private String request;
     private String madonhang;

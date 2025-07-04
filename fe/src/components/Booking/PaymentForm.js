@@ -25,13 +25,13 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                     />
                     <div className="qr-instructions">
                         <p>
-                            <span>1.</span> Mở ứng dụng ngân hàng hoặc ví điện tử hỗ trợ VietQR
+                            <span>1.</span> Open a banking app or e-wallet that supports VietQR
                         </p>
                         <p>
-                            <span>2.</span> Quét mã QR bên trên
+                            <span>2.</span> Scan the QR code above
                         </p>
                         <p>
-                            <span>3.</span> Kiểm tra thông tin và xác nhận thanh toán
+                            <span>3.</span> Verify the information and confirm the payment
                         </p>
                         <div className="timer">
                             <svg
@@ -49,7 +49,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            Mã QR có hiệu lực trong 15 phút
+                            QR code is valid for 15 minutes
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         },
         {
             id: "ewallet",
-            label: "Ví điện tử",
+            label: "E-Wallet",
             subOptions: [
                 {
                     id: "zalopay",
@@ -68,13 +68,13 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                             <img src={qrZalo} alt="QR ZaloPay" className="qr-image" />
                             <div className="qr-instructions">
                                 <p>
-                                    <span>1.</span> Mở ứng dụng ZaloPay
+                                    <span>1.</span> Open the ZaloPay app
                                 </p>
                                 <p>
-                                    <span>2.</span> Chọn tính năng "Quét mã"
+                                    <span>2.</span> Select the "Scan code" feature
                                 </p>
                                 <p>
-                                    <span>3.</span> Quét mã QR bên trên để thanh toán
+                                    <span>3.</span> Scan the QR code above to make payment
                                 </p>
                                 <div className="timer">
                                     <svg
@@ -92,7 +92,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                             strokeLinejoin="round"
                                         />
                                     </svg>
-                                    Mã QR có hiệu lực trong 15 phút
+                                    QR code is valid for 15 minutes
                                 </div>
                             </div>
                         </div>
@@ -107,13 +107,13 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                             <img src={qrMomo} alt="QR MoMo" className="qr-image" />
                             <div className="qr-instructions">
                                 <p>
-                                    <span>1.</span> Mở ứng dụng MoMo
+                                    <span>1.</span> Open the MoMo app
                                 </p>
                                 <p>
-                                    <span>2.</span> Chọn tính năng "Quét mã"
+                                    <span>2.</span> Select the "Scan code" feature
                                 </p>
                                 <p>
-                                    <span>3.</span> Quét mã QR bên trên để thanh toán
+                                    <span>3.</span> Scan the QR code above to make payment
                                 </p>
                                 <div className="timer">
                                     <svg
@@ -131,7 +131,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                             strokeLinejoin="round"
                                         />
                                     </svg>
-                                    Mã QR có hiệu lực trong 15 phút
+                                    QR code is valid for 15 minutes
                                 </div>
                             </div>
                         </div>
@@ -141,10 +141,10 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         },
         {
             id: "payos",
-            label: "Thanh toán PayOS",
+            label: "PayOS Payment",
             subContent: (
                 <div className="payos-content">
-                    <p>Bạn sẽ được chuyển hướng đến trang thanh toán an toàn của PayOS để hoàn tất giao dịch.</p>
+                    <p>You will be redirected to PayOS's secure payment page to complete the transaction.</p>
                     <ul className="benefits">
                         <li>
                             <svg
@@ -162,7 +162,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            Thanh toán bằng thẻ ngân hàng nội địa
+                            Payment with domestic bank cards
                         </li>
                         <li>
                             <svg
@@ -180,7 +180,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            Hỗ trợ nhiều ngân hàng
+                            Supports multiple banks
                         </li>
                         <li>
                             <svg
@@ -198,7 +198,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                            Quy trình đơn giản, bảo mật
+                            Simple and secure process
                         </li>
                     </ul>
                 </div>
@@ -206,11 +206,11 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         },
         {
             id: "hotel",
-            label: "Thanh toán tại khách sạn",
+            label: "Pay at Hotel",
             subContent: (
                 <div className="hotel-payment-info">
-                    <p>Bạn sẽ thanh toán trực tiếp khi nhận phòng tại khách sạn.</p>
-                    <p>Vui lòng mang theo CMND/CCCD và thông tin đặt phòng.</p>
+                    <p>You will pay directly upon check-in at the hotel.</p>
+                    <p>Please bring your ID card and booking information.</p>
                 </div>
             ),
         },
@@ -227,7 +227,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
 
     const formatPrice = (price) => {
         if (!price) return "0 VNĐ";
-        
+
         // Handle both string and number inputs
         let number;
         if (typeof price === 'string') {
@@ -235,7 +235,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         } else {
             number = parseInt(price) || 0;
         }
-        
+
         return new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
@@ -266,7 +266,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
         if (isLoading) return;
         setIsLoading(true);
         try {
-            // Đảm bảo luôn lưu lại dữ liệu booking trước khi redirect
+            // Ensure booking data is always saved before redirect
             localStorage.setItem('bookingData', JSON.stringify(bookingData));
             localStorage.setItem('roomData', JSON.stringify(roomData));
             localStorage.setItem('madonhang', madonhang);
@@ -278,7 +278,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                 cancelUrl: `${window.location.origin}/payment-cancel`,
                 items: [
                     {
-                        name: `Phòng ${roomData?.hotelName || "unknown"}`,
+                        name: `Room ${roomData?.hotelName || "unknown"}`,
                         quantity: 1,
                         price: totalPrice,
                     },
@@ -293,11 +293,11 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
             if (response.data?.checkoutUrl) {
                 window.location.href = response.data.checkoutUrl;
             } else {
-                throw new Error("Không nhận được URL thanh toán từ server");
+                throw new Error("No payment URL received from server");
             }
         } catch (error) {
             console.error("PayOS Payment Error:", error);
-            const errorMessage = error.response?.data?.details || error.message || "Có lỗi xảy ra khi tạo link thanh toán. Vui lòng thử lại.";
+            const errorMessage = error.response?.data?.details || error.message || "An error occurred while creating the payment link. Please try again.";
             alert(errorMessage);
         } finally {
             setIsLoading(false);
@@ -307,8 +307,8 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
     return (
         <div className="payment-container">
             <div className="payment-header">
-                <h2>Chọn phương thức thanh toán</h2>
-                <p>Vui lòng chọn phương thức thanh toán bạn muốn sử dụng</p>
+                <h2>Select Payment Method</h2>
+                <p>Please choose the payment method you wish to use</p>
             </div>
 
             <div className="payment-methods">
@@ -326,7 +326,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                                 </div>
                             </div>
                             <span className="method-label">{method.label}</span>
-                            {method.discount && <span className="discount-badge">Giảm giá</span>}
+                            {method.discount && <span className="discount-badge">Discount</span>}
                         </div>
 
                         {selectedMethod === method.id && (
@@ -378,7 +378,7 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
 
             <div className="payment-summary">
                 <div className="summary-row">
-                    <span>Tổng thanh toán:</span>
+                    <span>Total Payment:</span>
                     <span className="total-price">{formatPrice(totalPrice)}</span>
                 </div>
 
@@ -388,13 +388,13 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                         className="payment-button payos"
                         disabled={isLoading || !totalPrice}
                     >
-                        {isLoading ? "Đang xử lý..." : "Thanh toán qua PayOS"}
+                        {isLoading ? "Processing..." : "Pay via PayOS"}
                     </button>
                 ) : (
                     <button
                         onClick={() => {
                             if (selectedMethod === "ewallet" && !selectedSubOption) {
-                                alert("Vui lòng chọn ví điện tử");
+                                alert("Please select an e-wallet");
                                 return;
                             }
                             // Save description for all payment methods
@@ -407,15 +407,15 @@ const PaymentForm = ({ bookingData, roomData, onPaymentConfirm }) => {
                         className="payment-button confirm"
                         disabled={isLoading}
                     >
-                        {selectedMethod === "hotel" ? "Xác nhận đặt phòng" : "Tiếp tục thanh toán"}
+                        {selectedMethod === "hotel" ? "Confirm Booking" : "Continue Payment"}
                     </button>
                 )}
 
                 <div className="terms-conditions">
                     <p>
-                        Bằng việc tiếp tục, bạn đồng ý với{" "}
-                        <a href="/terms">Điều khoản & Điều kiện</a> và{" "}
-                        <a href="/privacy">Chính sách bảo mật</a> của chúng tôi.
+                        By continuing, you agree to our{" "}
+                        <a href="/terms">Terms & Conditions</a> and{" "}
+                        <a href="/privacy">Privacy Policy</a>.
                     </p>
                 </div>
             </div>

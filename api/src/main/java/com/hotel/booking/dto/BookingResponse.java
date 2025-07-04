@@ -22,4 +22,6 @@ public class BookingResponse {
     private String roomImgs;
     private String request;
     private String madonhang;
+    private String userFullName;
+    private String userPhone;
 }

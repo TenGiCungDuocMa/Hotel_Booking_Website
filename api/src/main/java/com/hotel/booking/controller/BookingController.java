@@ -1,7 +1,6 @@
 package com.hotel.booking.controller;
 
 import com.hotel.booking.dto.BookingResponse;
-//import com.hotel.booking.dto.BookingUpdateRequest;
 import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import java.util.Map;
 import com.hotel.booking.entity.User;
 import com.hotel.booking.repository.UserRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -108,7 +108,7 @@ public class BookingController {
         booking.setStatus("Pending"); // Set default status to Pending
         booking.setRequest(specialRequests); // Store specialRequests in request field
         booking.setMadonhang(madonhang); // Store madonhang from payment
-        booking.setCreatedAt(LocalDate.now());
+        booking.setCreatedAt(LocalDateTime.now());
         // Set hotelId if needed (fetch from room)
         com.hotel.booking.entity.Booking finalBooking = booking;
         roomRepository.findById(roomId).ifPresent(room -> finalBooking.setHotelId(room.getHotelId()));

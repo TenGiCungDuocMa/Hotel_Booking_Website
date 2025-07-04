@@ -14,3 +14,8 @@ export const cancelBooking = async (bookingId) => {
     const res = await axiosClient.delete(`/api/bookings/${bookingId}`);
     return res.data;
 };
+
+export const getUserById = async (userId) => {
+    const res = await axiosClient.get(`/api/users/${userId}`);
+    return res.data;
+};

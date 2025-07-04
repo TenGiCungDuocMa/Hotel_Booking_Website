@@ -51,11 +51,14 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
         h.imgs,
         r.imgs,
         b.request,
-        b.madonhang
+        b.madonhang,
+        u.fullName,
+        u.phone
     )
     FROM Booking b
     JOIN Room r ON b.roomId = r.roomId
     JOIN Hotel h ON r.hotelId = h.hotelId
+    JOIN User u ON b.userId = u.userId
     WHERE b.userId = :userId
     ORDER BY b.checkInDate DESC
 """)
