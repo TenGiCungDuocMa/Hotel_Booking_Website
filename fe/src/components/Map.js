@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 
 const createCustomIcon = (iconUrl) => {
     return L.divIcon({
-        html: `<img src="${iconUrl}" style="width:100%;height:100%"/>`,
+        html: `<img src="${iconUrl}" style="width:100%;height:100%" alt=""/>`,
         iconSize: [32, 32],
         className: 'custom-leaflet-icon'
     });
@@ -60,8 +60,8 @@ const Routing = ({origin, destination}) => {
 };
 
 const Map = ({hotelLocation, userLocation}) => {
-    console.log("hotelLocation:", hotelLocation);
-    console.log("userLocation:", userLocation);
+    // console.log("hotelLocation:", hotelLocation);
+    // console.log("userLocation:", userLocation);
     useEffect(() => {
         const cleanup = () => {
             document.querySelectorAll('.leaflet-marker-icon:not(.custom-leaflet-icon)')
@@ -77,7 +77,7 @@ const Map = ({hotelLocation, userLocation}) => {
         <MapContainer
             center={hotelLocation}
             zoom={13}
-            style={{height: '200px', width: '100%'}}
+            style={{height: '200px', width: '100%', zIndex: 0}}
         >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

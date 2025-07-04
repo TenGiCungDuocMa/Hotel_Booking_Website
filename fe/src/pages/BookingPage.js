@@ -117,7 +117,6 @@ const BookingPage = () => {
     return (
         <>
             <Header/>
-            <Header />
             <div className="banner" style={{ position: "relative", textAlign: "center" }}>
                 <img
                     style={{

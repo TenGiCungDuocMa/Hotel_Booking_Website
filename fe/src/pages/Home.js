@@ -7,6 +7,7 @@ import axios from 'axios';
 import Lightbox from "yet-another-react-lightbox";
 import 'yet-another-react-lightbox/styles.css';
 import api from "../service/api";
+import Loading from "../components/Loader";
 
 const formatVND = (value) => {
     if (!value) return "0 ₫";
@@ -114,7 +115,7 @@ function Home() {
 
 
     if (!Array.isArray(reviews) || reviews.length === 0) {
-        return <div>Loading...</div>;
+        return <Loading/>;
     }
 
     if (positiveReviews.length === 0) {
@@ -129,9 +130,7 @@ function Home() {
 
 
     return (
-        <div style={{
-            backgroundColor: "#ffffff",
-        }}>
+        <div style={{backgroundColor: "#ffffff"}}>
             <Header/>
             <div className="banner">
                 <img style={{
@@ -608,7 +607,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -620,7 +619,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>King Room</h3>
                             <button style={{
                                 padding: "16px",
@@ -701,7 +700,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -713,7 +712,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>Suite Room</h3>
                             <button style={{
                                 padding: "16px",
@@ -788,7 +787,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -800,7 +799,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>Family Room</h3>
                             <button style={{
                                 padding: "16px",
@@ -882,7 +881,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -894,7 +893,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>Deluxe Room</h3>
                             <button style={{
                                 padding: "16px",
@@ -987,7 +986,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -999,7 +998,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>Luxury Room</h3>
                             <button style={{
                                 padding: "16px",
@@ -1080,7 +1079,7 @@ function Home() {
                                 </svg>
                             </span>
                             </p>
-                            <p style={{
+                            <span style={{
                                 display: "flex",
                                 color: "#4fa4e7",
                                 fontSize: "1.5rem",
@@ -1092,7 +1091,7 @@ function Home() {
                                     fontSize: "1rem",
                                     marginTop: "0.5rem",
                                 }} className="per_night">per night</p>
-                            </p>
+                            </span>
                             <h3>Superior Room</h3>
                             <button style={{
                                 padding: "16px",

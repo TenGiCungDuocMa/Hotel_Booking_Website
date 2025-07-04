@@ -53,7 +53,7 @@ function Header() {
                                 fontSize: '24px',
                             }}
                         >
-                            <p
+                            <span
                                 className="d-flex"
                                 style={{
                                     margin: 0,
@@ -64,7 +64,7 @@ function Header() {
                                 Booking
                                 <p style={{color: '#f5e4c3'}}>O</p>
                                 <p style={{color: '#c4784f'}}>T</p>
-                            </p>
+                            </span>
                         </div>
 
                         <div className="col">
@@ -85,11 +85,11 @@ function Header() {
                                         Our Rooms
                                     </NavLink>
                                 </div>
-                                <div className="col-2 navi">
-                                    <NavLink to="/about" style={navLinkStyle}>
-                                        About Us
-                                    </NavLink>
-                                </div>
+                                {/*<div className="col-2 navi">*/}
+                                {/*    <NavLink to="/about" style={navLinkStyle}>*/}
+                                {/*        About Us*/}
+                                {/*    </NavLink>*/}
+                                {/*</div>*/}
                                 {/*<div className="col navi">*/}
                                 {/*    <NavLink to="/blog" style={navLinkStyle}>*/}
                                 {/*        Blog*/}
@@ -105,13 +105,12 @@ function Header() {
                                         Review
                                     </NavLink>
                                 </div>
-
                                 <div className="col d-flex align-items-center justify-content-center gap-3" >
                                     {isLoggedIn ? (
                                         <>
-                                            <div className="col navi">
+                                            <div className="col-8 navi">
                                                 <NavLink to="/manager-booking" style={navLinkStyle} className="profile">
-                                                    Manager Booking
+                                                    Booking History
                                                 </NavLink>
                                             </div>
                                             <div className="col navi">
@@ -125,10 +124,10 @@ function Header() {
                                                              localStorage.removeItem("user");
                                                              localStorage.removeItem("token");
                                                              setIsLoggedIn(false);
-                                                             window.location.href = "/login";
+                                                             // window.location.href = "/login";
                                                          }}
                                                          className="logout"
-                                                >
+                                                 to={"/login"}>
                                                     Logout
                                                 </NavLink>
                                             </div>

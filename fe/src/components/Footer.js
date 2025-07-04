@@ -1,6 +1,7 @@
 import React from 'react';
 // import "../assets/style/Footer.css";
 import HotelMap from "./HotelMap";
+import ChatBox from "./ChatBox";
 
 const Footer = () => {
 
@@ -12,6 +13,7 @@ const Footer = () => {
             backgroundRepeat: 'no-repeat',
 
         }}>
+            <ChatBox/>
             <HotelMap></HotelMap>
             <div className="container">
                 <div className="row" style={{
