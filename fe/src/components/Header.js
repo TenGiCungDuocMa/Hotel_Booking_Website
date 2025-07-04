@@ -105,8 +105,7 @@ function Header() {
                                         Review
                                     </NavLink>
                                 </div>
-
-                                <div className="col d-flex align-items-center justify-content-center gap-3" style={{paddingLeft: '40px'}}>
+                                <div className="col d-flex align-items-center justify-content-center gap-3" >
                                     {isLoggedIn ? (
                                         <>
                                             <div className="col-8 navi">
