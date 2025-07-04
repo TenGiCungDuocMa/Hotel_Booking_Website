@@ -22,13 +22,16 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     SELECT new com.hotel.booking.dto.BookingAdminResponse(
         b.bookingId,
         b.madonhang,
+        b.userId,
         u.fullName,
         u.email,
+        u.phone,
         r.roomNumber,
         h.name,
         b.checkInDate,
         b.checkOutDate,
-        b.status
+        b.status,
+        b.request
     )
     FROM Booking b
     JOIN User u ON b.userId = u.userId

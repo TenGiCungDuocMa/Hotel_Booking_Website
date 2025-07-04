@@ -14,6 +14,7 @@ import PaymentCancelPage from "./pages/PaymentCancelPage";
 import ConfirmationPage from "./components/Booking/ConfirmationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ReviewSpamPage from "./pages/ReviewSpamPage";
+import { getCurrentUser } from "./utils/auth";
 
 export default function App() {
     return (
@@ -24,7 +25,7 @@ export default function App() {
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/profile" element={<ProfilePage/>}/>
             <Route path="/review" element={<ReviewPage/>}/>
-            <Route path="/manager-booking" element={<ManageBookingsPage/>}/>
+            <Route path="/manager-booking" element={<ManageBookingsPage role='user'/>}/>
             <Route path="/search" element={<SearchBar/>}/>
             <Route path="/booking/1" element={<BookingPage/>}/>
             <Route path="/booking/confirm" element={<ConfirmationPage/>}/>
