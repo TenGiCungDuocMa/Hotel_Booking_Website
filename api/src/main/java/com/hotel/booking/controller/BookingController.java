@@ -1,7 +1,6 @@
 package com.hotel.booking.controller;
 
 import com.hotel.booking.dto.BookingResponse;
-import com.hotel.booking.dto.BookingUpdateRequest;
 import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
