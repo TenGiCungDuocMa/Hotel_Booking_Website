@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://127.0.0.1:8888/api";
+const baseURL ="http://127.0.0.1:8888/api";
 
 const api = {
     get: async (url, params = {}) => {
