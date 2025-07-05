@@ -28,6 +28,15 @@ function LoginForm({ onSubmit }) {
     return (
         <div className="login-wrapper">
             <div className="login-container">
+                <div className="account-box-header position-relative text-center" style={{ backgroundColor: "#fff", height: "0" }}>
+                    <button
+                        onClick={() => window.history.back()}
+                        className="btn-back position-absolute"
+                        style={{ left: '0', top: '50%', transform: 'translateY(-50%)', color: '#2973b2' }}
+                    >
+                        ←
+                    </button>
+                </div>
                 <div className="login-header">
                     <h2>LOGIN</h2>
                     <p>
