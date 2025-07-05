@@ -9,11 +9,11 @@ import 'yet-another-react-lightbox/styles.css';
 import api from "../service/api";
 import Loading from "../components/Loader";
 
-const formatVND = (value) => {
-    if (!value) return "0 ₫";
-    let number = typeof value === "string" ? parseInt(value.replace(/[^0-9]/g, "")) : value;
-    return new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(number);
-};
+// const formatVND = (value) => {
+//     if (!value) return "0 ₫";
+//     let number = typeof value === "string" ? parseInt(value.replace(/[^0-9]/g, "")) : value;
+//     return new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(number);
+// };
 
 function Home() {
     const banners = [
@@ -51,12 +51,12 @@ function Home() {
 
     const scrollRef = useRef(null);
 
-    const scroll = (direction) => {
-        scrollRef.current.scrollBy({
-            left: direction,
-            behavior: 'smooth',
-        });
-    }
+    // const scroll = (direction) => {
+    //     scrollRef.current.scrollBy({
+    //         left: direction,
+    //         behavior: 'smooth',
+    //     });
+    // }
     const [open, setOpen] = useState(false);
 
     const slides = [
@@ -82,8 +82,10 @@ function Home() {
                             comment: "comment",
                             userName: "userName"
                         }
-                    ]);
+                    ]
+                );
                 }
+
             } catch (error) {
                 console.error('Error fetching reviews:', error);
                 setReviews([

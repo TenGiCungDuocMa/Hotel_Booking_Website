@@ -15,6 +15,7 @@ import ConfirmationPage from "./components/Booking/ConfirmationPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import ReviewSpamPage from "./pages/ReviewSpamPage";
 import { getCurrentUser } from "./utils/auth";
+import Policy from "./pages/Policy";
 
 export default function App() {
     return (
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/payment-cancel" element={<PaymentCancelPage/>}/>
             <Route path="/admin" element={<AdminDashboard/>}/>
             <Route path="/admin/reviews/spam" element={<ReviewSpamPage/>}/>
+                <Route path="/policy" element={<Policy/>}/>
         </Routes>
     );
 }
