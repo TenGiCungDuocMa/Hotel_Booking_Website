@@ -1,0 +1,74 @@
+
+.rainbow-background {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+            270deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            indigo,
+            violet,
+            red
+    );
+    background-size: 1400% 1400%;
+    animation: rainbowBackground 0.5s linear infinite;
+}
+
+.rainbow-text {
+    font-size: 80px;
+    font-weight: bold;
+    background: linear-gradient(
+            45deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            indigo,
+            violet,
+            red
+    );
+    background-size: 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbowText 0.5s linear infinite;
+}
+
+.rainbow-text.reverse {
+    animation: rainbowTextReverse 0.5s linear infinite;
+}
+
+/* KEYFRAMES */
+
+@keyframes rainbowBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes rainbowText {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 100%;
+    }
+}
+
+@keyframes rainbowTextReverse {
+    0% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0%;
+    }
+}
