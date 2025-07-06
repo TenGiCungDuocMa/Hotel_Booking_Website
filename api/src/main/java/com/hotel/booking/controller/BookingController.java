@@ -202,9 +202,9 @@ public class BookingController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-    @GetMapping("/validate/{bookingId}")
-    public ResponseEntity<BookingValidationResponse> validateBooking(@PathVariable Integer bookingId) {
-        BookingValidationResponse response = bookingService.validateBooking(bookingId);
+    @GetMapping("/validate/{madonhang}")
+    public ResponseEntity<BookingValidationResponse> validateBooking(@PathVariable String madonhang) {
+        BookingValidationResponse response = bookingService.validateBooking(madonhang);
         return ResponseEntity.ok(response);
     }
 }

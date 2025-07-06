@@ -91,10 +91,10 @@ public class BookingService {
 //        // Convert to DTO để trả về
 //        return toDto(booking);
 //    }
-    public BookingValidationResponse validateBooking(Integer bookingId) {
+    public BookingValidationResponse validateBooking(String madonhang) {
         BookingValidationResponse response = new BookingValidationResponse();
 
-        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+        Optional<Booking> optionalBooking = bookingRepository.findByMadonhang(madonhang);
 
         if (optionalBooking.isEmpty()) {
             response.setExists(false);
@@ -105,7 +105,7 @@ public class BookingService {
 
         response.setExists(true);
         response.setStatus(booking.getStatus());
-        response.setReviewed(reviewRepository.existsByBookingId(bookingId));
+        response.setReviewed(reviewRepository.existsByBookingId(booking.getBookingId()));
 
         return response;
     }

@@ -36,12 +36,10 @@ public class ReviewService {
 
         Booking booking = bookingRepository.findByMadonhang(request.getMadonhang())
                 .orElseThrow(() -> new RuntimeException("Booking does not exist"));
-
 //        // Check booking ownership
 //        if (!booking.getUserId().equals(user.getUserId())) {
 //            throw new RuntimeException("You are not authorized to review this booking");
 //        }
-
         // Only allow review if status is CheckedIn, CheckedOut, or Completed
         String status = booking.getStatus();
         if (!("CheckedIn".equalsIgnoreCase(status)

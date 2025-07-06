@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {submitReview, checkBookingValid} from "../../services/reviewService";
+import React, { useState } from "react";
+import { submitReview, checkBookingValid } from "../../services/reviewService";
 
-const ReviewForm = ({onSubmitted}) => {
-    const [bookingId, setBookingId] = useState("");
+const ReviewForm = ({ onSubmitted }) => {
+    const [madonhang, setMadonhang] = useState("");
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState("");
     const [message, setMessage] = useState("");
@@ -11,22 +11,23 @@ const ReviewForm = ({onSubmitted}) => {
 
     const handleBookingCheck = async (e) => {
         e.preventDefault();
-        if (!bookingId) return;
+        if (!madonhang.trim()) return;
 
         setChecking(true);
         setMessage("");
 
         try {
-            const res = await checkBookingValid(bookingId); // API kiểm tra booking
-            const {exists, status, reviewed} = res.data;
+            const res = await checkBookingValid(madonhang);
+            const { exists, reviewed, status } = res.data;
+
             if (!exists) {
-                setMessage("❌ Booking Code does not exist.");
-            } else if (status !== "Booked") {
-                setMessage("❌ Booking is not in 'booked' status.");
+                setMessage("❌ Booking code does not exist.");
             } else if (reviewed) {
                 setMessage("❌ This booking has already been reviewed.");
+            } else if (!["CheckedIn", "CheckedOut", "Completed"].includes(status)) {
+                setMessage("❌ You can only review after check-in or check-out.");
             } else {
-                setIsVerified(true); // Hợp lệ → mở form đánh giá
+                setIsVerified(true);
             }
         } catch (err) {
             setMessage("❌ Error checking booking. Please try again.");
@@ -38,9 +39,9 @@ const ReviewForm = ({onSubmitted}) => {
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         try {
-            await submitReview({bookingId: bookingId, rating, comment});
+            await submitReview({ madonhang, rating, comment });
             setMessage("✅ Review submitted successfully!");
-            setBookingId("");
+            setMadonhang("");
             setRating(5);
             setComment("");
             setIsVerified(false);
@@ -71,11 +72,11 @@ const ReviewForm = ({onSubmitted}) => {
                     <div className="mb-3">
                         <label className="form-label">Booking Code</label>
                         <input
-                            type="String"
+                            type="text"
                             className="form-control"
                             required
-                            value={bookingId}
-                            onChange={(e) => setBookingId(e.target.value)}
+                            value={madonhang}
+                            onChange={(e) => setMadonhang(e.target.value)}
                             placeholder="Enter your Booking Code..."
                         />
                     </div>
