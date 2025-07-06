@@ -12,8 +12,9 @@ export const submitReview = async (data) => {
 export const getAllReviews = async () => {
     return axiosClient.get("/api/reviews");
 };
-export const checkBookingValid = (bookingId) =>
-    axios.get(`${API_BASE_URL}/api/bookings/validate/${bookingId}`);
+export const checkBookingValid = async (madonhang) => {
+    return axiosClient.get(`/api/bookings/validate/${madonhang}`);
+};
 
 // ✅ Lấy danh sách review bị đánh dấu spam
 export const getSpamReviews = async () => {
