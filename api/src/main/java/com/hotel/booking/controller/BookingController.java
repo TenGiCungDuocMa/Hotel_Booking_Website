@@ -2,6 +2,9 @@ package com.hotel.booking.controller;
 
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.dto.BookingValidationResponse;
+import com.hotel.booking.dto.PredictionResponse;
+import com.hotel.booking.repository.BookingRepository;
+import com.hotel.booking.service.BookingAiService;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,9 @@ import com.hotel.booking.repository.HotelRepository;
 import com.hotel.booking.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.DayOfWeek;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
@@ -20,6 +26,7 @@ import com.hotel.booking.entity.User;
 import com.hotel.booking.repository.UserRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -33,6 +40,11 @@ public class BookingController {
     private RoomRepository roomRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private BookingAiService bookingAiService;
+
 
     @GetMapping
     public ResponseEntity<List<BookingResponse>> getBookings(Authentication authentication) {
@@ -114,6 +126,69 @@ public class BookingController {
         roomRepository.findById(roomId).ifPresent(room -> finalBooking.setHotelId(room.getHotelId()));
         // Save booking using service
         booking = bookingService.saveBooking(booking);
+        // api predict cancel
+        // 4. Predict cancelation using AI
+        try {
+            Map<String, Object> aiInput = new HashMap<>();
+            aiInput.put("lead_time", ChronoUnit.DAYS.between(LocalDate.now(), booking.getCheckInDate()));
+            aiInput.put("arrival_date_month", booking.getCheckInDate().getMonth().toString());
+            aiInput.put("arrival_date_week_number", booking.getCheckInDate().get(WeekFields.ISO.weekOfWeekBasedYear()));
+            aiInput.put("arrival_date_day_of_month", booking.getCheckInDate().getDayOfMonth());
+
+            // Tính tổng số ngày ở
+            long totalStay = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+            int weekendNights = countWeekendNights(checkInDate, checkOutDate);
+            int weekNights = (int) totalStay - weekendNights;
+
+            aiInput.put("stays_in_weekend_nights", weekendNights);
+            aiInput.put("stays_in_week_nights", weekNights);
+
+            aiInput.put("adults", bookingData.getOrDefault("adults", 1));
+            aiInput.put("children", Double.parseDouble(bookingData.getOrDefault("children", "0").toString()));
+            aiInput.put("babies", bookingData.getOrDefault("babies", 0));
+
+            if (user != null) {
+                int countBooking = Integer.parseInt(bookingRepository.countByUserId(user.getUserId())+"");
+                aiInput.put("is_repeated_guest", countBooking > 1 ? 1 : 0);
+            } else {
+                aiInput.put("is_repeated_guest", 0);
+            }
+
+            long cancelCount = bookingRepository.countByUserIdAndStatus(user.getUserId(), "Canceled");
+            aiInput.put("previous_cancellations", cancelCount);
+            long notCanceled = bookingRepository.countByUserIdAndStatusNot(user.getUserId(), "Canceled");
+            aiInput.put("previous_bookings_not_canceled", notCanceled);
+            aiInput.put("days_in_waiting_list",
+                    Math.max(ChronoUnit.DAYS.between(booking.getCreatedAt().toLocalDate(), booking.getCheckInDate()), 0));
+
+            Room room = roomRepository.findById(booking.getRoomId()).orElse(null);
+            double priceVND = room != null ? room.getPricePerNight() : 2400000.0;
+            double adrUSD = priceVND / 24000.0; // VND → USD
+
+            aiInput.put("adr", adrUSD);
+
+            if (specialRequests != null && !specialRequests.trim().isEmpty()) {
+                String[] requests = specialRequests.split(",");
+                aiInput.put("total_of_special_requests", requests.length);
+            } else {
+                aiInput.put("total_of_special_requests", 0);
+            }
+            System.out.println("=== DỮ LIỆU ĐƯA VÀO AI (aiInput) ===");
+            aiInput.forEach((key, value) -> System.out.println(key + ": " + value));
+            System.out.println("=====================================");
+
+            PredictionResponse aiResponse = bookingAiService.predictCancelation(aiInput);
+
+            if (aiResponse != null) {
+                booking.setAiPrediction(aiResponse.getPrediction());
+                booking.setAiConfidence(aiResponse.getProbability_of_cancellation());
+                bookingService.saveBooking(booking); // Update with AI result
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Lỗi gọi AI: " + e.getMessage());
+        }
+
         // Build response
         BookingResponse response = new BookingResponse();
         response.setBookingId(booking.getBookingId());
@@ -144,6 +219,20 @@ public class BookingController {
         // Optionally add user info to response if needed
         return ResponseEntity.ok(response);
     }
+
+    private int countWeekendNights(LocalDate checkIn, LocalDate checkOut) {
+        int count = 0;
+        LocalDate current = checkIn;
+        while (current.isBefore(checkOut)) {
+            DayOfWeek day = current.getDayOfWeek();
+            if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+                count++;
+            }
+            current = current.plusDays(1);
+        }
+        return count;
+    }
+
 
     // 5. Initiate a payment (stub)
     @PostMapping("/payments/initiate")

@@ -147,4 +147,6 @@ public class BookingService {
         };
     }
 
+    public void predictCancel() {
+    }
 }
