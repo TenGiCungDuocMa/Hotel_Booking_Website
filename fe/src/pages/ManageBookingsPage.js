@@ -3,8 +3,9 @@ import {getBookings, getAllBookings, updateBooking, getUserById, updateBookingAd
 import {toast} from "react-toastify";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getCurrentUser } from "../utils/auth";
 
-const ManageBookingsPage = ({role}) => {
+const ManageBookingsPage = () => {
     const banners = [
         "/bg_1.jpg", "/bg_2.jpg", "/bg_4.jpg"
     ];
@@ -23,7 +24,25 @@ const ManageBookingsPage = ({role}) => {
     const [userInfoMap, setUserInfoMap] = useState({});
     const [showMoreHotel, setShowMoreHotel] = useState({});
     const [showMoreRequest, setShowMoreRequest] = useState({});
+    const [role, setRole] = useState(null);
     const maxLen = 30;
+
+    useEffect(() => {
+        const fetchRole = async () => {
+            const user = getCurrentUser();
+            if (user && user.userId) {
+                try {
+                    const userInfo = await getUserById(user.userId);
+                    setRole(userInfo.role);
+                } catch (e) {
+                    setRole(null);
+                }
+            } else {
+                setRole(null);
+            }
+        };
+        fetchRole();
+    }, []);
 
     const statusOptions = [
         "Pending",
@@ -43,12 +62,13 @@ const ManageBookingsPage = ({role}) => {
                 // Fetch user info for all unique userIds
                 const userIds = [...new Set(data.map(b => b.userId).filter(Boolean))];
                 const userInfoResults = await Promise.all(userIds.map(id => getUserById(id)));
+                console.log('userInfoResults', userInfoResults);
                 const newMap = {};
                 userIds.forEach((id, idx) => {
                     newMap[id] = userInfoResults[idx];
                 });
                 setUserInfoMap(newMap);
-            } else {
+            } else if (role === "user") {
                 data = await getBookings();
                 setBookings(data);
             }
@@ -58,13 +78,13 @@ const ManageBookingsPage = ({role}) => {
     };
 
     useEffect(() => {
-        fetchBookings();
+        if (role) fetchBookings();
         // eslint-disable-next-line
     }, [role]);
 
     // For user: fetch missing user info if needed (legacy, can be skipped for admin)
     useEffect(() => {
-        if (role === "admin") return;
+        if (role !== "user") return;
         const fetchMissingUserInfo = async () => {
             const missingUserIds = bookings
                 .filter(b => (!b.guestName || !b.phoneNumber) && b.userId && !userInfoMap[b.userId])
@@ -133,6 +153,8 @@ const ManageBookingsPage = ({role}) => {
         }
     };
 
+    if (!role) return <div className="text-center py-5">Loading...</div>;
+
     return (
         <>
             {/*<Header/>*/}
@@ -196,8 +218,7 @@ const ManageBookingsPage = ({role}) => {
                         <thead className="table-primary">
                         <tr>
                             <th>Order ID</th>
-                            <th>Guest Name</th>
-                            <th>Phone</th>
+                            <th style={{width: 250}}>Information</th>
                             <th style={{width: 189}}>Hotel</th>
                             <th>Room</th>
                             <th>Check-in</th>
@@ -208,53 +229,58 @@ const ManageBookingsPage = ({role}) => {
                         </thead>
                         <tbody>
                         {sortedBookings.length > 0 ? (
-                            sortedBookings.map((booking) => (
-                                <tr key={booking.bookingId} style={{height: 65}}>
-                                    <td>{booking.bookingId}</td>
-                                    <td style={{backgroundColor: "#f8f9fa"}}>
-                                        {role === "admin"
-                                            ? (userInfoMap[booking.userId]?.fullName ||
-                                                <span className="text-muted">—</span>)
-                                            : (booking.userFullName || <span className="text-muted">—</span>)}
-                                    </td>
-                                    <td style={{backgroundColor: "#f8f9fa"}}>
-                                        {role === "admin"
-                                            ? (userInfoMap[booking.userId]?.phone ||
-                                                <span className="text-muted">—</span>)
-                                            : (booking.userPhone || <span className="text-muted">—</span>)}
-                                    </td>
-                                    <td style={{width: 189, maxWidth: 189, wordBreak: 'break-word'}}>
-                                        <div className="fw-bold">{booking.hotelName}</div>
-                                        <small className="text-muted">
-                                            {role === "admin"
-                                                ? (booking.hotelAddress ? renderShowMore(booking.hotelAddress, showMoreHotel, setShowMoreHotel, booking.bookingId) :
-                                                    <span className="text-muted">456 Mountain Ave, Da Lat</span>)
-                                                : renderShowMore(booking.hotelAddress, showMoreHotel, setShowMoreHotel, booking.bookingId)}
-                                        </small>
-                                    </td>
-                                    <td>{booking.roomNumber}</td>
-                                    <td>{booking.checkInDate}</td>
-                                    <td>{booking.checkOutDate}</td>
-                                    <td>
-                                        <select
-                                            className="form-select form-select-sm"
-                                            value={booking.status}
-                                            onChange={(e) => handleStatusChange(booking.bookingId, e.target.value)}
-                                            disabled={getValidNextStatuses(booking.status).length === 0}
-                                        >
-                                            <option value={booking.status}>{booking.status}</option>
-                                            {getValidNextStatuses(booking.status).map(option => (
-                                                <option key={option} value={option}>
-                                                    {option}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </td>
-                                    <td style={{width: 150, maxWidth: 150, wordBreak: 'break-word'}}>
-                                        {renderShowMore(booking.request, showMoreRequest, setShowMoreRequest, booking.bookingId)}
-                                    </td>
-                                </tr>
-                            ))
+                            sortedBookings.map((booking) => {
+                                // Compose info string (always use userInfoMap if available, fallback to booking fields)
+                                const user = userInfoMap[booking.userId] || {};
+                                const info = [
+                                    user.fullName || booking.userFullName,
+                                    user.email || booking.userEmail,
+                                    user.phone || booking.userPhone
+                                ].filter(Boolean).join(", ");
+                                console.log('Booking row:', booking, 'User:', user, 'Info:', info);
+                                return (
+                                    <tr key={booking.bookingId} style={{height: 65}}>
+                                        <td>{booking.madonhang}</td>
+                                        <td style={{backgroundColor: "#f8f9fa", width: 250, maxWidth: 250, wordBreak: 'break-word'}}>
+                                            {renderShowMore(info, showMoreHotel, setShowMoreHotel, booking.bookingId + "_info")}
+                                        </td>
+                                        <td style={{width: 189, maxWidth: 189, wordBreak: 'break-word'}}>
+                                            <div className="fw-bold">{booking.hotelName}</div>
+                                            <small className="text-muted">
+                                                {role === "admin"
+                                                    ? (booking.hotelAddress ? renderShowMore(booking.hotelAddress, showMoreHotel, setShowMoreHotel, booking.bookingId) :
+                                                        <span className="text-muted">456 Mountain Ave, Da Lat</span>)
+                                                    : renderShowMore(booking.hotelAddress, showMoreHotel, setShowMoreHotel, booking.bookingId)}
+                                            </small>
+                                        </td>
+                                        <td>{booking.roomNumber}</td>
+                                        <td>{booking.checkInDate}</td>
+                                        <td>{booking.checkOutDate}</td>
+                                        <td>
+                                            {role === "admin" ? (
+                                                <select
+                                                    className="form-select form-select-sm"
+                                                    value={booking.status}
+                                                    onChange={(e) => handleStatusChange(booking.bookingId, e.target.value)}
+                                                    disabled={getValidNextStatuses(booking.status).length === 0}
+                                                >
+                                                    <option value={booking.status}>{booking.status}</option>
+                                                    {getValidNextStatuses(booking.status).map(option => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : (
+                                                booking.status
+                                            )}
+                                        </td>
+                                        <td style={{width: 150, maxWidth: 150, wordBreak: 'break-word'}}>
+                                            {renderShowMore(booking.request, showMoreRequest, setShowMoreRequest, booking.bookingId)}
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         ) : (
                             <tr>
                                 <td colSpan="9" className="text-muted py-4 text-center">
@@ -268,8 +294,7 @@ const ManageBookingsPage = ({role}) => {
             </div>
             {/*<Footer/>*/}
         </>
-    )
-        ;
+    );
 };
 
 export default ManageBookingsPage;

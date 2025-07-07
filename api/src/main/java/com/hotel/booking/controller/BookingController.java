@@ -3,17 +3,18 @@ package com.hotel.booking.controller;
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.dto.BookingValidationResponse;
 import com.hotel.booking.dto.PredictionResponse;
+import com.hotel.booking.entity.Hotel;
+import com.hotel.booking.entity.Room;
 import com.hotel.booking.repository.BookingRepository;
+import com.hotel.booking.repository.HotelRepository;
+import com.hotel.booking.repository.RoomRepository;
 import com.hotel.booking.service.BookingAiService;
 import com.hotel.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.hotel.booking.entity.Hotel;
-import com.hotel.booking.entity.Room;
-import com.hotel.booking.repository.HotelRepository;
-import com.hotel.booking.repository.RoomRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
