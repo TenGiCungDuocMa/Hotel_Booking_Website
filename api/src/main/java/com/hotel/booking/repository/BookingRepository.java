@@ -3,6 +3,7 @@ package com.hotel.booking.repository;
 import com.hotel.booking.dto.BookingAdminResponse;
 import com.hotel.booking.dto.BookingResponse;
 import com.hotel.booking.entity.Booking;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Optional<Booking> findByBookingIdAndUserId(Integer bookingId, Integer userId);
 
     Optional<Booking> findByBookingId(Integer bookingId);
+
+    long countByUserId(Integer userId);
 
     @Query("""
     SELECT new com.hotel.booking.dto.BookingAdminResponse(
@@ -81,8 +84,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Double calculateTotalRevenue();
 
 
+    long countByUserIdAndStatus(Integer userId, String canceled);
 
-
-
-
+    long countByUserIdAndStatusNot(Integer userId, String canceled);
 }

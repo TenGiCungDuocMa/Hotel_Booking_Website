@@ -22,4 +22,7 @@ public class Booking {
     private Integer hotelId;
     private String request;
     private String madonhang;
+    private Integer aiPrediction;  // 1: sẽ hủy, 0: sẽ giữ
+    private Double aiConfidence;   // xác suất
+
 }
