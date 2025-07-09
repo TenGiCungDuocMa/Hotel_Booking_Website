@@ -162,7 +162,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <NavLink
-                            to="/admin/manage-booking"
+                            to="/admin/manager-booking"
                             className={({ isActive }) =>
                                 `nav-item ${isActive ? "active" : ""}`
                             }

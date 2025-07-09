@@ -16,6 +16,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ReviewSpamPage from "./pages/ReviewSpamPage";
 import { getCurrentUser } from "./utils/auth";
 import Policy from "./pages/Policy";
+import StatisticsPage from "./pages/StatisticsPage";
+import DashBoard from "./pages/DashBoard";
 
 export default function App() {
     return (
@@ -35,7 +37,9 @@ export default function App() {
             <Route path="/payment-cancel" element={<PaymentCancelPage/>}/>
             <Route path="/admin" element={<AdminDashboard/>}/>
             <Route path="/admin/reviews/spam" element={<ReviewSpamPage/>}/>
-                <Route path="/policy" element={<Policy/>}/>
+            <Route path="/policy" element={<Policy/>}/>
+            <Route path="/statistics" element={<DashBoard />} />
+                <Route path="/admin/manager-booking" element={<ManageBookingsPage/>}/>
         </Routes>
     );
 }
