@@ -34,7 +34,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
         b.checkInDate,
         b.checkOutDate,
         b.status,
-        b.request
+        b.request,
+        b.aiConfidence
     )
     FROM Booking b
     JOIN User u ON b.userId = u.userId
