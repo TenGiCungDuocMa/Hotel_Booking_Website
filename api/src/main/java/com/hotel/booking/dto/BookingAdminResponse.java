@@ -22,4 +22,5 @@ public class BookingAdminResponse {
     private LocalDate checkOutDate;
     private String status;
     private String request;
+    private Double probability_of_cancellation; // ✅ dùng wrapper class để Hibernate dễ xử lý null
 }
