@@ -7,6 +7,7 @@ import {
 } from "../services/bookingService";
 import { toast } from "react-toastify";
 import { getCurrentUser } from "../utils/auth";
+import AdminLayout from "../components/AdminLayout";
 
 const ManageBookingsPage = () => {
     const [bookings, setBookings] = useState([]);
@@ -33,15 +34,6 @@ const ManageBookingsPage = () => {
         fetchRole();
     }, []);
 
-    const statusOptions = [
-        "Pending",
-        "Booked",
-        "CheckedIn",
-        "CheckedOut",
-        "Completed",
-        "Canceled",
-    ];
-
     const fetchBookings = async () => {
         try {
             let data;
@@ -49,12 +41,8 @@ const ManageBookingsPage = () => {
                 data = await getAllBookings();
                 setBookings(data);
 
-                const userIds = [
-                    ...new Set(data.map((b) => b.userId).filter(Boolean)),
-                ];
-                const userInfoResults = await Promise.all(
-                    userIds.map((id) => getUserById(id))
-                );
+                const userIds = [...new Set(data.map((b) => b.userId).filter(Boolean))];
+                const userInfoResults = await Promise.all(userIds.map((id) => getUserById(id)));
                 const newMap = {};
                 userIds.forEach((id, idx) => {
                     newMap[id] = userInfoResults[idx];
@@ -115,7 +103,7 @@ const ManageBookingsPage = () => {
         if (text.length <= maxLen) return <span>{text}</span>;
         return (
             <span>
-        {showFull[key] ? text : text.slice(0, maxLen) + "..."}
+                {showFull[key] ? text : text.slice(0, maxLen) + "..."}
                 <button
                     className="btn btn-link btn-sm p-0 ms-1"
                     style={{ fontSize: "0.85em" }}
@@ -123,15 +111,13 @@ const ManageBookingsPage = () => {
                         setShowFull((prev) => ({ ...prev, [key]: !prev[key] }))
                     }
                 >
-          {showFull[key] ? "Ẩn bớt" : "Xem thêm"}
-        </button>
-      </span>
+                    {showFull[key] ? "Ẩn bớt" : "Xem thêm"}
+                </button>
+            </span>
         );
     };
 
-    const sortedBookings = [...bookings].sort(
-        (a, b) => a.bookingId - b.bookingId
-    );
+    const sortedBookings = [...bookings].sort((a, b) => a.bookingId - b.bookingId);
 
     const getValidNextStatuses = (current) => {
         switch (current) {
@@ -150,7 +136,7 @@ const ManageBookingsPage = () => {
 
     if (!role) return <div className="text-center py-5">Loading...</div>;
 
-    return (
+    const content = (
         <div className="container py-5">
             <h2 className="text-center display-5 fw-bold text-primary mb-4">
                 <i className="bi bi-calendar-check-fill me-2"></i>
@@ -190,7 +176,7 @@ const ManageBookingsPage = () => {
 
                             return (
                                 <tr key={booking.bookingId} style={{ height: 65 }}>
-                                    <td>{booking.madonhang}</td>
+                                    <td>{booking.bookingId}</td>
                                     <td
                                         style={{
                                             backgroundColor: "#f8f9fa",
@@ -246,8 +232,7 @@ const ManageBookingsPage = () => {
                                     </td>
                                     {role === "admin" && (
                                         <td>
-                                            {booking.probability_of_cancellation !== undefined &&
-                                            booking.probability_of_cancellation !== null ? (
+                                            {booking.probability_of_cancellation != null ? (
                                                 <span
                                                     className={`fw-bold ${
                                                         booking.probability_of_cancellation > 0.7
@@ -257,8 +242,8 @@ const ManageBookingsPage = () => {
                                                                 : "text-success"
                                                     }`}
                                                 >
-                            {(booking.probability_of_cancellation * 100).toFixed(1)}%
-                          </span>
+                                                        {(booking.probability_of_cancellation * 100).toFixed(1)}%
+                                                    </span>
                                             ) : (
                                                 <span className="text-muted">—</span>
                                             )}
@@ -279,6 +264,9 @@ const ManageBookingsPage = () => {
             </div>
         </div>
     );
+
+    // ✅ Wrap with AdminLayout if admin
+    return role === "admin" ? <AdminLayout>{content}</AdminLayout> : content;
 };
 
 export default ManageBookingsPage;

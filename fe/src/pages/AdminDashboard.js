@@ -1,6 +1,7 @@
 import React from "react";
 import AdminLayout from "../components/AdminLayout";
 import ManageBookingsPage from "./ManageBookingsPage";
+import StatisticsPage from "./StatisticsPage";
 
 const AdminDashboard = () => {
     return (
@@ -197,7 +198,7 @@ const AdminDashboard = () => {
                     <span>📊</span> Dashboard Overview
                 </h2>
                 <div className="bookings-section">
-                    <ManageBookingsPage role='admin'/>
+                    <StatisticsPage role='admin'/>
                 </div>
             </div>
         </AdminLayout>
